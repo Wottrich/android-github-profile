@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name" translatable="false">GithubProfile</string>
+
+    <string name="image_profile_content_description" translatable="false">image profile</string>
+
+    <string name="unknown_error">Unknown error…</string>
+
+    <!--  Profile  -->
+    <string name="profile_search">Search</string>
+    <string name="profile_find_github_profile">Type a github profile</string>
+
+    <!--  Profile errors  -->
+    <string name="error_profile_unknown_error">Error to search profile. Please try again later.</string>
+    <string name="error_profile_not_informed">Profile not informed. Please inform a profile to continue.</string>
+
+    <!--  Profile formats  -->
+    <string name="format_profile_login">/%s</string>
+    <string name="format_profile_followers">%s followers</string>
+    <string name="format_profile_following">%s following</string>
+
+    <!--  Repositories  -->
+    <string name="format_repositories_stars">%s stars</string>
+    <string name="error_repositories_unknown_error">Error to search repositories. Please try again later.</string>
+
+    <!--  Dialog  -->
+    <string name="dialog_default_error_title">Attention!</string>
+    <string name="row_repository_branch_forked">Branch forked</string>
+    <string name="language_badge_content_description">language_badge</string>
+    <string name="search_title">Search profile</string>
+    <string name="welcome_find_profile">Find a profile :)</string>
+
+
+</resources>
