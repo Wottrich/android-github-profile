@@ -2,6 +2,7 @@
 <resources>
 
     <string name="unknown_error">Unknown error…</string>
+    <string name="equal_login_error">Este perfil já está carregado.</string>
 
     <!--  Profile  -->
     <string name="profile_search">Search</string>
@@ -12,9 +13,8 @@
     <string name="error_profile_unknown_error">Erro ao pesquisar o perfil. Por favor tente novamente mais tarde.</string>
 
     <!--  Profile formats  -->
-    <string name="format_profile_login">/%s</string>
-    <string name="format_profile_followers">%s followers</string>
-    <string name="format_profile_following">%s following</string>
+    <string name="profile_followers">Followers: </string>
+    <string name="profile_following">Following: </string>
 
     <!--  Repositories  -->
     <string name="format_repositories_stars">%s estrelas</string>

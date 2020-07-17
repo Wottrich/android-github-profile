@@ -1,8 +1,6 @@
 package wottrich.github.io.githubprofile.model
 
-import android.graphics.drawable.Drawable
 import com.google.gson.annotations.SerializedName
-import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.colorLanguages
 
 /**
@@ -22,10 +20,8 @@ data class Repository(
     @SerializedName("updated_at") val updatedAt: String?,
     val language: String?,
     val fork: Boolean?,
-    @SerializedName("stargazers_count") val stargazersCount: Int
+    @SerializedName("stargazers_count") val stargazersCount: Int?
 ) {
-
-    //val img: Drawable = this.resources.getDrawable(R.drawable.ic_circular_24, theme)
 
     val languageColor: String
         get() {
