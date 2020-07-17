@@ -16,8 +16,8 @@ import wottrich.github.io.githubprofile.model.ErrorWrapper
 
 abstract class BaseViewModel() : ViewModel() {
 
-    protected var mError: MutableLiveData<ErrorWrapper> = MutableLiveData()
-    val error: LiveData<ErrorWrapper>
+    protected var mError: MutableLiveData<Int> = MutableLiveData()
+    val error: LiveData<Int>
         get() = mError
 
     protected var mIsLoading: MutableLiveData<Boolean> = MutableLiveData()

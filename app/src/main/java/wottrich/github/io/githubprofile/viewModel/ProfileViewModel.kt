@@ -21,37 +21,47 @@ class ProfileViewModel(
     private val service: GithubDataSource = GithubDataSource()
 ) : BaseViewModel() {
 
-    companion object {
-        const val KEY_PROFILE_NAME = "KeyProfileName"
-    }
+    //=======> Profile
 
     private var mLoadingProfile: MutableLiveData<Boolean> = MutableLiveData()
+    private var mProfile: MutableLiveData<Profile> = MutableLiveData()
+    private var mProfileError: MutableLiveData<String> = MutableLiveData()
+
     val loadingProfile: LiveData<Boolean>
         get() = mLoadingProfile
 
-    private var mProfile: MutableLiveData<Profile> = MutableLiveData()
     val profile: LiveData<Profile>
         get() = mProfile
 
+    val profileError: LiveData<String>
+        get() = mProfileError
+
+    //=======> Repositories
+
     private var mLoadingRepository: MutableLiveData<Boolean> = MutableLiveData()
+    private var mRepositories: MutableLiveData<List<Repository>> = MutableLiveData()
+    private var mRepositoriesError: MutableLiveData<String> = MutableLiveData()
+
     val loadingRepository: LiveData<Boolean>
         get() = mLoadingRepository
 
-    private var mRepositories: MutableLiveData<List<Repository>> = MutableLiveData()
     val repositories: LiveData<List<Repository>>
         get() = mRepositories
 
+    val repositoriesError: LiveData<String>
+        get() = mRepositoriesError
+
+    //=======> Variables
+
     private var profileLogin: String? = null
 
+    //=======> Functions
+
     fun loadServices (profileLogin: String) {
+        clear()
         this.profileLogin = profileLogin
-        this.mRepositories.value = emptyList()
         fetchProfile()
         fetchRepositories()
-    }
-
-    fun reloadProfile() {
-        fetchProfile()
     }
 
     private fun fetchProfile () {
@@ -63,12 +73,12 @@ class ProfileViewModel(
                     if (isSuccess) {
                         mProfile.value = result
                     } else {
-                        mError.value = ErrorWrapper(message, Services.profile)
+                        mProfileError.value = message
                     }
                 },
                 onFailure = { message ->
                     mLoadingProfile.value = false
-                    mError.value = ErrorWrapper(message, Services.profile)
+                    mProfileError.value = message
                 }
             )
         }
@@ -83,15 +93,22 @@ class ProfileViewModel(
                     if (isSuccess) {
                         mRepositories.value = result
                     } else {
-                        mError.value = ErrorWrapper(message, Services.repositories)
+                        mRepositoriesError.value = message
                     }
                 },
                 onFailure = { message ->
                     mLoadingRepository.value = false
-                    mError.value = ErrorWrapper(message, Services.repositories)
+                    mRepositoriesError.value = message
                 }
             )
         }
+    }
+
+    private fun clear() {
+        this.mProfile.value = null
+        this.mRepositories.value = emptyList()
+        this.mProfileError.value = null
+        this.mRepositoriesError.value = null
     }
 
 }

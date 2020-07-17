@@ -53,12 +53,24 @@
                     style="@style/RobotoBold.SubTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Error to search profile" />
+
+                <TextView
+                    android:id="@+id/tvRepositoriesError"
+                    style="@style/RobotoBold.SubTitle"
+                    android:textAlignment="center"
+                    tools:text="Error to find repositories"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
 
                 <ProgressBar
                     android:id="@+id/progressBarProfile"
@@ -67,6 +79,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -171,23 +184,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:reverseLayout="false" />
 
-    <TextView
-        android:id="@+id/tvRepositoriesError"
-        style="@style/RobotoBold.SubTitle"
-        android:textAlignment="center"
-        tools:text="Error to find repositories"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <ProgressBar
         android:id="@+id/progressBarRepositories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

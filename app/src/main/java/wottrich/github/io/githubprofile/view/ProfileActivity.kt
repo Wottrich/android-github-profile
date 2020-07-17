@@ -59,7 +59,9 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
             profile.observe(activity, Observer {
                 if (it != null) {
+
                     clProfile.isVisible = true
+                    imgProfile.isVisible = true
 
                     tvName.text = it.name
                     tvBio.text = it.bio
@@ -71,8 +73,6 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         getString(R.string.format_profile_following, it.following.toString())
                     )
 
-                    imgProfile.isVisible = true
-
                     //Set Image
                     Glide.with(activity)
                         .load(it.avatarUrl)
@@ -80,55 +80,39 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         .placeholder(R.drawable.ic_person_32)
                         .into(imgProfile)
 
+                } else {
+                    clProfile.isVisible = false
+                    imgProfile.isVisible = false
                 }
             })
 
             loadingProfile.observe(activity, Observer {
-                profileLoading()
                 val loading = it ?: false
-                progressBarProfile.visibility = if (loading) View.VISIBLE else View.GONE
+                progressBarProfile.isVisible = loading
             })
 
             loadingRepository.observe(activity, Observer {
                 val loading = it ?: false
-                progressBarRepositories.visibility = if (loading) View.VISIBLE else View.GONE
+                progressBarRepositories.isVisible = loading
+            })
+
+            profileError.observe(activity, Observer {
+                tvProfileError.isVisible = it != null
+                tvProfileError.text = it
+            })
+
+            repositoriesError.observe(activity, Observer {
+                tvRepositoriesError.text = it
             })
 
             error.observe(activity, Observer {
-                if (it != null) {
-
-                    val defaultMessage =
-                        if(it.service === Services.profile) getString(R.string.error_profile_unknown_error)
-                        else getString(R.string.error_repositories_unknown_error)
-                    val message = it.message ?: defaultMessage
-
-                    if (it.service === Services.profile) {
-                        profileError()
-                        tvProfileError.text = message
-                    } else if (it.service === Services.repositories) {
-                        repositoryError()
-                        tvRepositoriesError.text = message
-                    }
-
-                }
+                showAlertWithOkButton(
+                    getString(R.string.dialog_default_error_title),
+                    if(it == null) getString(R.string.unknown_error)
+                    else getString(it)
+                )
             })
         }
-    }
-
-    private fun profileLoading () {
-        clProfile.isVisible = false
-        tvWelcomeFindProfile.isVisible = false
-        tvProfileError.isVisible = false
-        tvRepositoriesError.isVisible = false
-    }
-
-    private fun profileError () {
-        clProfile.isVisible = false
-        tvProfileError.isVisible = true
-    }
-
-    private fun repositoryError () {
-        tvRepositoriesError.isVisible = true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -141,9 +125,7 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         searchItem?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean = true
 
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                return true
-            }
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean = true
         })
 
         searchView?.apply {
@@ -156,8 +138,8 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) {
+            tvWelcomeFindProfile.isVisible = false
             viewModel.loadServices(query)
-            return false
         }
         return false
     }
