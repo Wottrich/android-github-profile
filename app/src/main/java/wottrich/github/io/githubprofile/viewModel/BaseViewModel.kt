@@ -3,7 +3,8 @@ package wottrich.github.io.githubprofile.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import wottrich.github.io.githubprofile.model.ErrorWrapper
+import kotlinx.coroutines.CoroutineScope
+import kotlin.coroutines.CoroutineContext
 
 /**
  * @author Wottrich
@@ -14,14 +15,14 @@ import wottrich.github.io.githubprofile.model.ErrorWrapper
  *
  */
 
-abstract class BaseViewModel() : ViewModel() {
+abstract class BaseViewModel(
+    final override val coroutineContext: CoroutineContext
+) : ViewModel(), CoroutineScope {
+
+    protected val scope = CoroutineScope(coroutineContext)
 
     protected var mError: MutableLiveData<Int> = MutableLiveData()
     val error: LiveData<Int>
         get() = mError
-
-    protected var mIsLoading: MutableLiveData<Boolean> = MutableLiveData()
-    val isLoading: LiveData<Boolean>
-        get() = mIsLoading
 
 }

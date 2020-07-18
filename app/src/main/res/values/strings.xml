@@ -4,6 +4,7 @@
     <string name="image_profile_content_description" translatable="false">image profile</string>
 
     <string name="unknown_error">Unknown error…</string>
+    <string name="equal_login_error">This profile is already loaded.</string>
 
     <!--  Profile  -->
     <string name="profile_search">Search</string>
@@ -14,9 +15,8 @@
     <string name="error_profile_not_informed">Profile not informed. Please inform a profile to continue.</string>
 
     <!--  Profile formats  -->
-    <string name="format_profile_login">/%s</string>
-    <string name="format_profile_followers">%s followers</string>
-    <string name="format_profile_following">%s following</string>
+    <string name="profile_followers">Followers: </string>
+    <string name="profile_following">Following: </string>
 
     <!--  Repositories  -->
     <string name="format_repositories_stars">%s stars</string>

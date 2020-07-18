@@ -2,11 +2,15 @@ package wottrich.github.io.githubprofile.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import wottrich.github.io.githubprofile.R
+import wottrich.github.io.githubprofile.archive.TransformationsUtils
 import wottrich.github.io.githubprofile.data.datasource.GithubDataSource
-import wottrich.github.io.githubprofile.data.datasource.Services
-import wottrich.github.io.githubprofile.model.ErrorWrapper
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
+import java.lang.Exception
+import kotlin.coroutines.CoroutineContext
 
 /**
  * @author Wottrich
@@ -18,8 +22,9 @@ import wottrich.github.io.githubprofile.model.Repository
  */
  
 class ProfileViewModel(
-    private val service: GithubDataSource = GithubDataSource()
-) : BaseViewModel() {
+    private val service: GithubDataSource = GithubDataSource(),
+    context: CoroutineContext = IO
+) : BaseViewModel(context) {
 
     //=======> Profile
 
@@ -27,80 +32,85 @@ class ProfileViewModel(
     private var mProfile: MutableLiveData<Profile> = MutableLiveData()
     private var mProfileError: MutableLiveData<String> = MutableLiveData()
 
-    val loadingProfile: LiveData<Boolean>
-        get() = mLoadingProfile
+    val loadingProfile: LiveData<Int> //loading
+        get() = TransformationsUtils.isVisible(mLoadingProfile, mLoadingProfile.value)
 
-    val profile: LiveData<Profile>
-        get() = mProfile
-
-    val profileError: LiveData<String>
+    val profileError: LiveData<String>//error
         get() = mProfileError
+
+    val profileErrorVisibility: LiveData<Int>//error visibility
+        get() = TransformationsUtils.isVisible(mProfileError, mProfileError.value != null)
+
+    val profile: LiveData<Profile>//data
+        get() = mProfile
 
     //=======> Repositories
 
-    private var mLoadingRepository: MutableLiveData<Boolean> = MutableLiveData()
+    private var mLoadingRepositories: MutableLiveData<Boolean> = MutableLiveData()
     private var mRepositories: MutableLiveData<List<Repository>> = MutableLiveData()
     private var mRepositoriesError: MutableLiveData<String> = MutableLiveData()
 
-    val loadingRepository: LiveData<Boolean>
-        get() = mLoadingRepository
+    val loadingRepositories: LiveData<Int> //loading
+        get() = TransformationsUtils.isVisible(mLoadingRepositories, mLoadingRepositories.value)
 
-    val repositories: LiveData<List<Repository>>
-        get() = mRepositories
-
-    val repositoriesError: LiveData<String>
+    val repositoriesError: LiveData<String> //error
         get() = mRepositoriesError
+
+    val repositoriesErrorVisibility: LiveData<Int> //error visibility
+        get() = TransformationsUtils.isVisible(mRepositoriesError, mRepositoriesError.value != null)
+
+    val repositories: LiveData<List<Repository>> //data
+        get() = mRepositories
 
     //=======> Variables
 
-    private var profileLogin: String? = null
+    private val mProfileLogin: MutableLiveData<String> = MutableLiveData()
+    val profileLogin: LiveData<String>
+        get() = mProfileLogin
 
     //=======> Functions
 
     fun loadServices (profileLogin: String) {
-        clear()
-        this.profileLogin = profileLogin
-        fetchProfile()
-        fetchRepositories()
+        if (this.mProfileLogin.value != profileLogin) {
+            clear()
+            this.mProfileLogin.value = profileLogin
+            fetchProfile()
+            fetchRepositories()
+        } else {
+            mError.value = R.string.equal_login_error
+        }
     }
 
     private fun fetchProfile () {
-        profileLogin?.let { login ->
+        mProfileLogin.value?.let { login ->
             mLoadingProfile.value = true
-            service.loadProfile(login,
-                onSuccess = { isSuccess, message, result ->
-                    mLoadingProfile.value = false
-                    if (isSuccess) {
-                        mProfile.value = result
-                    } else {
-                        mProfileError.value = message
-                    }
-                },
-                onFailure = { message ->
-                    mLoadingProfile.value = false
-                    mProfileError.value = message
+            scope.launch {
+                try {
+                    val result = service.loadProfile(login)
+                    mProfile.postValue(result)
+                } catch (e: Exception) {
+                    mProfileError.postValue(e.message)
+                } finally {
+                    mLoadingProfile.postValue(false)
                 }
-            )
+            }
         }
     }
 
     private fun fetchRepositories () {
-        profileLogin?.let { login ->
-            mLoadingRepository.value = true
-            service.loadRepositories(login,
-                onSuccess = { isSuccess, message, result ->
-                    mLoadingRepository.value = false
-                    if (isSuccess) {
-                        mRepositories.value = result
-                    } else {
-                        mRepositoriesError.value = message
-                    }
-                },
-                onFailure = { message ->
-                    mLoadingRepository.value = false
-                    mRepositoriesError.value = message
+        mProfileLogin.value?.let { login ->
+            mLoadingRepositories.value = true
+            scope.launch {
+                try {
+                    val result = service.loadRepositories(login)
+                    mRepositories.postValue(result)
+                } catch (e: Exception) {
+                    mRepositoriesError.postValue(e.message)
+                } finally {
+                    mLoadingRepositories.postValue(false)
                 }
-            )
+
+            }
         }
     }
 
