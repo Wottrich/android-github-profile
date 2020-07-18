@@ -16,9 +16,6 @@ import java.lang.RuntimeException
  *
  */
 
-typealias OnSuccess<T> = (isSuccess: Boolean, message: String?, result: T?) -> Unit
-typealias OnFailure = (message: String?) -> Unit
-
 class GithubDataSource (
     private val api: INetworkAPI = INetworkAPI.api
 ) {
@@ -36,28 +33,6 @@ class GithubDataSource (
             throw RuntimeException(response.message())
         }
 
-//        api.loadProfile(profileLogin).enqueue(object : Callback<Profile> {
-//            override fun onFailure(call: Call<Profile>, t: Throwable) {
-//                onFailure(t.message)
-//            }
-//
-//            override fun onResponse(call: Call<Profile>, response: Response<Profile>) {
-//                val result = response.body()
-//                val statusCode = response.code()
-//
-//                if (statusCode in 200..299) {
-//                    if (result != null) {
-//                        onSuccess(true, response.message(), result)
-//                    } else {
-//                        onSuccess(false, response.message(), null)
-//                    }
-//                } else {
-//                    onFailure(response.message())
-//                }
-//            }
-//
-//        })
-
     }
 
     @Throws(Exception::class)
@@ -73,32 +48,6 @@ class GithubDataSource (
         } else {
             throw RuntimeException(response.message())
         }
-
-//        repositories.enqueue(object : Callback<List<Repository>> {
-//            override fun onFailure(call: Call<List<Repository>>, t: Throwable) {
-//                onFailure(t.message)
-//            }
-//
-//            override fun onResponse(
-//                call: Call<List<Repository>>,
-//                response: Response<List<Repository>>
-//            ) {
-//                val result = response.body()
-//                val statusCode = response.code()
-//
-//                if (statusCode in 200..299) {
-//                    if (result != null) {
-//                        onSuccess(true, response.message(), result)
-//                    } else {
-//                        onSuccess(false, response.message(), null)
-//                    }
-//                } else {
-//                    onFailure(response.message())
-//                }
-//
-//            }
-//
-//        })
 
     }
 
