@@ -5,10 +5,12 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -70,11 +72,11 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                         imgProfile.isVisible = true
 
                         //Set Image
-                        Glide.with(activity)
-                            .load(it.avatarUrl)
-                            .centerCrop()
-                            .placeholder(R.drawable.ic_person_32)
-                            .into(imgProfile)
+//                        Glide.with(activity)
+//                            .load(it.avatarUrl)
+//                            .centerCrop()
+//                            .placeholder(R.drawable.ic_person_32)
+//                            .into(imgProfile)
 
                     }
                 } else {

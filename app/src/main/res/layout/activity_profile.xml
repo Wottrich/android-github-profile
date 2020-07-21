@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <!-- &lt; &gt; < > -->
     <data>
-
         <import type="android.view.View" />
 
         <import type="wottrich.github.io.githubprofile.viewModel.ProfileViewModel" />
@@ -113,6 +111,7 @@
                             android:layout_marginBottom="10dp"
                             android:contentDescription="@string/image_profile_content_description"
                             android:src="@drawable/ic_person_32"
+                            app:imageFromUrl="@{ viewModel.profile.avatarUrl }"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
