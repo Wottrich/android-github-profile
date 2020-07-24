@@ -2,6 +2,7 @@
 <resources>
 
     <string name="unknown_error">Unknown error…</string>
+    <string name="equal_login_error">Este perfil já está carregado.</string>
 
     <!--  Profile  -->
     <string name="profile_search">Search</string>

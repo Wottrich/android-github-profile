@@ -4,6 +4,7 @@
     <string name="image_profile_content_description" translatable="false">image profile</string>
 
     <string name="unknown_error">Unknown error…</string>
+    <string name="equal_login_error">This profile is already loaded.</string>
 
     <!--  Profile  -->
     <string name="profile_search">Search</string>

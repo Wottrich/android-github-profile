@@ -2,9 +2,8 @@ package wottrich.github.io.githubprofile.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.data.datasource.GithubDataSource
-import wottrich.github.io.githubprofile.data.datasource.Services
-import wottrich.github.io.githubprofile.model.ErrorWrapper
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
 
@@ -58,10 +57,14 @@ class ProfileViewModel(
     //=======> Functions
 
     fun loadServices (profileLogin: String) {
-        clear()
-        this.profileLogin = profileLogin
-        fetchProfile()
-        fetchRepositories()
+        if (this.profileLogin != profileLogin) {
+            clear()
+            this.profileLogin = profileLogin
+            fetchProfile()
+            fetchRepositories()
+        } else {
+            mError.value = R.string.equal_login_error
+        }
     }
 
     private fun fetchProfile () {

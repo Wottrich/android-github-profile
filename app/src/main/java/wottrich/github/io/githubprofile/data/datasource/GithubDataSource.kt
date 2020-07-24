@@ -20,10 +20,6 @@ import wottrich.github.io.githubprofile.model.Repository
 typealias OnSuccess<T> = (isSuccess: Boolean, message: String?, result: T?) -> Unit
 typealias OnFailure = (message: String?) -> Unit
 
-enum class Services {
-    profile, repositories
-}
-
 class GithubDataSource (
     private val api: INetworkAPI = INetworkAPI.api
 ) {

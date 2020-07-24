@@ -5,20 +5,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_profile.*
 import wottrich.github.io.githubprofile.R
-import wottrich.github.io.githubprofile.archive.hideKeyboard
 import wottrich.github.io.githubprofile.archive.showAlertWithOkButton
-import wottrich.github.io.githubprofile.archive.showAlertWithTryAgainButton
-import wottrich.github.io.githubprofile.data.datasource.Services
 import wottrich.github.io.githubprofile.view.adapter.RepositoryAdapter
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
 

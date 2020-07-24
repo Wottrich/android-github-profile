@@ -3,7 +3,6 @@ package wottrich.github.io.githubprofile.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import wottrich.github.io.githubprofile.model.ErrorWrapper
 
 /**
  * @author Wottrich
@@ -19,9 +18,5 @@ abstract class BaseViewModel() : ViewModel() {
     protected var mError: MutableLiveData<Int> = MutableLiveData()
     val error: LiveData<Int>
         get() = mError
-
-    protected var mIsLoading: MutableLiveData<Boolean> = MutableLiveData()
-    val isLoading: LiveData<Boolean>
-        get() = mIsLoading
 
 }
