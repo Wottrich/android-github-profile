@@ -66,19 +66,8 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
             profile.observe(activity, Observer {
                 if (it != null) {
-                    binding.apply {
-
-                        clProfile.isVisible = true
-                        imgProfile.isVisible = true
-
-                        //Set Image
-//                        Glide.with(activity)
-//                            .load(it.avatarUrl)
-//                            .centerCrop()
-//                            .placeholder(R.drawable.ic_person_32)
-//                            .into(imgProfile)
-
-                    }
+                    binding.clProfile.isVisible = true
+                    binding.imgProfile.isVisible = true
                 } else {
                     binding.clProfile.isVisible = false
                     binding.imgProfile.isVisible = false
