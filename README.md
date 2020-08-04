@@ -2,7 +2,7 @@
 Veja o seu perfil publico do github, ou de outros usuarios, por esse aplicativo simples e rapido.
 
 ### Resumo
-O objetivo do aplicativo foi estudar mais sobre a prataforma Android. Utilizando metodos Agile como SOLID e Clean Code, foram implementados chamadas api utilizando **Retrofit** juntamente com **Coroutines** que serviu para lidar com a parte asyncrona do projeto e deixar mais leve e facil de entender. A arquiterura do projeto foi desenvolvido em cima do MVVM e para ajudar foi utilizado **Databinding** para desaclopar resposabilidades da activity e **LiveData**, para uma ambiente mais reativo e respeitoso, com **ViewModelProvider** para podemos criar um ciclo de vida proprio da nossa ViewModel podendo haver activity rotation sem perda de estado ou crashes indesejaveis. 
+O objetivo do aplicativo foi estudar mais sobre a prataforma Android. Utilizando metodos Agile como SOLID e Clean Code, foram implementados chamadas api utilizando **Retrofit** juntamente com **Coroutines** que serviu para lidar com a parte asyncrona do projeto e deixar mais leve e facil de entender. A arquiterura do projeto foi desenvolvido em cima do MVVM e para ajudar foi utilizado **Databinding** para desaclopar resposabilidades da activity e **LiveData**, para uma ambiente mais reativo e respeitoso, com **ViewModelProvider** para podemos criar um ciclo de vida proprio da nossa ViewModel podendo haver activity rotation sem perda de estado ou crashes indesejaveis. A aplicação é internacionalizada e está disponivel em inglês e português(dependendo da linguagem do dispositivo).
 
 # Projeto
 Projeto inteiramente desenvolido em **Kotlin** tento em vista que é a linguagem oficial recomentada para o Android e também tendo em vista suas facilidade e tecnologias, dentro da IDEA **Android Studio** para uma melhor perfomace no desenvolvimento.
@@ -31,3 +31,21 @@ Blueprint:
   - _OkHttp3 LoggingInterceptor: 4.4.0
   - _Glide: 4.11.0_
 
+# Aplicação
+A aplicação consiste em apenas uma activity ([ProfileActivity](https://github.com/Wottrich/android-github-profile/blob/master/app/src/main/java/wottrich/github/io/githubprofile/view/ProfileActivity.kt)) onde você pode buscar um perfil.
+
+**➡️ Tela inicial**
+
+<img src="https://github.com/Wottrich/android-github-profile/blob/master/information/initial_screen.png" alt="" data-canonical-src="https://github.com/Wottrich/android-github-profile/blob/master/information/initial_screen.png" height="400" />
+
+**➡️ Busca**
+
+<img src="https://github.com/Wottrich/android-github-profile/blob/master/information/search_before_result.png" alt="" data-canonical-src="https://github.com/Wottrich/android-github-profile/blob/master/information/search_before_result.png" height="400" />
+
+**➡️ Perfil**
+
+<img src="https://github.com/Wottrich/android-github-profile/blob/master/information/search_after_result.png" alt="" data-canonical-src="https://github.com/Wottrich/android-github-profile/blob/master/information/search_after_result.png" height="400" />
+
+**➡️ Perfil não encontrado**
+
+<img src="https://github.com/Wottrich/android-github-profile/blob/master/information/profile_not_found.png" alt="" data-canonical-src="https://github.com/Wottrich/android-github-profile/blob/master/information/profile_not_found.png" height="400" />
