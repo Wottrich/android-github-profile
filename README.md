@@ -34,18 +34,26 @@ Blueprint:
 # Aplicação
 A aplicação consiste em apenas uma activity ([ProfileActivity](https://github.com/Wottrich/android-github-profile/blob/master/app/src/main/java/wottrich/github/io/githubprofile/view/ProfileActivity.kt)) onde você pode buscar um perfil.
 
-**➡️ Tela inicial**
+**➡️ Inicio**
+
+Step onde o aplicativo é inicializado e podemos ver a funcionalidade de buscar perfil.
 
 <img src="https://github.com/Wottrich/android-github-profile/blob/master/information/initial_screen.png" alt="" data-canonical-src="https://github.com/Wottrich/android-github-profile/blob/master/information/initial_screen.png" height="400" />
 
 **➡️ Busca**
 
+Step que podemos ver como fica a funcionalidade de buscar e como utilizar ela.
+
 <img src="https://github.com/Wottrich/android-github-profile/blob/master/information/search_before_result.png" alt="" data-canonical-src="https://github.com/Wottrich/android-github-profile/blob/master/information/search_before_result.png" height="400" />
 
 **➡️ Perfil**
 
+Step que mostra o resultado de uma busca.
+
 <img src="https://github.com/Wottrich/android-github-profile/blob/master/information/search_after_result.png" alt="" data-canonical-src="https://github.com/Wottrich/android-github-profile/blob/master/information/search_after_result.png" height="400" />
 
 **➡️ Perfil não encontrado**
+
+Step que mostra o resultado não encontrado de uma busca.
 
 <img src="https://github.com/Wottrich/android-github-profile/blob/master/information/profile_not_found.png" alt="" data-canonical-src="https://github.com/Wottrich/android-github-profile/blob/master/information/profile_not_found.png" height="400" />
