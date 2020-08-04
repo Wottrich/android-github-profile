@@ -1,5 +1,5 @@
 # Github Profile Overview
-Veja o seu perfil publico ou de outros usuarios por esse aplicativo simples e rapido.
+Veja o seu perfil publico do github, ou de outros usuarios, por esse aplicativo simples e rapido.
 
 ### Resumo
 O objetivo do aplicativo foi estudar mais sobre a prataforma Android. Utilizando metodos Agile como SOLID e Clean Code, foram implementados chamadas api utilizando **Retrofit** juntamente com **Coroutines** que serviu para lidar com a parte asyncrona do projeto e deixar mais leve e facil de entender. A arquiterura do projeto foi desenvolvido em cima do MVVM e para ajudar foi utilizado **Databinding** para desaclopar resposabilidades da activity e **LiveData**, para uma ambiente mais reativo e respeitoso, com **ViewModelProvider** para podemos criar um ciclo de vida proprio da nossa ViewModel podendo haver activity rotation sem perda de estado ou crashes indesejaveis. 
