@@ -5,7 +5,7 @@ Veja o seu perfil publico do github, ou de outros usuarios, por esse aplicativo 
 O objetivo do aplicativo foi estudar mais sobre a prataforma Android. Utilizando metodos Agile como SOLID e Clean Code, foram implementados chamadas api utilizando **Retrofit** juntamente com **Coroutines** que serviu para lidar com a parte asyncrona do projeto e deixar mais leve e facil de entender. A arquiterura do projeto foi desenvolvido em cima do MVVM e para ajudar foi utilizado **Databinding** para desaclopar resposabilidades da activity e **LiveData**, para uma ambiente mais reativo e respeitoso, com **ViewModelProvider** para podemos criar um ciclo de vida proprio da nossa ViewModel podendo haver activity rotation sem perda de estado ou crashes indesejaveis. A aplicação é internacionalizada e está disponivel em inglês e português(dependendo da linguagem do dispositivo).
 
 # Projeto
-Projeto inteiramente desenvolido em **Kotlin** tento em vista que é a linguagem oficial recomentada para o Android e também tendo em vista suas facilidade e tecnologias, dentro da IDEA **Android Studio** para uma melhor perfomace no desenvolvimento.
+Projeto inteiramente desenvolido em **Kotlin** tento em vista que é a linguagem oficial recomentada para o Android e também tendo em vista suas facilidades e tecnologias, dentro da IDEA **Android Studio** para uma melhor perfomace no desenvolvimento.
 
 ## Arquitetura e dependencias
 **Arquitetura**
