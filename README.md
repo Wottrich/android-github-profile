@@ -100,6 +100,8 @@ suspend fun loadProfile (profileLogin: String): Profile? {
 }
 ```
 
+**Agora para fixar o que você viu aqui, faça a mesma coisa na função `loadRepositories`.**
+
 ### **➡️ ProfileViewModel.kt**
 Em breve...
 
