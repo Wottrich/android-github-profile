@@ -45,7 +45,7 @@ suspend fun loadRepositories (...) {...}
 
 Sabendo disso conseguimos perceber que nosso awaitResponse faz jus ao nome pois ele nos retorna um `Response<T>`, isso não te deixa pensativo? 
 
-Vamos mexer primeiro no `loadProfile`, então em cima do que nosso `enqueue` faça o seguinte código: (se já não fez kkk)
+Vamos mexer primeiro no `loadProfile`, então em cima do nosso `enqueue` faça o seguinte código: (se já não fez kkk)
 
 ```kotlin
 api.loadProfile(profileLogin).awaitResponse()
@@ -66,7 +66,7 @@ val response = api.loadProfile(profileLogin).awaitResponse()
 
 #### 3. _Limpando..._
 
-Antes de limparmos um pouco o código vamos criar umafazer duas coisas:
+Antes de limparmos um pouco o código vamos fazer duas coisas:
 - Uma val que pegue nosso result
 - Uma val que pegue nosso status code
 ```kotlin
