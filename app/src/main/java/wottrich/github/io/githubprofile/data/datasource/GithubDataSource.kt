@@ -4,6 +4,7 @@ import okhttp3.internal.wait
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.awaitResponse
 import wottrich.github.io.githubprofile.data.network.INetworkAPI
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
@@ -25,7 +26,6 @@ class GithubDataSource (
 ) {
 
     fun loadProfile (profileLogin: String, onSuccess: OnSuccess<Profile>, onFailure: OnFailure) {
-
         api.loadProfile(profileLogin).enqueue(object : Callback<Profile> {
             override fun onFailure(call: Call<Profile>, t: Throwable) {
                 onFailure(t.message)
