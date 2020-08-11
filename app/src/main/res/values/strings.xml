@@ -16,8 +16,8 @@
 
     <!--  Profile formats  -->
     <string name="format_profile_login">/%s</string>
-    <string name="format_profile_followers">%s followers</string>
-    <string name="format_profile_following">%s following</string>
+    <string name="profile_followers">Followers:</string>
+    <string name="profile_following">Following:</string>
 
     <!--  Repositories  -->
     <string name="format_repositories_stars">%s stars</string>

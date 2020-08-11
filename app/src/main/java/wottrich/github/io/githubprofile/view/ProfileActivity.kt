@@ -62,10 +62,15 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     tvBio.text = it.bio
                     tvLogin.text = String.format(getString(R.string.format_profile_login), it.login)
                     tvFollowers.text = String.format(
-                        getString(R.string.format_profile_followers, it.followers.toString())
+                        "%s %s",
+                        getString(R.string.profile_followers),
+                        it.followers.toString()
                     )
+
                     tvFollowing.text = String.format(
-                        getString(R.string.format_profile_following, it.following.toString())
+                        "%s %s",
+                        getString(R.string.profile_following),
+                        it.following.toString()
                     )
 
                     //Set Image
@@ -98,6 +103,10 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
             repositoriesError.observe(activity, Observer {
                 tvRepositoriesError.text = it
+            })
+
+            profileLogin.observe(activity, Observer {
+                tvWelcomeFindProfile.isVisible = it == null
             })
 
             error.observe(activity, Observer {
@@ -133,7 +142,6 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (query != null) {
-            tvWelcomeFindProfile.isVisible = false
             viewModel.loadServices(query)
         }
         return false

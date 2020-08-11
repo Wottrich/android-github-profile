@@ -3,6 +3,7 @@ package wottrich.github.io.githubprofile.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import wottrich.github.io.githubprofile.R
+import wottrich.github.io.githubprofile.archive.TransformationsUtils
 import wottrich.github.io.githubprofile.data.datasource.GithubDataSource
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
@@ -32,6 +33,11 @@ class ProfileViewModel(
     val profile: LiveData<Profile>
         get() = mProfile
 
+    //TODO parametro usando no layout disponivel no arquivo "Main with databinding.kt"
+    //TODO parameter used into layout available in "Main with databinding.kt" file
+    val profileErrorVisibility: LiveData<Int>//error visibility
+        get() = TransformationsUtils.isVisible(mProfileError, mProfileError.value != null)
+
     val profileError: LiveData<String>
         get() = mProfileError
 
@@ -47,19 +53,28 @@ class ProfileViewModel(
     val repositories: LiveData<List<Repository>>
         get() = mRepositories
 
+    //TODO parametro usando no layout disponivel no arquivo "Main with databinding.kt"
+    //TODO parameter used into layout available in "Main with databinding.kt" file
+    val repositoriesErrorVisibility: LiveData<Int> //error visibility
+        get() = TransformationsUtils.isVisible(mRepositoriesError, mRepositoriesError.value != null)
+
     val repositoriesError: LiveData<String>
         get() = mRepositoriesError
 
     //=======> Variables
 
-    private var profileLogin: String? = null
+    private val mProfileLogin: MutableLiveData<String> = MutableLiveData()
+    //TODO parametro usando no layout disponivel no arquivo "Main with databinding.kt"
+    //TODO parameter used into layout available in "Main with databinding.kt" file
+    val profileLogin: LiveData<String>
+        get() = mProfileLogin
 
     //=======> Functions
 
     fun loadServices (profileLogin: String) {
-        if (this.profileLogin != profileLogin) {
+        if (this.mProfileLogin.value != profileLogin) {
             clear()
-            this.profileLogin = profileLogin
+            this.mProfileLogin.value = profileLogin
             fetchProfile()
             fetchRepositories()
         } else {
@@ -68,7 +83,7 @@ class ProfileViewModel(
     }
 
     private fun fetchProfile () {
-        profileLogin?.let { login ->
+        mProfileLogin.value?.let { login ->
             mLoadingProfile.value = true
             service.loadProfile(login,
                 onSuccess = { isSuccess, message, result ->
@@ -88,7 +103,7 @@ class ProfileViewModel(
     }
 
     private fun fetchRepositories () {
-        profileLogin?.let { login ->
+        mProfileLogin.value?.let { login ->
             mLoadingRepository.value = true
             service.loadRepositories(login,
                 onSuccess = { isSuccess, message, result ->
