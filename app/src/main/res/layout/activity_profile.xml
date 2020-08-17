@@ -4,6 +4,7 @@
         <import type="android.view.View" />
 
         <import type="wottrich.github.io.githubprofile.viewModel.ProfileViewModel" />
+        <import type="wottrich.github.io.githubprofile.data.wrapper.Status" />
 
         <variable
             name="viewModel"
@@ -64,37 +65,41 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@{ viewModel.profileError }"
+                        android:text="@{ viewModel.profileResult.message }"
                         android:textAlignment="center"
-                        android:visibility="@{ viewModel.profileErrorVisibility }"
+                        visibleGone="@{ viewModel.profileResult.status == Status.ERROR }"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Error to search profile" />
 
                     <TextView
+                        visibleGone="@{ viewModel.repositoriesResult.status == Status.ERROR }"
                         android:id="@+id/tvRepositoriesError"
                         style="@style/RobotoBold.SubTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{ viewModel.repositoriesError }"
+                        android:text="@{ viewModel.repositoriesResult.message }"
                         android:textAlignment="center"
-                        android:visibility="@{ viewModel.repositoriesErrorVisibility }"
+                        android:visibility="gone"
                         tools:text="Error to find repositories" />
 
                     <ProgressBar
+                        visibleGone="@{ viewModel.profileResult.status == Status.LOADING }"
                         android:id="@+id/progressBarProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:visibility="@{ viewModel.loadingProfile != null ? viewModel.loadingProfile : View.GONE }"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        visibleGone="@{ viewModel.profileResult.status == Status.SUCCESS }"
                         android:id="@+id/clProfile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -233,11 +238,12 @@
             app:reverseLayout="false" />
 
         <ProgressBar
+            visibleGone="@{ viewModel.repositoriesResult.status == Status.LOADING }"
             android:id="@+id/progressBarRepositories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="@{ viewModel.loadingRepositories != null ? viewModel.loadingProfile : View.GONE }" />
+            android:visibility="gone" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -1,11 +1,10 @@
 package wottrich.github.io.githubprofile.data.datasource
 
-import kotlinx.coroutines.CoroutineExceptionHandler
-import retrofit2.*
-import wottrich.github.io.githubprofile.data.network.INetworkAPI
+import kotlinx.coroutines.Deferred
+import wottrich.github.io.githubprofile.data.network.*
+import wottrich.github.io.githubprofile.data.wrapper.*
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
-import java.lang.RuntimeException
 
 /**
  * @author Wottrich
@@ -20,35 +19,32 @@ class GithubDataSource (
     private val api: INetworkAPI = INetworkAPI.api
 ) {
 
-    suspend fun loadProfile (profileLogin: String) : Profile {
+    suspend fun loadProfile (profileLogin: String) : Resource<Profile>? {
+        return object : NetworkBoundResource<Profile, Profile>() {
+            override fun processResponse(response: Profile): Profile {
+                return response
+            }
 
-        val response = api.loadProfile(profileLogin).awaitResponse()
+            override suspend fun createCallAsync(): Deferred<ApiResponse<Profile>> {
+                return api.loadProfileAsync(profileLogin)
+            }
 
-        val result = response.body()
-        val statusCode = response.code()
-
-        return if (result != null && statusCode in 200..299) {
-            result
-        } else {
-            throw RuntimeException(response.message())
-        }
-
+        }.getResult()
     }
 
-    @Throws(Exception::class)
-    suspend fun loadRepositories (profileLogin: String) : List<Repository> {
+    suspend fun loadRepositories (profileLogin: String) : Resource<List<Repository>> {
+        return object : NetworkBoundResource<List<Repository>, List<Repository>>() {
+            override fun processResponse(response: List<Repository>): List<Repository> {
+                return response
+            }
 
-        val response = api.loadRepositories(profileLogin).awaitResponse()
+            override suspend fun createCallAsync(): Deferred<ApiResponse<List<Repository>>> {
+                return api.loadRepositoriesAsync(profileLogin)
+            }
 
-        val result = response.body()
-        val statusCode = response.code()
-
-        return if (result != null && statusCode in 200..299) {
-            result
-        } else {
-            throw RuntimeException(response.message())
-        }
-
+        }.getResult()
     }
+
+
 
 }

@@ -5,17 +5,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
 import wottrich.github.io.githubprofile.R
-import wottrich.github.io.githubprofile.archive.showAlertWithOkButton
+import wottrich.github.io.githubprofile.archive.showAlert
+import wottrich.github.io.githubprofile.data.wrapper.Status
 import wottrich.github.io.githubprofile.databinding.ActivityProfileBinding
 import wottrich.github.io.githubprofile.view.adapter.RepositoryAdapter
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
@@ -64,22 +62,14 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 binding.rvRepositories.adapter?.notifyDataSetChanged()
             })
 
-            profile.observe(activity, Observer {
-                if (it != null) {
-                    binding.clProfile.isVisible = true
-                    binding.imgProfile.isVisible = true
-                } else {
-                    binding.clProfile.isVisible = false
-                    binding.imgProfile.isVisible = false
-                }
-            })
-
             error.observe(activity, Observer {
-                showAlertWithOkButton(
+                showAlert(
                     getString(R.string.dialog_default_error_title),
                     if(it == null) getString(R.string.unknown_error)
                     else getString(it)
-                )
+                ) {
+                    setNeutralButton("OK", null)
+                }
             })
         }
     }
