@@ -1,11 +1,12 @@
 package wottrich.github.io.githubprofile.data.network
 
-import retrofit2.Call
+import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import wottrich.github.io.githubprofile.BuildConfig
+import wottrich.github.io.githubprofile.data.wrapper.ApiResponse
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
 
@@ -25,15 +26,16 @@ interface INetworkAPI {
             get() = Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RetrofitCallAdapterFactory())
                 .client(Network.clientHttp)
                 .build()
                 .create(INetworkAPI::class.java)
     }
 
     @GET("users/{profileLogin}")
-    fun loadProfile(@Path("profileLogin") profileLogin: String) : Call<Profile>
+    fun loadProfileAsync(@Path("profileLogin") profileLogin: String) : Deferred<ApiResponse<Profile>>
 
     @GET("users/{profileLogin}/repos")
-    fun loadRepositories(@Path("profileLogin") profileLogin: String) : Call<List<Repository>>
+    fun loadRepositoriesAsync(@Path("profileLogin") profileLogin: String) : Deferred<ApiResponse<List<Repository>>>
 
 }

@@ -15,11 +15,7 @@ import kotlin.coroutines.CoroutineContext
  *
  */
 
-abstract class BaseViewModel(
-    final override val coroutineContext: CoroutineContext
-) : ViewModel(), CoroutineScope {
-
-    protected val scope = CoroutineScope(coroutineContext)
+abstract class BaseViewModel : ViewModel() {
 
     protected var mError: MutableLiveData<Int> = MutableLiveData()
     val error: LiveData<Int>
