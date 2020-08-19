@@ -19,11 +19,16 @@ import kotlin.coroutines.coroutineContext
  *
  */
 
+interface GithubDataSourceInterface {
+    suspend fun loadProfile (profileLogin: String) : Flow<Resource<Profile>>
+    suspend fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>>
+}
+
 class GithubDataSource (
     private val api: INetworkAPI = INetworkAPI.api
-) {
+) : GithubDataSourceInterface {
 
-    suspend fun loadProfile (profileLogin: String) : Flow<Resource<Profile>> {
+    override suspend fun loadProfile (profileLogin: String) : Flow<Resource<Profile>> {
         return flow {
             NetworkBoundResource(
                 collector = this,
@@ -33,7 +38,7 @@ class GithubDataSource (
         }
     }
 
-    suspend fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>> {
+    override suspend fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>> {
         return flow {
             NetworkBoundResource(
                 collector = this,
