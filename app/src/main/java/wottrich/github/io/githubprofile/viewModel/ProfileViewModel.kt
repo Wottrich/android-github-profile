@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import wottrich.github.io.githubprofile.R
-import wottrich.github.io.githubprofile.data.datasource.GithubDataSource
+import wottrich.github.io.githubprofile.data.datasource.GithubDataSourceInterface
 import wottrich.github.io.githubprofile.data.wrapper.Resource
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
@@ -20,8 +20,8 @@ import wottrich.github.io.githubprofile.util.AppDispatchers
  */
  
 class ProfileViewModel(
-    private val service: GithubDataSource = GithubDataSource(),
-    private val dispatchers: AppDispatchers = AppDispatchers()
+    private val service: GithubDataSourceInterface,
+    private val dispatchers: AppDispatchers
 ) : BaseViewModel() {
 
     //=======> Profile
