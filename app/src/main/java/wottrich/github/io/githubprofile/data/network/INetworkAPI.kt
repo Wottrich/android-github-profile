@@ -20,16 +20,6 @@ import wottrich.github.io.githubprofile.model.Repository
  
 interface INetworkAPI {
 
-    companion object {
-        val api: INetworkAPI
-            get() = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(Network.clientHttp)
-                .build()
-                .create(INetworkAPI::class.java)
-    }
-
     @GET("users/{profileLogin}")
     fun loadProfile(@Path("profileLogin") profileLogin: String) : Call<Profile>
 

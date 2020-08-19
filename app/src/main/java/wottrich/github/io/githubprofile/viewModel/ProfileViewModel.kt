@@ -2,7 +2,8 @@ package wottrich.github.io.githubprofile.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.Dispatchers.IO
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.TransformationsUtils
@@ -23,8 +24,9 @@ import kotlin.coroutines.CoroutineContext
  
 class ProfileViewModel(
     private val service: GithubDataSource = GithubDataSource(),
-    context: CoroutineContext = IO
-) : BaseViewModel(context) {
+    private val dispatcherMain: CoroutineContext = Dispatchers.Main,
+    private val dispatcherIO: CoroutineContext = Dispatchers.IO
+) : BaseViewModel() {
 
     //=======> Profile
 
@@ -84,7 +86,7 @@ class ProfileViewModel(
     private fun fetchProfile () {
         mProfileLogin.value?.let { login ->
             mLoadingProfile.value = true
-            scope.launch {
+            viewModelScope.launch(dispatcherIO) {
                 try {
                     val result = service.loadProfile(login)
                     mProfile.postValue(result)
@@ -100,7 +102,7 @@ class ProfileViewModel(
     private fun fetchRepositories () {
         mProfileLogin.value?.let { login ->
             mLoadingRepositories.value = true
-            scope.launch {
+            viewModelScope.launch(dispatcherIO) {
                 try {
                     val result = service.loadRepositories(login)
                     mRepositories.postValue(result)

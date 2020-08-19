@@ -1,8 +1,8 @@
 package wottrich.github.io.githubprofile.data.datasource
 
-import kotlinx.coroutines.CoroutineExceptionHandler
 import retrofit2.*
 import wottrich.github.io.githubprofile.data.network.INetworkAPI
+import wottrich.github.io.githubprofile.data.network.Network
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
 import java.lang.RuntimeException
@@ -17,7 +17,7 @@ import java.lang.RuntimeException
  */
 
 class GithubDataSource (
-    private val api: INetworkAPI = INetworkAPI.api
+    private val api: INetworkAPI = Network.api
 ) {
 
     suspend fun loadProfile (profileLogin: String) : Profile {
@@ -35,7 +35,6 @@ class GithubDataSource (
 
     }
 
-    @Throws(Exception::class)
     suspend fun loadRepositories (profileLogin: String) : List<Repository> {
 
         val response = api.loadRepositories(profileLogin).awaitResponse()
