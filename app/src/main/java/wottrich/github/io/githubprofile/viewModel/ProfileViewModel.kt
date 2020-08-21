@@ -1,16 +1,15 @@
 package wottrich.github.io.githubprofile.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.TransformationsUtils
 import wottrich.github.io.githubprofile.data.datasource.GithubDataSource
+import wottrich.github.io.githubprofile.data.resource.Resource
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
-import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -21,7 +20,7 @@ import kotlin.coroutines.CoroutineContext
  * Copyright © 2020 GithubProfile. All rights reserved.
  *
  */
- 
+
 class ProfileViewModel(
     private val service: GithubDataSource = GithubDataSource(),
     private val dispatcherMain: CoroutineContext = Dispatchers.Main,
@@ -30,39 +29,33 @@ class ProfileViewModel(
 
     //=======> Profile
 
-    private var mLoadingProfile: MutableLiveData<Boolean> = MutableLiveData()
-    private var mProfile: MutableLiveData<Profile> = MutableLiveData()
-    private var mProfileError: MutableLiveData<String> = MutableLiveData()
+    private var mProfileResource = MediatorLiveData<Resource<Profile>>()
 
-    val loadingProfile: LiveData<Int> //loading
-        get() = TransformationsUtils.isVisible(mLoadingProfile, mLoadingProfile.value)
-
-    val profileError: LiveData<String>//error
-        get() = mProfileError
-
-    val profileErrorVisibility: LiveData<Int>//error visibility
-        get() = TransformationsUtils.isVisible(mProfileError, mProfileError.value != null)
+    val profileResource: LiveData<Resource<Profile>>
+        get() = mProfileResource
 
     val profile: LiveData<Profile>//data
-        get() = mProfile
+        get() = Transformations.map(profileResource) {
+            return@map it?.data
+        }
 
     //=======> Repositories
 
-    private var mLoadingRepositories: MutableLiveData<Boolean> = MutableLiveData()
-    private var mRepositories: MutableLiveData<List<Repository>> = MutableLiveData()
-    private var mRepositoriesError: MutableLiveData<String> = MutableLiveData()
+    private var mRepositoriesResource = MediatorLiveData<Resource<List<Repository>>>()
 
-    val loadingRepositories: LiveData<Int> //loading
-        get() = TransformationsUtils.isVisible(mLoadingRepositories, mLoadingRepositories.value)
+    val repositoriesResource: LiveData<Resource<List<Repository>>>
+        get() = mRepositoriesResource
 
-    val repositoriesError: LiveData<String> //error
-        get() = mRepositoriesError
+    val repositories = MediatorLiveData<List<Repository>>().apply {
+        addSource(repositoriesResource) {
+            this.value = it?.data
+        }
+    }
 
-    val repositoriesErrorVisibility: LiveData<Int> //error visibility
-        get() = TransformationsUtils.isVisible(mRepositoriesError, mRepositoriesError.value != null)
+    //=======> Service
 
-    val repositories: LiveData<List<Repository>> //data
-        get() = mRepositories
+    private var profileService: LiveData<Resource<Profile>> = MutableLiveData()
+    private var repositoriesService: LiveData<Resource<List<Repository>>> = MutableLiveData()
 
     //=======> Variables
 
@@ -85,31 +78,34 @@ class ProfileViewModel(
 
     private fun fetchProfile () {
         mProfileLogin.value?.let { login ->
-            mLoadingProfile.value = true
-            viewModelScope.launch(dispatcherIO) {
-                try {
-                    val result = service.loadProfile(login)
-                    mProfile.postValue(result)
-                } catch (e: Exception) {
-                    mProfileError.postValue(e.message)
-                } finally {
-                    mLoadingProfile.postValue(false)
+            viewModelScope.launch(dispatcherMain) {
+
+                mProfileResource.removeSource(profileService)
+
+                withContext(dispatcherIO) {
+                    profileService = service.loadProfile(login)
                 }
+
+                mProfileResource.addSource(profileService) {
+                    mProfileResource.value = it
+                }
+
             }
         }
     }
 
     private fun fetchRepositories () {
         mProfileLogin.value?.let { login ->
-            mLoadingRepositories.value = true
-            viewModelScope.launch(dispatcherIO) {
-                try {
-                    val result = service.loadRepositories(login)
-                    mRepositories.postValue(result)
-                } catch (e: Exception) {
-                    mRepositoriesError.postValue(e.message)
-                } finally {
-                    mLoadingRepositories.postValue(false)
+            viewModelScope.launch(dispatcherMain) {
+
+                mRepositoriesResource.removeSource(repositoriesService)
+
+                withContext(dispatcherIO) {
+                    repositoriesService = service.loadRepositories(login)
+                }
+
+                mRepositoriesResource.addSource(repositoriesService) {
+                    mRepositoriesResource.value = it
                 }
 
             }
@@ -117,10 +113,8 @@ class ProfileViewModel(
     }
 
     private fun clear() {
-        this.mProfile.value = null
-        this.mRepositories.value = emptyList()
-        this.mProfileError.value = null
-        this.mRepositoriesError.value = null
+        this.mProfileResource.value = null
+        this.mRepositoriesResource.value = null
     }
 
 }

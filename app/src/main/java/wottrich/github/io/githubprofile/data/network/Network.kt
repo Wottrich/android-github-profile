@@ -30,6 +30,7 @@ object Network {
         get() = Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RetrofitCallAdapterFactory())
             .client(clientHttp)
             .build()
             .create(INetworkAPI::class.java)

@@ -4,6 +4,7 @@
         <import type="android.view.View" />
 
         <import type="wottrich.github.io.githubprofile.viewModel.ProfileViewModel" />
+        <import type="wottrich.github.io.githubprofile.data.resource.Status"/>
 
         <variable
             name="viewModel"
@@ -64,9 +65,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@{ viewModel.profileError }"
+                        android:text="@{ viewModel.profileResource.message }"
+                        visibleGone="@{ viewModel.profileResource.status == Status.ERROR }"
                         android:textAlignment="center"
-                        android:visibility="@{ viewModel.profileErrorVisibility }"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -77,9 +79,10 @@
                         style="@style/RobotoBold.SubTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{ viewModel.repositoriesError }"
+                        android:text="@{ viewModel.repositoriesResource.message }"
+                        visibleGone="@{ viewModel.repositoriesResource.status == Status.ERROR }"
                         android:textAlignment="center"
-                        android:visibility="@{ viewModel.repositoriesErrorVisibility }"
+                        android:visibility="gone"
                         tools:text="Error to find repositories" />
 
                     <ProgressBar
@@ -88,7 +91,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:visibility="@{ viewModel.loadingProfile != null ? viewModel.loadingProfile : View.GONE }"
+                        visibleGone="@{ viewModel.profileResource.status == Status.LOADING }"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -237,7 +241,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="@{ viewModel.loadingRepositories != null ? viewModel.loadingProfile : View.GONE }" />
+            visibleGone="@{ viewModel.repositoriesResource.status == Status.LOADING }"
+            android:visibility="gone"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

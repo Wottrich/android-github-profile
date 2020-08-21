@@ -1,11 +1,13 @@
 package wottrich.github.io.githubprofile.data.network
 
+import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import wottrich.github.io.githubprofile.BuildConfig
+import wottrich.github.io.githubprofile.data.resource.ApiResponse
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
 
@@ -17,13 +19,13 @@ import wottrich.github.io.githubprofile.model.Repository
  * Copyright © 2020 GithubProfile. All rights reserved.
  *
  */
- 
+
 interface INetworkAPI {
 
     @GET("users/{profileLogin}")
-    fun loadProfile(@Path("profileLogin") profileLogin: String) : Call<Profile>
+    fun loadProfile(@Path("profileLogin") profileLogin: String) : Deferred<ApiResponse<Profile>>
 
     @GET("users/{profileLogin}/repos")
-    fun loadRepositories(@Path("profileLogin") profileLogin: String) : Call<List<Repository>>
+    fun loadRepositories(@Path("profileLogin") profileLogin: String) : Deferred<ApiResponse<List<Repository>>>
 
 }

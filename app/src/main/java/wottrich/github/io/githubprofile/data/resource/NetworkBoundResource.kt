@@ -1,6 +1,9 @@
 package wottrich.github.io.githubprofile.data.resource
 
-import kotlinx.coroutines.Deferred
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.*
+import kotlin.coroutines.coroutineContext
 
 /**
  * @author Wottrich
@@ -11,25 +14,45 @@ import kotlinx.coroutines.Deferred
  *
  */
 
-abstract class NetworkBoundResource<ResultType, RequestType> {
+class NetworkBoundResource<ResultType, RequestType>(
+    private val processResponse: (response: RequestType) -> ResultType,
+    private val createCallAsync: Deferred<ApiResponse<RequestType>>
+) {
 
-    suspend fun getResult(): Resource<ResultType> {
-        return when (val result = createCallAsync().await()) {
+    private val result = MutableLiveData<Resource<ResultType>>()
+    private val supervisorJob = SupervisorJob()
+
+    suspend fun build(): NetworkBoundResource<ResultType, RequestType> {
+        withContext(Dispatchers.Main) {
+            setValue(Resource.loading())
+        }
+        CoroutineScope(coroutineContext).launch(supervisorJob) {
+            getResult()
+        }
+        return this
+    }
+
+    private suspend fun getResult() {
+        return when (val result = createCallAsync.await()) {
             is ApiSuccessResponse -> {
                 val process = processResponse(result.body)
-                Resource.success(process)
+                setValue(Resource.success(process))
             }
             is ApiEmptyResponse -> {
-                Resource.success(null)
+                setValue(Resource.success(null))
             }
             is ApiErrorResponse -> {
-                Resource.error(result.error)
+                setValue(Resource.error(result.error))
             }
         }
     }
 
-    protected abstract fun processResponse(response: RequestType): ResultType
+    private fun setValue (newValue: Resource<ResultType>) {
+        if (result.value != newValue) {
+            result.postValue(newValue)
+        }
+    }
 
-    protected abstract suspend fun createCallAsync(): Deferred<ApiResponse<RequestType>>
+    fun asLiveData() = result as LiveData<Resource<ResultType>>
 
 }
