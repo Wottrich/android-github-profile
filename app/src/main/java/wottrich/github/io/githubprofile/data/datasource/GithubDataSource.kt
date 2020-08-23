@@ -1,10 +1,14 @@
 package wottrich.github.io.githubprofile.data.datasource
 
-import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import wottrich.github.io.githubprofile.data.network.*
 import wottrich.github.io.githubprofile.data.wrapper.*
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
+import kotlin.coroutines.coroutineContext
 
 /**
  * @author Wottrich
@@ -15,36 +19,32 @@ import wottrich.github.io.githubprofile.model.Repository
  *
  */
 
+interface GithubDataSourceInterface {
+    suspend fun loadProfile (profileLogin: String) : Flow<Resource<Profile>>
+    suspend fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>>
+}
+
 class GithubDataSource (
     private val api: INetworkAPI = INetworkAPI.api
-) {
+) : GithubDataSourceInterface {
 
-    suspend fun loadProfile (profileLogin: String) : Resource<Profile>? {
-        return object : NetworkBoundResource<Profile, Profile>() {
-            override fun processResponse(response: Profile): Profile {
-                return response
-            }
-
-            override suspend fun createCallAsync(): Deferred<ApiResponse<Profile>> {
-                return api.loadProfileAsync(profileLogin)
-            }
-
-        }.getResult()
+    override suspend fun loadProfile (profileLogin: String) : Flow<Resource<Profile>> {
+        return flow {
+            NetworkBoundResource(
+                collector = this,
+                processResponse = { it },
+                call = api.loadProfileAsync(profileLogin)
+            ).build()
+        }
     }
 
-    suspend fun loadRepositories (profileLogin: String) : Resource<List<Repository>> {
-        return object : NetworkBoundResource<List<Repository>, List<Repository>>() {
-            override fun processResponse(response: List<Repository>): List<Repository> {
-                return response
-            }
-
-            override suspend fun createCallAsync(): Deferred<ApiResponse<List<Repository>>> {
-                return api.loadRepositoriesAsync(profileLogin)
-            }
-
-        }.getResult()
+    override suspend fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>> {
+        return flow {
+            NetworkBoundResource(
+                collector = this,
+                processResponse = { it },
+                call = api.loadRepositoriesAsync(profileLogin)
+            ).build()
+        }
     }
-
-
-
 }

@@ -1,6 +1,7 @@
 package wottrich.github.io.githubprofile.data.wrapper
 
-import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.FlowCollector
 
 /**
  * @author Wottrich
@@ -11,25 +12,33 @@ import kotlinx.coroutines.Deferred
  *
  */
  
-abstract class NetworkBoundResource<ResultType, RequestType> {
+class NetworkBoundResource<ResultType, RequestType>(
+    private val collector: FlowCollector<Resource<ResultType>>,
+    private val saveCallResults: (suspend (item: RequestType) -> Unit)? = null,
+    private val processResponse: (response: RequestType) -> ResultType,
+    private val call: Deferred<ApiResponse<RequestType>>
+) {
 
-    suspend fun getResult(): Resource<ResultType> {
-        return when (val result = createCallAsync().await()) {
+    suspend fun build(): NetworkBoundResource<ResultType, RequestType> {
+        collector.emit(Resource.loading())
+        fetchFromNetwork()
+        return this
+    }
+
+    private suspend fun fetchFromNetwork() {
+        return when (val result = call.await()) {
             is ApiSuccessResponse -> {
                 val process = processResponse(result.body)
-                Resource.success(process)
+                saveCallResults?.invoke(result.body)
+                collector.emit(Resource.success(process))
             }
             is ApiEmptyResponse -> {
-                Resource.success(null)
+                collector.emit(Resource.success(null))
             }
             is ApiErrorResponse -> {
-                Resource.error(result.error)
+                collector.emit(Resource.error(result.error))
             }
         }
     }
-
-    protected abstract fun processResponse(response: RequestType): ResultType
-
-    protected abstract suspend fun createCallAsync(): Deferred<ApiResponse<RequestType>>
 
 }
