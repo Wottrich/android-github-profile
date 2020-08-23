@@ -2,7 +2,7 @@
 Veja o seu perfil publico do github, ou de outros usuarios, por esse aplicativo simples e rapido.
 
 ### Resumo
-O objetivo do aplicativo foi estudar mais sobre a prataforma Android. Utilizando metodos Agile como SOLID e Clean Code, foram implementados chamadas api utilizando **Retrofit** juntamente com **Coroutines** que serviu para lidar com a parte asyncrona do projeto e deixar mais leve e facil de entender. A arquiterura do projeto foi desenvolvido em cima do MVVM e para ajudar foi utilizado **Databinding** para desaclopar resposabilidades da activity e **LiveData**, para uma ambiente mais reativo e respeitoso, com **ViewModelProvider** para podemos criar um ciclo de vida proprio da nossa ViewModel podendo haver activity rotation sem perda de estado ou crashes indesejaveis. A aplicação é internacionalizada e está disponivel em inglês e português(dependendo da linguagem do dispositivo).
+O objetivo do aplicativo foi estudar mais sobre a prataforma Android. Utilizando metodos Agile como SOLID e Clean Code, foram implementados chamadas api utilizando **Retrofit** juntamente com **Coroutines** que serviu para lidar com a parte asyncrona do projeto e deixar mais leve e facil de entender. A arquiterura do projeto foi desenvolvido em cima do MVVM e para ajudar foi utilizado **Databinding** para desaclopar resposabilidades da activity, **Resource** para lidar com o status da Network e **LiveData**, para uma ui mais observavel e respeitosa, com **ViewModelProvider** para podemos criar um ciclo de vida proprio da nossa ViewModel podendo haver activity rotation sem perda de estado ou crashes indesejaveis. A aplicação é internacionalizada e está disponivel em inglês e português(dependendo da linguagem do dispositivo).
 
 # Branches
 ➡️ [Adicionando Coroutines e DataBinding](https://github.com/Wottrich/android-github-profile/tree/feature/workshop#adicionando-coroutines-e-databinding)
@@ -13,9 +13,10 @@ Projeto inteiramente desenvolido em **Kotlin** tento em vista que é a linguagem
 ## Arquitetura e dependencias
 **Arquitetura**
 
-A arquitetura escolhida para o desenvolvimento foi a **Model View ViewModel(MVVM)**. Esta arquitetura foi escolhida para atuar em conjunto com o **DataBinding** facilitanto o código e beneficiando os testes.
+A arquitetura escolhida para o desenvolvimento foi a **Model View ViewModel(MVVM)**. Esta arquitetura foi escolhida para atuar em conjunto com o **DataBinding** e **Architecture Components**, facilitanto o código e beneficiando os testes
 
 Blueprint:
+- di: Onde ficam os arquivo para Dependency injection. 
 - Archive: Arquivos de ajuda. Onde ficam os arquivos de extension do kotlin
 - Data: Serviços e chamadas de API. Onde ficam o datasource e o network do projeto.
 - View: Screens, Adapters e ViewHolders. Apresentam as informações para o usuário.
@@ -35,7 +36,7 @@ Blueprint:
   - _OkHttp3 LoggingInterceptor: 4.4.0
   - _Glide: 4.11.0_
 
-- DI
+- DI:
   - _Koin: 2.1.6_
 
 # Aplicação
