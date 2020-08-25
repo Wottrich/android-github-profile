@@ -36,7 +36,7 @@ class RetrofitCallAdapterFactory : CallAdapter.Factory() {
             }
 
             val bodyType = getParameterUpperBound(0, enclosingType)
-            NormalCallAdapter<Any>(bodyType)
+            return NormalCallAdapter<Any>(bodyType)
         }
 
         return null
