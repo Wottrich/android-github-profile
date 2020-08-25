@@ -2,6 +2,7 @@ package wottrich.github.io.githubprofile.data.wrapper
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.FlowCollector
+import wottrich.github.io.githubprofile.model.Profile
 
 /**
  * @author Wottrich
@@ -16,7 +17,7 @@ class NetworkBoundResource<ResultType, RequestType>(
     private val collector: FlowCollector<Resource<ResultType>>,
     private val saveCallResults: (suspend (item: RequestType) -> Unit)? = null,
     private val processResponse: (response: RequestType) -> ResultType,
-    private val call: Deferred<ApiResponse<RequestType>>
+    private val call: suspend () -> ApiResponse<RequestType>
 ) {
 
     suspend fun build(): NetworkBoundResource<ResultType, RequestType> {
@@ -26,7 +27,7 @@ class NetworkBoundResource<ResultType, RequestType>(
     }
 
     private suspend fun fetchFromNetwork() {
-        return when (val result = call.await()) {
+        return when (val result = call()) {
             is ApiSuccessResponse -> {
                 val process = processResponse(result.body)
                 saveCallResults?.invoke(result.body)

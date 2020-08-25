@@ -33,7 +33,7 @@ class GithubDataSource (
             NetworkBoundResource(
                 collector = this,
                 processResponse = { it },
-                call = api.loadProfileAsync(profileLogin)
+                call = { api.loadProfileAsync(profileLogin) }
             ).build()
         }
     }
@@ -43,7 +43,7 @@ class GithubDataSource (
             NetworkBoundResource(
                 collector = this,
                 processResponse = { it },
-                call = api.loadRepositoriesAsync(profileLogin)
+                call = { api.loadRepositoriesAsync(profileLogin) }
             ).build()
         }
     }

@@ -33,9 +33,9 @@ interface INetworkAPI {
     }
 
     @GET("users/{profileLogin}")
-    fun loadProfileAsync(@Path("profileLogin") profileLogin: String) : Deferred<ApiResponse<Profile>>
+    suspend fun loadProfileAsync(@Path("profileLogin") profileLogin: String) : ApiResponse<Profile>
 
     @GET("users/{profileLogin}/repos")
-    fun loadRepositoriesAsync(@Path("profileLogin") profileLogin: String) : Deferred<ApiResponse<List<Repository>>>
+    suspend fun loadRepositoriesAsync(@Path("profileLogin") profileLogin: String) : ApiResponse<List<Repository>>
 
 }
