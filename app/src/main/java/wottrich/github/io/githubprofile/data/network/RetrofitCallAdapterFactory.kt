@@ -1,6 +1,7 @@
 package wottrich.github.io.githubprofile.data.network
 
 import kotlinx.coroutines.Deferred
+import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import wottrich.github.io.githubprofile.data.wrapper.ApiResponse
@@ -22,7 +23,7 @@ class RetrofitCallAdapterFactory : CallAdapter.Factory() {
         annotations: Array<Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
-        if (getRawType(returnType) == Deferred::class.java) {
+        if (getRawType(returnType) == Call::class.java) {
             val enclosingType =  getParameterUpperBound(0, returnType as ParameterizedType)
             val rawType = getRawType(enclosingType)
 
@@ -35,8 +36,9 @@ class RetrofitCallAdapterFactory : CallAdapter.Factory() {
             }
 
             val bodyType = getParameterUpperBound(0, enclosingType)
-            return DeferredCallAdapter<Any>(bodyType)
+            NormalCallAdapter<Any>(bodyType)
         }
+
         return null
     }
 
