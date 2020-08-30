@@ -5,16 +5,12 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.showAlert
-import wottrich.github.io.githubprofile.data.wrapper.Status
 import wottrich.github.io.githubprofile.databinding.ActivityProfileBinding
 import wottrich.github.io.githubprofile.view.adapter.RepositoryAdapter
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
@@ -59,11 +55,11 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         viewModel.apply {
 
-            repositories.observe(activity, Observer {
+            repositories.observe(activity) {
                 binding.rvRepositories.adapter?.notifyDataSetChanged()
-            })
+            }
 
-            error.observe(activity, Observer {
+            error.observe(activity) {
                 showAlert(
                     getString(R.string.dialog_default_error_title),
                     if(it == null) getString(R.string.unknown_error)
@@ -71,7 +67,7 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 ) {
                     setNeutralButton("OK", null)
                 }
-            })
+            }
         }
     }
 

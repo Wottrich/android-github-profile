@@ -1,11 +1,11 @@
-package wottrich.github.io.githubprofile.data.network
+package wottrich.github.io.githubprofile.util.callAdapter
 
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import wottrich.github.io.githubprofile.data.wrapper.ApiResponse
+import wottrich.github.io.githubprofile.data.resource.ApiResponse
 import java.lang.UnsupportedOperationException
 
 /**
@@ -17,7 +17,7 @@ import java.lang.UnsupportedOperationException
  *
  */
 
-class NormalCallAdapterResponse <R>(
+class RetrofitCallAdapterResponse <R>(
     private val call: Call<R>
 ): Call<ApiResponse<R>> {
 
@@ -25,14 +25,14 @@ class NormalCallAdapterResponse <R>(
         return call.enqueue(object : Callback<R> {
             override fun onResponse(call: Call<R>, response: Response<R>) {
                 callback.onResponse(
-                    this@NormalCallAdapterResponse,
+                    this@RetrofitCallAdapterResponse,
                     Response.success(ApiResponse.create(response))
                 )
             }
 
             override fun onFailure(call: Call<R>, t: Throwable) {
                 callback.onResponse(
-                    this@NormalCallAdapterResponse,
+                    this@RetrofitCallAdapterResponse,
                     Response.success(ApiResponse.create(t))
                 )
             }
@@ -40,7 +40,7 @@ class NormalCallAdapterResponse <R>(
         })
     }
 
-    override fun clone(): Call<ApiResponse<R>> = NormalCallAdapterResponse(call)
+    override fun clone(): Call<ApiResponse<R>> = RetrofitCallAdapterResponse(call)
     override fun isExecuted(): Boolean = call.isExecuted
     override fun cancel() = call.cancel()
     override fun isCanceled(): Boolean = call.isCanceled

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package wottrich.github.io.githubprofile
 
 import android.app.Application
@@ -20,7 +22,6 @@ class GithubApplication : Application () {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidLogger()
             androidContext(this@GithubApplication)
             modules(appModule)
         }

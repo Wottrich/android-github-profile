@@ -4,7 +4,7 @@
         <import type="android.view.View" />
 
         <import type="wottrich.github.io.githubprofile.viewModel.ProfileViewModel" />
-        <import type="wottrich.github.io.githubprofile.data.wrapper.Status" />
+        <import type="wottrich.github.io.githubprofile.data.resource.Status" />
 
         <variable
             name="viewModel"

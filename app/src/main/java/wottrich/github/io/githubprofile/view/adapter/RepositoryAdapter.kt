@@ -2,8 +2,8 @@ package wottrich.github.io.githubprofile.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import wottrich.github.io.githubprofile.R
@@ -25,7 +25,7 @@ class RepositoryAdapter(
 ): RecyclerView.Adapter<RepositoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         return RepositoryViewHolder(
-            layoutInflater.inflate(R.layout.row_repository, parent, false)
+            DataBindingUtil.inflate(layoutInflater, R.layout.row_repository, parent, false)
         )
     }
 

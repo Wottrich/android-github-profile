@@ -3,8 +3,6 @@ package wottrich.github.io.githubprofile.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlin.coroutines.CoroutineContext
 
 /**
  * @author Wottrich

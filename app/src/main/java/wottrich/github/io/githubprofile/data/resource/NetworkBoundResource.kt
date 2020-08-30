@@ -1,8 +1,8 @@
-package wottrich.github.io.githubprofile.data.wrapper
+package wottrich.github.io.githubprofile.data.resource
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
-import wottrich.github.io.githubprofile.model.Profile
+import kotlinx.coroutines.flow.flow
 
 /**
  * @author Wottrich
@@ -14,30 +14,30 @@ import wottrich.github.io.githubprofile.model.Profile
  */
  
 class NetworkBoundResource<ResultType, RequestType>(
-    private val collector: FlowCollector<Resource<ResultType>>,
     private val saveCallResults: (suspend (item: RequestType) -> Unit)? = null,
     private val processResponse: (response: RequestType) -> ResultType,
     private val call: suspend () -> ApiResponse<RequestType>
 ) {
 
-    suspend fun build(): NetworkBoundResource<ResultType, RequestType> {
-        collector.emit(Resource.loading())
-        fetchFromNetwork()
-        return this
+    fun build(): Flow<Resource<ResultType>> {
+        return flow {
+            emit(Resource.loading())
+            fetchFromNetwork()
+        }
     }
 
-    private suspend fun fetchFromNetwork() {
+    private suspend fun FlowCollector<Resource<ResultType>>.fetchFromNetwork() {
         return when (val result = call()) {
             is ApiSuccessResponse -> {
                 val process = processResponse(result.body)
                 saveCallResults?.invoke(result.body)
-                collector.emit(Resource.success(process))
+                emit(Resource.success(process))
             }
             is ApiEmptyResponse -> {
-                collector.emit(Resource.success(null))
+                emit(Resource.success(null))
             }
             is ApiErrorResponse -> {
-                collector.emit(Resource.error(result.error))
+                emit(Resource.error(result.error))
             }
         }
     }

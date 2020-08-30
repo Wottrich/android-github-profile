@@ -1,4 +1,4 @@
-package wottrich.github.io.githubprofile.data.wrapper
+package wottrich.github.io.githubprofile.data.resource
 
 /**
  * @author Wottrich

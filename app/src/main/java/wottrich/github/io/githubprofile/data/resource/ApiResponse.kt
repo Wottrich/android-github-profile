@@ -1,7 +1,7 @@
-package wottrich.github.io.githubprofile.data.wrapper
+package wottrich.github.io.githubprofile.data.resource
 
 import retrofit2.Response
-import wottrich.github.io.githubprofile.archive.getErrorJson
+import wottrich.github.io.githubprofile.archive.getErrorMessage
 
 /**
  * @author Wottrich
@@ -32,15 +32,7 @@ sealed class ApiResponse<T> {
                     ApiEmptyResponse()
                 }
             } else {
-                val key = ApiGeneralKeys.errorKey
-                val jsonObject = response.errorBody()?.getErrorJson(key)
-                val errorMessage =
-                    if (jsonObject != null && jsonObject.has(ApiGeneralKeys.errorKey)) {
-                        jsonObject[key] as? String
-                    } else {
-                        null
-                    }
-                ApiErrorResponse(errorMessage)
+                ApiErrorResponse(response.errorBody()?.getErrorMessage(ApiGeneralKeys.errorKey))
             }
         }
     }

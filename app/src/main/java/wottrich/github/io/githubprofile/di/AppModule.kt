@@ -4,7 +4,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import wottrich.github.io.githubprofile.data.datasource.GithubDataSource
 import wottrich.github.io.githubprofile.data.datasource.GithubDataSourceInterface
-import wottrich.github.io.githubprofile.data.network.INetworkAPI
 import wottrich.github.io.githubprofile.data.network.Network
 import wottrich.github.io.githubprofile.util.AppDispatchers
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
@@ -21,7 +20,7 @@ import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
 val dispatchersModule = module { single { AppDispatchers() } }
 
 val networkModules = module {
-    single { INetworkAPI.api }
+    single { Network.api }
 
     single<GithubDataSourceInterface> { GithubDataSource(get()) }
 }

@@ -1,10 +1,9 @@
-package wottrich.github.io.githubprofile.data.network
+package wottrich.github.io.githubprofile.util.callAdapter
 
-import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
-import wottrich.github.io.githubprofile.data.wrapper.ApiResponse
+import wottrich.github.io.githubprofile.data.resource.ApiResponse
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
@@ -36,7 +35,7 @@ class RetrofitCallAdapterFactory : CallAdapter.Factory() {
             }
 
             val bodyType = getParameterUpperBound(0, enclosingType)
-            return NormalCallAdapter<Any>(bodyType)
+            return RetrofitCallAdapter<Any>(bodyType)
         }
 
         return null

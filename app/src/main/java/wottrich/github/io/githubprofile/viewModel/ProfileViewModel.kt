@@ -1,13 +1,13 @@
 package wottrich.github.io.githubprofile.viewModel
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flowOn
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.data.datasource.GithubDataSourceInterface
-import wottrich.github.io.githubprofile.data.wrapper.Resource
+import wottrich.github.io.githubprofile.data.resource.Resource
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
+import wottrich.github.io.githubprofile.util.AbsentLiveData
 import wottrich.github.io.githubprofile.util.AppDispatchers
 
 /**
@@ -24,10 +24,22 @@ class ProfileViewModel(
     private val dispatchers: AppDispatchers
 ) : BaseViewModel() {
 
+    //=======> Variables
+
+    private val _profileLogin: MutableLiveData<String> = MutableLiveData()
+    val profileLogin: LiveData<String>
+        get() = _profileLogin
+
     //=======> Profile
-    private var _profileResult: MutableLiveData<Resource<Profile>> = MutableLiveData()
-    val profileResult: LiveData<Resource<Profile>>
-        get() = _profileResult
+    val profileResult: LiveData<Resource<Profile>> = _profileLogin.switchMap {
+        return@switchMap if (it == null || it.isEmpty()) {
+            AbsentLiveData.create()
+        } else {
+            service.loadProfile(it)
+                .flowOn(dispatchers.io)
+                .asLiveData()
+        }
+    }
 
     val profile: LiveData<Profile>
         get() = Transformations.map(profileResult) {
@@ -36,65 +48,28 @@ class ProfileViewModel(
 
     //=======> Repositories
 
-    private var _repositoriesResult: MutableLiveData<Resource<List<Repository>>> = MutableLiveData()
-
-    val repositoriesResult: LiveData<Resource<List<Repository>>>
-        get() = _repositoriesResult
-
-    val repositories = MediatorLiveData<List<Repository>>().apply {
-        addSource(_repositoriesResult) {
-            this.value = it?.data
+    val repositoriesResult: LiveData<Resource<List<Repository>>> = _profileLogin.switchMap {
+        return@switchMap if (it == null || it.isEmpty()) {
+            AbsentLiveData.create()
+        } else {
+            service.loadRepositories(it)
+                .flowOn(dispatchers.io)
+                .asLiveData()
         }
-    } //data
+    }
 
-    //=======> Variables
-
-    private val mProfileLogin: MutableLiveData<String> = MutableLiveData()
-    val profileLogin: LiveData<String>
-        get() = mProfileLogin
-
-    //=======> Init
-
-    init {
-        repositories.observeForever {  }
+    val repositories: LiveData<List<Repository>> = repositoriesResult.map {
+        return@map it.data ?: mutableListOf()
     }
 
     //=======> Functions
 
     fun loadServices (profileLogin: String) {
-        if (this.mProfileLogin.value != profileLogin) {
-            clear()
-            this.mProfileLogin.value = profileLogin
-            fetchProfile()
-            fetchRepositories()
+        if (this._profileLogin.value != profileLogin) {
+            this._profileLogin.value = profileLogin
         } else {
             mError.value = R.string.equal_login_error
         }
-    }
-
-    private fun fetchProfile () {
-        mProfileLogin.value?.let { login ->
-            viewModelScope.launch(dispatchers.io) {
-                service.loadProfile(login).collect {
-                    _profileResult.postValue(it)
-                }
-            }
-        }
-    }
-
-    private fun fetchRepositories () {
-        mProfileLogin.value?.let { login ->
-            viewModelScope.launch(dispatchers.io) {
-                service.loadRepositories(login).collect {
-                    _repositoriesResult.postValue(it)
-                }
-            }
-        }
-    }
-
-    private fun clear() {
-        this._profileResult.value = null
-        this._repositoriesResult.value = null
     }
 
 }

@@ -1,14 +1,10 @@
 package wottrich.github.io.githubprofile.data.datasource
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import wottrich.github.io.githubprofile.data.network.*
-import wottrich.github.io.githubprofile.data.wrapper.*
+import wottrich.github.io.githubprofile.data.api.INetworkAPI
+import wottrich.github.io.githubprofile.data.resource.*
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
-import kotlin.coroutines.coroutineContext
 
 /**
  * @author Wottrich
@@ -20,31 +16,46 @@ import kotlin.coroutines.coroutineContext
  */
 
 interface GithubDataSourceInterface {
-    suspend fun loadProfile (profileLogin: String) : Flow<Resource<Profile>>
-    suspend fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>>
+    fun loadProfile (profileLogin: String) : Flow<Resource<Profile>>
+    fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>>
 }
 
 class GithubDataSource (
-    private val api: INetworkAPI = INetworkAPI.api
+    private val api: INetworkAPI
 ) : GithubDataSourceInterface {
 
-    override suspend fun loadProfile (profileLogin: String) : Flow<Resource<Profile>> {
-        return flow {
-            NetworkBoundResource(
-                collector = this,
-                processResponse = { it },
-                call = { api.loadProfileAsync(profileLogin) }
-            ).build()
-        }
+    override fun loadProfile (profileLogin: String) : Flow<Resource<Profile>> {
+        return NetworkBoundResource(
+            processResponse = { it },
+            call = { api.loadProfile(profileLogin) }
+        ).build()
+
+
+//        flow {
+//            emit(Resource.loading())
+//            delay(2000)
+//            val profile = Profile(
+//                "Wottrich",
+//                "Wottrich",
+//                "test",
+//                "https://avatars0.githubusercontent.com/u/24254062?v=4",
+//                10,
+//                10
+//            )
+//            emit(Resource.success(profile))
+//        }
+
+
+//        NetworkBoundResource<Profile, Profile>(
+//            processResponse = { it },
+//            call = { api.loadProfileAsync(profileLogin) }
+//        ).build()
     }
 
-    override suspend fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>> {
-        return flow {
-            NetworkBoundResource(
-                collector = this,
-                processResponse = { it },
-                call = { api.loadRepositoriesAsync(profileLogin) }
-            ).build()
-        }
+    override fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>> {
+        return NetworkBoundResource(
+            processResponse = { it },
+            call = { api.loadRepositories(profileLogin) }
+        ).build()
     }
 }

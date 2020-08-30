@@ -1,7 +1,7 @@
-package wottrich.github.io.githubprofile.data.network
+package wottrich.github.io.githubprofile.util.callAdapter
 
 import retrofit2.*
-import wottrich.github.io.githubprofile.data.wrapper.ApiResponse
+import wottrich.github.io.githubprofile.data.resource.ApiResponse
 import java.lang.reflect.Type
 
 /**
@@ -13,14 +13,14 @@ import java.lang.reflect.Type
  *
  */
 
-class NormalCallAdapter<R>(
+class RetrofitCallAdapter<R>(
     private val responseType: Type
 ) : CallAdapter<R, Call<ApiResponse<R>>> {
 
     override fun responseType(): Type = responseType
 
     override fun adapt(call: Call<R>): Call<ApiResponse<R>> {
-        return NormalCallAdapterResponse(call)
+        return RetrofitCallAdapterResponse(call)
     }
 
 }

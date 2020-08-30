@@ -12,9 +12,9 @@ import org.json.JSONObject
  *
  */
 
-fun ResponseBody?.getErrorJson(errorKey: String): JSONObject? {
+fun ResponseBody?.getErrorMessage(errorKey: String): String? {
     this?.charStream()?.readText()?.takeIf { it.contains(errorKey) }?.let {
-        return JSONObject(it)
+        return JSONObject(it)[errorKey] as? String
     }
     return null
 }
