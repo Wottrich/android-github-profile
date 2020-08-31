@@ -24,16 +24,14 @@ Blueprint:
 
 **Dependencias**
 - Projeto:
-  - _Kotlin: 1.3.72_ -> Linguagem do projeto
   - _Gradle: 4.0.0_ -> Copilador
-  - _Coroutines: 1.3.7_ -> Para tasks async
-  - _Flow: 1.3.72_ -> Para fluxos no network
-  - _RecyclerView: 1.2.0-alpha04_ -> Para listas do projeto
-  - _LifecycleExtensions: 2.2.0_ -> Para os Providers da ViewModel
+  - _Kotlin: 1.4.0_ -> Linguagem do projeto
+  - _Coroutines: 1.4.0_ -> Para tasks async
+  - _Flow: 1.4.0_ -> Para fluxos no network
   
 - Network digest:
-  - _Retrofit: 2.8.1_
-  - _OkHttp3 LoggingInterceptor: 4.4.0
+  - _Retrofit: 2.9.0_
+  - _OkHttp3 LoggingInterceptor: 4.8.1
   - _Glide: 4.11.0_
 
 - DI:
