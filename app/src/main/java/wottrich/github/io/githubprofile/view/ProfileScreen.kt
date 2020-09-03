@@ -1,4 +1,4 @@
-package wottrich.github.io.githubprofile.view.screen
+package wottrich.github.io.githubprofile.view
 
 import android.graphics.Color
 import androidx.annotation.StringRes
@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color as ComposeColor
 import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 import com.luca992.compose.image.CoilImage
@@ -45,6 +46,15 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
     val repositoriesState = viewModel.repositoriesResult.observeAsState(null)
 
     Column(modifier = Modifier.fillMaxWidth()) {
+
+        if (profileState.value == null || repositoriesState.value == null) {
+            TextView(
+                text = ContextAmbient.current.getString(R.string.welcome_find_profile),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        }
+
         when (profileState.value?.status) {
             Status.SUCCESS -> {
                 val profile = profileState.value?.data
@@ -52,13 +62,6 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
             }
             Status.LOADING -> ProgressBar()
             Status.ERROR -> Unit
-        }
-
-        Button(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
-            onClick = { viewModel.loadServices("Wottrich") }
-        ) {
-            TextView(text = "Click here")
         }
 
         val repositoriesResult = repositoriesState.value
@@ -81,7 +84,10 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
 @Composable
 fun HeaderProfile (profile: Profile?) {
     Row(modifier = Modifier.padding(all = 10.dp)) {
-        CoilImage(profile?.avatarUrl ?: "", modifier = Modifier.height(86.dp).width(86.dp))
+        CoilImage(
+            model = profile?.avatarUrl ?: "",
+            modifier = Modifier.height(86.dp).width(86.dp)
+        )
         Column(modifier = Modifier.padding(horizontal = 10.dp)) {
             TextView(text = profile?.name, style = Title.titleBold)
             TextView(text = profile?.bio, style = Subtitle.subtitleBold)

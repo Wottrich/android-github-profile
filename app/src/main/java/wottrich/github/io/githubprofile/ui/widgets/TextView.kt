@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 
 /**
  * @author Wottrich
@@ -21,6 +22,7 @@ fun TextView(
     text: String?,
     textNull: String = "",
     color: Color = Color.Unset,
+    textAlign: TextAlign? = null,
     modifier: Modifier = Modifier,
     isVisible: Boolean? = true,
     style: TextStyle = currentTextStyle()
@@ -33,6 +35,7 @@ fun TextView(
         text = text ?: textNull,
         color = color,
         modifier = modifier,
+        textAlign = textAlign,
         style = style
     )
 }

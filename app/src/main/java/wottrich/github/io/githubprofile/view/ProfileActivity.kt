@@ -11,16 +11,12 @@ import androidx.compose.ui.platform.setContent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.showAlert
-import wottrich.github.io.githubprofile.databinding.ActivityProfileBinding
 import wottrich.github.io.githubprofile.ui.GithubApplicationTheme
-import wottrich.github.io.githubprofile.view.adapter.RepositoryAdapter
-import wottrich.github.io.githubprofile.view.screen.ProfileScreen
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val viewModel: ProfileViewModel by viewModel()
-    private lateinit var binding: ActivityProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,42 +25,14 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 ProfileScreen(viewModel = viewModel)
             }
         }
-        //binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
 
-        //setupBinding()
         setupObserves()
-        //setupRecyclerView()
-
-    }
-
-    private fun setupBinding () {
-        val activity = this
-        binding.apply {
-            lifecycleOwner = activity
-            viewModel = activity.viewModel
-        }
-    }
-
-    private fun setupRecyclerView () {
-        val activity = this
-
-       binding.rvRepositories.apply {
-            adapter = RepositoryAdapter(
-                activity,
-                activity.viewModel.repositories
-            )
-        }
-
     }
 
     private fun setupObserves () {
         val activity = this
 
         viewModel.apply {
-
-//            repositories.observe(activity) {
-//                binding.rvRepositories.adapter?.notifyDataSetChanged()
-//            }
 
             error.observe(activity) {
                 showAlert(
