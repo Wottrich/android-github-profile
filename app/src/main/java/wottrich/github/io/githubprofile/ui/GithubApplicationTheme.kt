@@ -1,9 +1,8 @@
 package wottrich.github.io.githubprofile.ui
 
-import androidx.compose.foundation.layout.InnerPadding
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import wottrich.github.io.githubprofile.ui.values.githubApplicationTypography
 
 /**
  * @author Wottrich
@@ -14,9 +13,18 @@ import androidx.compose.runtime.Composable
  *
  */
 
+//title
+//<item name="android:textSize">12sp</item>
+//        <item name="android:textColor">@color/colorAccent</item>
+
+
+
 @Composable
 fun GithubApplicationTheme(content: @Composable() () -> Unit) {
 
-    MaterialTheme (content = content)
+    MaterialTheme (
+        typography = githubApplicationTypography,
+        content = content
+    )
 
 }
