@@ -13,12 +13,6 @@ import wottrich.github.io.githubprofile.ui.values.githubApplicationTypography
  *
  */
 
-//title
-//<item name="android:textSize">12sp</item>
-//        <item name="android:textColor">@color/colorAccent</item>
-
-
-
 @Composable
 fun GithubApplicationTheme(content: @Composable() () -> Unit) {
 

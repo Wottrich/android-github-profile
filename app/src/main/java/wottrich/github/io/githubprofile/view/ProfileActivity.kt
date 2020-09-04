@@ -12,6 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.showAlert
 import wottrich.github.io.githubprofile.ui.GithubApplicationTheme
+import wottrich.github.io.githubprofile.view.widgets.ProfileScreen
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
