@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 fun TextView(
     text: String?,
     textNull: String = "",
-    color: Color = Color.Unset,
+    color: Color = Color.Unspecified,
     textAlign: TextAlign? = null,
     modifier: Modifier = Modifier,
     isVisible: Boolean? = true,

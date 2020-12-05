@@ -1,5 +1,7 @@
 package wottrich.github.io.githubprofile.viewModel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import kotlinx.coroutines.flow.flowOn
 import wottrich.github.io.githubprofile.R
