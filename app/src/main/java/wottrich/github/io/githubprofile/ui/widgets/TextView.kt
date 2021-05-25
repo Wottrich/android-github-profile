@@ -1,7 +1,6 @@
 package wottrich.github.io.githubprofile.ui.widgets
 
-import androidx.compose.foundation.Text
-import androidx.compose.foundation.currentTextStyle
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,11 +20,11 @@ import androidx.compose.ui.text.style.TextAlign
 fun TextView(
     text: String?,
     textNull: String = "",
-    color: Color = Color.Unset,
+    color: Color = Color.Unspecified,
     textAlign: TextAlign? = null,
     modifier: Modifier = Modifier,
     isVisible: Boolean? = true,
-    style: TextStyle = currentTextStyle()
+    style: TextStyle = TextStyle.Default
 ) {
     if (isVisible == false) {
         return

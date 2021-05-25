@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
  
 @Composable
 fun ProgressBar(color: Color? = null, modifier: Modifier = Modifier) {
-    Column(horizontalGravity = Alignment.CenterHorizontally, modifier = modifier.fillMaxWidth()) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.fillMaxWidth()) {
         CircularProgressIndicator(
             color = color ?: MaterialTheme.colors.primary,
             modifier = modifier.padding(all = 10.dp)

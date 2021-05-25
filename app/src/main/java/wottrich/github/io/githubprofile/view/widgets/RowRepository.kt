@@ -1,28 +1,24 @@
 package wottrich.github.io.githubprofile.view.widgets
 
 import android.graphics.Color
-import androidx.compose.foundation.Icon
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope.weight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color as ComposeColor
-import androidx.compose.ui.platform.ContextAmbient
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.model.Repository
 import wottrich.github.io.githubprofile.ui.values.Description
 import wottrich.github.io.githubprofile.ui.values.Title
 import wottrich.github.io.githubprofile.ui.widgets.TextView
+import androidx.compose.ui.graphics.Color as ComposeColor
 
 /**
  * @author Wottrich
@@ -55,7 +51,7 @@ fun RowRepository (repository: Repository) {
 
             //====> fork
             TextView(
-                text = ContextAmbient.current.getString(R.string.row_repository_branch_forked),
+                text = LocalContext.current.getString(R.string.row_repository_branch_forked),
                 isVisible = repository.fork,
                 style = Description.descriptionLight
             )
@@ -82,7 +78,7 @@ private fun RepositoryLanguageAndStars (repository: Repository) {
 
     Row(
         modifier = rowModifier,
-        verticalGravity = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
         //====> language
@@ -101,14 +97,14 @@ private fun RepositoryLanguageAndStars (repository: Repository) {
 }
 
 @Composable
-private fun RepositoryStars (repository: Repository) {
+private fun RowScope.RepositoryStars (repository: Repository) {
     if (repository.stargazersCount != 0) {
-        val image = vectorResource(id = R.drawable.ic_star_border_24)
+        val image = painterResource(id = R.drawable.ic_star_border_24)
         Row(
             modifier = Modifier.weight(1F),
-            verticalGravity = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(asset = image)
+            Icon(painter = image, contentDescription = "Number of stars")
             TextView(
                 text = repository.stargazersCount.toString(),
                 style = Description.descriptionBold

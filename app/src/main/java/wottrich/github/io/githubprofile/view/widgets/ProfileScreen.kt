@@ -1,13 +1,14 @@
 package wottrich.github.io.githubprofile.view.widgets
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import wottrich.github.io.githubprofile.data.resource.Status
 import wottrich.github.io.githubprofile.ui.widgets.ProgressBar
@@ -38,7 +39,7 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
     Column(modifier = Modifier.fillMaxWidth()) {
 
         TextView(
-            text = ContextAmbient.current.getString(R.string.welcome_find_profile),
+            text = LocalContext.current.getString(R.string.welcome_find_profile),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = Title.titleBold,
@@ -77,8 +78,10 @@ fun RepositoriesContainer(repositoriesState: State<Resource<List<Repository>>?>)
     when (repositoriesResult?.status) {
         Status.SUCCESS -> {
             val repositories = repositoriesResult.data ?: mutableListOf()
-            LazyColumnFor(items = repositories) { repository ->
-                RowRepository(repository = repository)
+            LazyColumn {
+                items(repositories) {
+                    RowRepository(repository = it)
+                }
             }
         }
         Status.LOADING -> ProgressBar()
@@ -89,7 +92,7 @@ fun RepositoriesContainer(repositoriesState: State<Resource<List<Repository>>?>)
 @Composable
 fun FindProfileError (message: String?) {
 
-    val errorMessage = message ?: ContextAmbient.current.getString(R.string.unknown_error)
+    val errorMessage = message ?: LocalContext.current.getString(R.string.unknown_error)
 
     TextView(
         text = errorMessage,

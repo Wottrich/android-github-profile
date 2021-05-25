@@ -4,9 +4,9 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.ui.tooling.preview.Preview
 import com.luca992.compose.image.CoilImage
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.model.Profile
@@ -51,7 +51,7 @@ fun HeaderProfile (profile: Profile?) {
 fun FollowLink (@StringRes title: Int, countFollow: Int?) {
 
     Row (horizontalArrangement = Arrangement.SpaceEvenly ) {
-        TextView(text = ContextAmbient.current.getString(title), style = Subtitle.subtitleBold)
+        TextView(text = LocalContext.current.getString(title), style = Subtitle.subtitleBold)
         TextView(
             modifier = Modifier.padding(start = 10.dp),
             text = countFollow.toString(),

@@ -1,11 +1,11 @@
 package wottrich.github.io.githubprofile.ui.values
 
 import androidx.compose.material.Typography
+import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.font
-import androidx.compose.ui.text.font.fontFamily
 import androidx.compose.ui.unit.sp
 import wottrich.github.io.githubprofile.R
 
@@ -18,10 +18,10 @@ import wottrich.github.io.githubprofile.R
  *
  */
 
-val Roboto = fontFamily(
-    font(R.font.roboto_regular),
-    font(R.font.roboto_light, FontWeight.Light),
-    font(R.font.roboto_bold, FontWeight.Bold)
+val Roboto = FontFamily(
+    Font(R.font.roboto_regular),
+    Font(R.font.roboto_light, FontWeight.Light),
+    Font(R.font.roboto_bold, FontWeight.Bold)
 )
 
 

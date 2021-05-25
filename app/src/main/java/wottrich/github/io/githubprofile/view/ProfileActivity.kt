@@ -5,9 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.compose.ui.platform.setContent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.showAlert
@@ -30,7 +30,7 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         setupObserves()
     }
 
-    private fun setupObserves () {
+    private fun setupObserves() {
         val activity = this
 
         viewModel.apply {
@@ -38,7 +38,7 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             error.observe(activity) {
                 showAlert(
                     getString(R.string.dialog_default_error_title),
-                    if(it == null) getString(R.string.unknown_error)
+                    if (it == null) getString(R.string.unknown_error)
                     else getString(it)
                 ) {
                     setNeutralButton("OK", null)
