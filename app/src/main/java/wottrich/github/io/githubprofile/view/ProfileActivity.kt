@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.compose.foundation.ExperimentalFoundationApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.showAlert
@@ -15,6 +16,7 @@ import wottrich.github.io.githubprofile.ui.GithubApplicationTheme
 import wottrich.github.io.githubprofile.view.widgets.ProfileScreen
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
 
+@ExperimentalFoundationApi
 class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val viewModel: ProfileViewModel by viewModel()
