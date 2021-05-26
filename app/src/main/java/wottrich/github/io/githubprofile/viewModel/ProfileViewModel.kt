@@ -27,8 +27,6 @@ class ProfileViewModel(
     //=======> Variables
 
     private val _profileLogin: MutableLiveData<String> = MutableLiveData()
-    val profileLogin: LiveData<String>
-        get() = _profileLogin
 
     //=======> Profile
     val profileResult: LiveData<Resource<Profile>> = _profileLogin.switchMap {
@@ -41,13 +39,7 @@ class ProfileViewModel(
         }
     }
 
-    val profile: LiveData<Profile>
-        get() = Transformations.map(profileResult) {
-            return@map it?.data
-        }
-
     //=======> Repositories
-
     val repositoriesResult: LiveData<Resource<List<Repository>>> = _profileLogin.switchMap {
         return@switchMap if (it == null || it.isEmpty()) {
             AbsentLiveData.create()
@@ -56,10 +48,6 @@ class ProfileViewModel(
                 .flowOn(dispatchers.io)
                 .asLiveData()
         }
-    }
-
-    val repositories: LiveData<List<Repository>> = repositoriesResult.map {
-        return@map it.data ?: mutableListOf()
     }
 
     //=======> Functions
