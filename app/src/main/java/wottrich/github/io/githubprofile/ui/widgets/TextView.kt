@@ -19,22 +19,20 @@ import androidx.compose.ui.text.style.TextAlign
 @Composable
 fun TextView(
     text: String?,
+    modifier: Modifier = Modifier,
     textNull: String = "",
     color: Color = Color.Unspecified,
     textAlign: TextAlign? = null,
-    modifier: Modifier = Modifier,
-    isVisible: Boolean? = true,
+    isVisible: Boolean = true,
     style: TextStyle = TextStyle.Default
 ) {
-    if (isVisible == false) {
-        return
+    if (isVisible) {
+        Text(
+            text = text ?: textNull,
+            color = color,
+            modifier = modifier,
+            textAlign = textAlign,
+            style = style
+        )
     }
-
-    return Text(
-        text = text ?: textNull,
-        color = color,
-        modifier = modifier,
-        textAlign = textAlign,
-        style = style
-    )
 }

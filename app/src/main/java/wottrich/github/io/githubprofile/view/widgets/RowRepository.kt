@@ -52,7 +52,7 @@ fun RowRepository (repository: Repository) {
             //====> fork
             TextView(
                 text = LocalContext.current.getString(R.string.row_repository_branch_forked),
-                isVisible = repository.fork,
+                isVisible = repository.fork == true,
                 style = Description.descriptionLight
             )
 
@@ -80,20 +80,21 @@ private fun RepositoryLanguageAndStars (repository: Repository) {
         modifier = rowModifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-
-        //====> language
-        val color = Color.parseColor(repository.languageColor)
-        TextView(
-            text = repository.language,
-            color = ComposeColor(color),//ComposeColor is Color in compose
-            style = Description.descriptionBold,
-            isVisible = repository.language?.isNotEmpty() == true,
-            modifier = Modifier.weight(1F)
-        )
-
-        //====> stars
+        BuildLanguageContent(repository = repository)
         RepositoryStars(repository = repository)
     }
+}
+
+@Composable
+private fun RowScope.BuildLanguageContent(repository: Repository) {
+    val color = Color.parseColor(repository.languageColor)
+    TextView(
+        text = repository.language,
+        color = ComposeColor(color),//ComposeColor is Color in compose
+        style = Description.descriptionBold,
+        isVisible = repository.language?.isNotEmpty() == true,
+        modifier = Modifier.weight(1F)
+    )
 }
 
 @Composable

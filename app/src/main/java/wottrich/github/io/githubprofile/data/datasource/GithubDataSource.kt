@@ -2,7 +2,8 @@ package wottrich.github.io.githubprofile.data.datasource
 
 import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.githubprofile.data.api.INetworkAPI
-import wottrich.github.io.githubprofile.data.resource.*
+import wottrich.github.io.githubprofile.data.resource.NetworkBoundResource
+import wottrich.github.io.githubprofile.data.resource.Resource
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
 
@@ -29,27 +30,6 @@ class GithubDataSource (
             processResponse = { it },
             call = { api.loadProfile(profileLogin) }
         ).build()
-
-
-//        flow {
-//            emit(Resource.loading())
-//            delay(2000)
-//            val profile = Profile(
-//                "Wottrich",
-//                "Wottrich",
-//                "test",
-//                "https://avatars0.githubusercontent.com/u/24254062?v=4",
-//                10,
-//                10
-//            )
-//            emit(Resource.success(profile))
-//        }
-
-
-//        NetworkBoundResource<Profile, Profile>(
-//            processResponse = { it },
-//            call = { api.loadProfileAsync(profileLogin) }
-//        ).build()
     }
 
     override fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>> {

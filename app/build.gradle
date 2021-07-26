@@ -91,14 +91,15 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.activity:activity-compose:1.3.0-alpha06"
 
+    //Coil
+    implementation "io.coil-kt:coil-compose:$coil"
+
     //Retrofit and api things
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor"
 
-    //Glide
-    implementation "com.github.bumptech.glide:glide:$glide"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide"
+
 
     //File
     implementation fileTree(dir: "libs", include: ["*.jar"])
