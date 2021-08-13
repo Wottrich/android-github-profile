@@ -27,6 +27,34 @@ import wottrich.github.io.githubprofile.ui.widgets.TextView
  *
  */
 
+/*
+Collapsing layout example
+@Composable
+fun HeaderProfile(profile: Profile?, lazyListState: LazyListState?) {
+
+    var scrolledY by remember {
+        mutableStateOf(0f)
+    }
+    var previousOffset by remember {
+        mutableStateOf(0)
+    }
+
+    Row(
+        modifier = Modifier
+            .padding(all = 10.dp)
+            .graphicsLayer {
+                val itemScrollOffset = lazyListState?.firstVisibleItemScrollOffset ?: 0
+                scrolledY += itemScrollOffset - previousOffset
+                translationY = scrolledY * 0.5f
+                previousOffset = itemScrollOffset
+            }
+    ) {
+        BuildProfileImage(avatarUrl = profile?.avatarUrl)
+        BuildProfileInformation(profile = profile)
+    }
+}
+ */
+
 @Composable
 fun HeaderProfile(profile: Profile?) {
     Row(modifier = Modifier.padding(all = 10.dp)) {

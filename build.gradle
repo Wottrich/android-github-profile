@@ -31,7 +31,7 @@ buildscript {
         logging_interceptor = '4.9.0'
 
         //Gradle
-        gradle_version = '7.0.0-alpha15'
+        gradle_version = '7.0.0'
 
         //Test
         junit = '4.13.2'
