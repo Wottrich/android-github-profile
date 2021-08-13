@@ -2,7 +2,7 @@
 Veja o seu perfil publico do github, ou de outros usuarios, por esse aplicativo simples e rapido.
 
 ### Resumo
-O objetivo do aplicativo foi estudar mais sobre a prataforma Android. Utilizando metodos Agile como SOLID e Clean Code, foram implementados chamadas api utilizando **Retrofit** juntamente com **Coroutines** que serviu para lidar com a parte asyncrona do projeto e deixar mais leve e facil de entender. A arquiterura do projeto foi desenvolvido em cima do MVVM e para ajudar foi utilizado **Databinding** para desaclopar resposabilidades da activity, **Resource** para lidar com o status da Network e **LiveData**, para uma ui mais observavel e respeitosa, com **ViewModelProvider** para podemos criar um ciclo de vida proprio da nossa ViewModel podendo haver activity rotation sem perda de estado ou crashes indesejaveis. A aplicação é internacionalizada e está disponivel em inglês e português(dependendo da linguagem do dispositivo).
+O objetivo do aplicativo foi estudar mais sobre a prataforma Android. Utilizando metodos Agile como SOLID e Clean Code, foram implementados chamadas api utilizando **Retrofit** juntamente com **Coroutines** que serviu para lidar com a parte asyncrona do projeto e deixar mais leve e facil de entender. A arquiterura escolhida para o projeto foi a MVVM utilizando Compose para lidar com os estados das UIs, **Resource** para lidar com o status da Network, **StateFlow** para comunicação com o compose e **ViewModelProvider** para podemos criar um ciclo de vida proprio da nossa ViewModel podendo haver activity rotation sem perda de estado ou crashes indesejaveis. A aplicação é internacionalizada e está disponivel em inglês e português(dependendo da linguagem do dispositivo).
 
 # Branches
 ➡️ [Adicionando Coroutines e DataBinding](https://github.com/Wottrich/android-github-profile/tree/feature/workshop#adicionando-coroutines-e-databinding)
@@ -13,7 +13,7 @@ Projeto inteiramente desenvolido em **Kotlin** tento em vista que é a linguagem
 ## Arquitetura e dependencias
 **Arquitetura**
 
-A arquitetura escolhida para o desenvolvimento foi a **Model View ViewModel(MVVM)**. Esta arquitetura foi escolhida para atuar em conjunto com o **DataBinding** e **Architecture Components**, facilitanto o código e beneficiando os testes
+A arquitetura escolhida para o desenvolvimento foi a **Model View ViewModel(MVVM)**. Esta arquitetura foi escolhida para atuar em conjunto com o **Compose** e **Architecture Components**, facilitanto o código e beneficiando os testes
 
 Blueprint:
 - di: Onde ficam os arquivo para Dependency injection. 
