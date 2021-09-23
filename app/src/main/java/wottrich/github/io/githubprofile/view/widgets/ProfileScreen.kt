@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -13,13 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import wottrich.github.io.githubprofile.R
+import wottrich.github.io.githubprofile.model.Profile
+import wottrich.github.io.githubprofile.model.Repository
+import wottrich.github.io.githubprofile.ui.state.State
+import wottrich.github.io.githubprofile.ui.state.StateComponent
+import wottrich.github.io.githubprofile.ui.state.stateListComponent
 import wottrich.github.io.githubprofile.ui.values.Subtitle
 import wottrich.github.io.githubprofile.ui.values.Title
 import wottrich.github.io.githubprofile.ui.widgets.ProgressBar
 import wottrich.github.io.githubprofile.ui.widgets.TextView
-import wottrich.github.io.githubprofile.viewModel.HeaderState
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
-import wottrich.github.io.githubprofile.viewModel.RepositoriesState
 
 /**
  * @author Wottrich
@@ -36,9 +38,9 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
 
     val headerState by viewModel.headerStateFlow.collectAsState()
     val repositoriesState by viewModel.repositoriesStateFlow.collectAsState()
-    val isInitialHeaderState = headerState?.isInitialState == true
-    val isInitialRepositoriesState = repositoriesState?.isInitialState == true
-    val isInitialState = isInitialHeaderState && isInitialRepositoriesState
+
+    val isInitialState =
+        headerState.isInitialNotLoading() && repositoriesState.isInitialNotLoading()
 
     Column(modifier = Modifier.fillMaxWidth()) {
         if (isInitialState) {
@@ -57,38 +59,40 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
     }
 }
 
-fun LazyListScope.buildHeaderItem(headerState: HeaderState?) {
+fun LazyListScope.buildHeaderItem(headerState: State<Profile>) {
     item {
-        when {
-            headerState?.refreshing == true -> ProgressBar()
-            headerState == null || headerState.errorState -> FindProfileError(message = "error")
-            else -> HeaderProfile(profile = headerState.profile)
-        }
+        StateComponent(
+            state = headerState,
+            initial = {
+                ProgressBar()
+            },
+            failure = {
+                FindError(message = it.throwable.message)
+            },
+            success = {
+                HeaderProfile(profile = it)
+            }
+        )
     }
 }
 
-fun LazyListScope.repositoriesContainer(repositoriesState: RepositoriesState?) {
-    when {
-        repositoriesState?.refreshing == true -> {
-            item {
-                ProgressBar()
-            }
+fun LazyListScope.repositoriesContainer(repositoriesState: State<List<Repository>>) {
+    stateListComponent(
+        state = repositoriesState,
+        initial = {
+            ProgressBar()
+        },
+        failure = {
+            FindError(message = it.throwable.message)
+        },
+        success = {
+            RowRepository(repository = it)
         }
-        repositoriesState == null || repositoriesState.errorState -> {
-            item {
-                FindProfileError(message = "error")
-            }
-        }
-        else -> {
-            items(repositoriesState.repositories) { repository ->
-                RowRepository(repository = repository)
-            }
-        }
-    }
+    )
 }
 
 @Composable
-fun FindProfileError(message: String?) {
+fun FindError(message: String?) {
 
     val errorMessage = message ?: LocalContext.current.getString(R.string.unknown_error)
 
@@ -98,5 +102,4 @@ fun FindProfileError(message: String?) {
         textAlign = TextAlign.Center,
         style = Subtitle.subtitleBold
     )
-
 }

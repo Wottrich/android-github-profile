@@ -2,13 +2,11 @@ package wottrich.github.io.githubprofile.view.widgets
 
 import android.graphics.Color
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +32,6 @@ fun RowRepository (repository: Repository) {
 
     val cardModifier = Modifier
         .padding(all = 10.dp)
-        .clip(shape = RoundedCornerShape(6.dp))
         .fillMaxWidth()
 
     val columnModifier = Modifier
@@ -46,17 +43,14 @@ fun RowRepository (repository: Repository) {
     ) {
         Column(modifier = columnModifier) {
 
-            //====> repository name
             TextView(text = repository.fullName ?: "", style = Title.titleBold)
 
-            //====> fork
             TextView(
                 text = LocalContext.current.getString(R.string.row_repository_branch_forked),
                 isVisible = repository.fork == true,
                 style = Description.descriptionLight
             )
 
-            //====> description
             TextView(
                 text = repository.description,
                 style = Description.descriptionBold,

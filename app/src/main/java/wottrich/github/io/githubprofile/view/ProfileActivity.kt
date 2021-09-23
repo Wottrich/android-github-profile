@@ -34,7 +34,6 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun setupObserves() {
         val activity = this
-
         viewModel.apply {
 
             error.observe(activity) {
