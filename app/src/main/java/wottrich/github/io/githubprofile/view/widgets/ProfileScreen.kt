@@ -11,16 +11,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import github.io.wottrich.ui.state.State
+import github.io.wottrich.ui.values.Subtitle
+import github.io.wottrich.ui.values.Title
+import github.io.wottrich.ui.widgets.ProgressBar
+import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.githubprofile.R
+import wottrich.github.io.githubprofile.archive.StateComponent
+import wottrich.github.io.githubprofile.archive.stateListComponent
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
-import wottrich.github.io.githubprofile.ui.state.State
-import wottrich.github.io.githubprofile.ui.state.StateComponent
-import wottrich.github.io.githubprofile.ui.state.stateListComponent
-import wottrich.github.io.githubprofile.ui.values.Subtitle
-import wottrich.github.io.githubprofile.ui.values.Title
-import wottrich.github.io.githubprofile.ui.widgets.ProgressBar
-import wottrich.github.io.githubprofile.ui.widgets.TextView
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
 
 /**

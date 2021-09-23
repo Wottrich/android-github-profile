@@ -1,4 +1,4 @@
-package wottrich.github.io.githubprofile.ui.state
+package github.io.wottrich.ui.state
 
 /**
  * @author Wottrich

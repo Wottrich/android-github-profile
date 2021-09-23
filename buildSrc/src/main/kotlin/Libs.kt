@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+
 object Libs {
     //Kotlin
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlinVersion}"
@@ -31,4 +33,24 @@ object Libs {
     const val junitExt = "androidx.test.ext:junit:${Versions.junitExtVersion}"
     const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCoreVersion}"
 
+}
+
+fun DependencyHandlerScope.composeUi() {
+    "implementation"(Libs.composeUi)
+    "implementation"(Libs.composeUiTooling)
+    "implementation"(Libs.composeRuntime)
+    "implementation"(Libs.composeMaterial)
+    "implementation"(Libs.composeActivity)
+}
+
+fun DependencyHandlerScope.koin() {
+    "implementation"(Libs.insertKoinCore)
+    "implementation"(Libs.insertKoinAndroid)
+    "implementation"(Libs.insertKoinAndroidCompose)
+}
+
+fun DependencyHandlerScope.test() {
+    "testImplementation"(Libs.junit)
+    "androidTestImplementation"(Libs.junitExt)
+    "androidTestImplementation"(Libs.espressoCore)
 }

@@ -1,4 +1,4 @@
-package wottrich.github.io.githubprofile.ui.values
+package github.io.wottrich.ui.values
 
 import androidx.compose.ui.graphics.Color
 
