@@ -1,9 +1,12 @@
-package wottrich.github.io.githubprofile.ui.state
+package wottrich.github.io.githubprofile.archive
 
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import github.io.wottrich.ui.state.State
+import github.io.wottrich.ui.state.StateFailure
+import github.io.wottrich.ui.state.StateInitial
 import wottrich.github.io.githubprofile.data.resource.Resource
 
 /**
@@ -56,4 +59,3 @@ inline fun <reified T> LazyListScope.stateListComponent(
         }
     }
 }
-

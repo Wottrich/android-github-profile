@@ -1,8 +1,6 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
-    id("kotlin-kapt")
 }
 
 android {
@@ -10,15 +8,10 @@ android {
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
-        applicationId = "wottrich.github.io.githubprofile"
         minSdk = 21
         targetSdk = 30
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
     }
 
     buildTypes {
@@ -37,7 +30,6 @@ android {
         jvmTarget = AndroidSdk.javaVersion.toString()
         useIR = true
     }
-
     buildFeatures {
         compose = true
     }
@@ -50,39 +42,13 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
-
 }
 
-
 dependencies {
-    //Kotlin
-    implementation(Libs.kotlinStdlib)
+
     implementation(Libs.androidCoreKtx)
-
-    //AppCompat and UI things
     implementation(Libs.appCompat)
-
-    //Koin
-    koin()
-
-    //Compose
     composeUi()
-
-    //Coil
-    implementation(Libs.coilCompose)
-
-    //Retrofit and api things
-    implementation(Libs.retrofit)
-    implementation(Libs.converterGson)
-    implementation(Libs.loggingInterceptor)
-
-    //Modules
-    implementation(project(path = ":ui"))
-
-    //File
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-
-    //Test
     test()
 
 }

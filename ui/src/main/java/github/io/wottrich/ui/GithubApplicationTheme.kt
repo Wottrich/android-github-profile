@@ -1,8 +1,8 @@
-package wottrich.github.io.githubprofile.ui
+package github.io.wottrich.ui
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import wottrich.github.io.githubprofile.ui.values.githubApplicationTypography
+import github.io.wottrich.ui.values.githubApplicationTypography
 
 /**
  * @author Wottrich

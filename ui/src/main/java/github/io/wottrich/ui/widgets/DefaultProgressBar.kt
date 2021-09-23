@@ -1,4 +1,4 @@
-package wottrich.github.io.githubprofile.ui.widgets
+package github.io.wottrich.ui.widgets
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

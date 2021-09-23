@@ -1,15 +1,15 @@
 package wottrich.github.io.githubprofile.viewModel
 
+import github.io.wottrich.ui.state.State
+import github.io.wottrich.ui.state.StateInitial
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import wottrich.github.io.githubprofile.R
+import wottrich.github.io.githubprofile.archive.toState
 import wottrich.github.io.githubprofile.data.datasource.GithubDataSourceInterface
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
-import wottrich.github.io.githubprofile.ui.state.State
-import wottrich.github.io.githubprofile.ui.state.StateInitial
-import wottrich.github.io.githubprofile.ui.state.toState
 import wottrich.github.io.githubprofile.util.AppDispatchers
 
 /**

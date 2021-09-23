@@ -11,12 +11,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.LocalImageLoader
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
+import github.io.wottrich.ui.values.Description
+import github.io.wottrich.ui.values.Subtitle
+import github.io.wottrich.ui.values.Title
+import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.model.Profile
-import wottrich.github.io.githubprofile.ui.values.Description
-import wottrich.github.io.githubprofile.ui.values.Subtitle
-import wottrich.github.io.githubprofile.ui.values.Title
-import wottrich.github.io.githubprofile.ui.widgets.TextView
 
 /**
  * @author Wottrich
