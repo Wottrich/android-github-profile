@@ -3,7 +3,7 @@ package wottrich.github.io.githubprofile.util.callAdapter
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
-import wottrich.github.io.githubprofile.data.resource.ApiResponse
+import wottrich.github.io.githubprofile.data.resource.Resource
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
@@ -26,7 +26,7 @@ class RetrofitCallAdapterFactory : CallAdapter.Factory() {
             val enclosingType =  getParameterUpperBound(0, returnType as ParameterizedType)
             val rawType = getRawType(enclosingType)
 
-            if (rawType != ApiResponse::class.java) {
+            if (rawType != Resource::class.java) {
                 throw IllegalArgumentException("type must be a ApiResponse")
             }
 

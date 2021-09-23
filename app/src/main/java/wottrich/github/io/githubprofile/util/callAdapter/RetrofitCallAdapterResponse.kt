@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import wottrich.github.io.githubprofile.data.resource.ApiResponse
-import java.lang.UnsupportedOperationException
+import wottrich.github.io.githubprofile.data.resource.Resource
 
 /**
  * @author Wottrich
@@ -19,9 +19,9 @@ import java.lang.UnsupportedOperationException
 
 class RetrofitCallAdapterResponse <R>(
     private val call: Call<R>
-): Call<ApiResponse<R>> {
+): Call<Resource<R>> {
 
-    override fun enqueue(callback: Callback<ApiResponse<R>>) {
+    override fun enqueue(callback: Callback<Resource<R>>) {
         return call.enqueue(object : Callback<R> {
             override fun onResponse(call: Call<R>, response: Response<R>) {
                 callback.onResponse(
@@ -40,14 +40,14 @@ class RetrofitCallAdapterResponse <R>(
         })
     }
 
-    override fun clone(): Call<ApiResponse<R>> = RetrofitCallAdapterResponse(call)
+    override fun clone(): Call<Resource<R>> = RetrofitCallAdapterResponse(call)
     override fun isExecuted(): Boolean = call.isExecuted
     override fun cancel() = call.cancel()
     override fun isCanceled(): Boolean = call.isCanceled
     override fun request(): Request = call.request()
     override fun timeout(): Timeout = call.timeout()
 
-    override fun execute(): Response<ApiResponse<R>> {
+    override fun execute(): Response<Resource<R>> {
         throw UnsupportedOperationException("CallAdapterResponse doesn't support execute")
     }
 

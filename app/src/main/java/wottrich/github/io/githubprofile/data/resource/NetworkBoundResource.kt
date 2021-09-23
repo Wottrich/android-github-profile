@@ -12,32 +12,28 @@ import kotlinx.coroutines.flow.flow
  * Copyright © 2020 GithubProfile. All rights reserved.
  *
  */
- 
-class NetworkBoundResource<ResultType, RequestType>(
-    private val saveCallResults: (suspend (item: RequestType) -> Unit)? = null,
-    private val processResponse: (response: RequestType) -> ResultType,
-    private val call: suspend () -> ApiResponse<RequestType>
+
+class NetworkBoundResource<T>(
+    private val saveCallResults: (suspend (item: T) -> Unit)? = null,
+    private val call: suspend () -> Resource<T>
 ) {
 
-    fun build(): Flow<Resource<ResultType>> {
+    fun build(): Flow<Resource<T>> {
         return flow {
             emit(Resource.loading())
             fetchFromNetwork()
         }
     }
 
-    private suspend fun FlowCollector<Resource<ResultType>>.fetchFromNetwork() {
+    private suspend fun FlowCollector<Resource<T>>.fetchFromNetwork() {
         return when (val result = call()) {
-            is ApiSuccessResponse -> {
-                val process = processResponse(result.body)
-                saveCallResults?.invoke(result.body)
-                emit(Resource.success(process))
+            is Resource.Success -> {
+                val data = checkNotNull(result.data)
+                saveCallResults?.invoke(data)
+                emit(Resource.success(data))
             }
-            is ApiEmptyResponse -> {
-                emit(Resource.success(null))
-            }
-            is ApiErrorResponse -> {
-                emit(Resource.error(result.error))
+            else -> {
+                emit(result)
             }
         }
     }

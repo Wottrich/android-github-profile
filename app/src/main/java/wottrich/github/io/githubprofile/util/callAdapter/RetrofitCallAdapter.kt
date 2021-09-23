@@ -1,7 +1,8 @@
 package wottrich.github.io.githubprofile.util.callAdapter
 
-import retrofit2.*
-import wottrich.github.io.githubprofile.data.resource.ApiResponse
+import retrofit2.Call
+import retrofit2.CallAdapter
+import wottrich.github.io.githubprofile.data.resource.Resource
 import java.lang.reflect.Type
 
 /**
@@ -15,11 +16,11 @@ import java.lang.reflect.Type
 
 class RetrofitCallAdapter<R>(
     private val responseType: Type
-) : CallAdapter<R, Call<ApiResponse<R>>> {
+) : CallAdapter<R, Call<Resource<R>>> {
 
     override fun responseType(): Type = responseType
 
-    override fun adapt(call: Call<R>): Call<ApiResponse<R>> {
+    override fun adapt(call: Call<R>): Call<Resource<R>> {
         return RetrofitCallAdapterResponse(call)
     }
 

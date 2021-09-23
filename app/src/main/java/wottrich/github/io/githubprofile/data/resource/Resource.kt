@@ -9,16 +9,23 @@ package wottrich.github.io.githubprofile.data.resource
  *
  */
 
-data class Resource <out T> (val status: Status, val data: T?, val message: String?) {
+sealed class Resource<out T>(open val data: T?) {
+
+    data class Success<T>(override val data: T?) : Resource<T>(data)
+    data class Failure<T>(val throwable: Throwable, override val data: T?) : Resource<T>(data)
+    data class Loading<T>(override val data: T?) : Resource<T>(data)
+
     companion object {
-        fun <T> success (data: T?): Resource<T> {
-            return Resource(Status.SUCCESS, data, null)
+        fun <T> success(data: T?): Resource<T> {
+            return Success(data)
         }
-        fun <T> error (message: String?, data: T? = null): Resource<T> {
-            return Resource(Status.ERROR, data, message)
+
+        fun <T> failure(throwable: Throwable, data: T? = null): Resource<T> {
+            return Failure(throwable, data)
         }
-        fun <T> loading (data: T? = null): Resource<T> {
-            return Resource(Status.LOADING, data, null)
+
+        fun <T> loading(data: T? = null): Resource<T> {
+            return Loading(data)
         }
     }
 }
