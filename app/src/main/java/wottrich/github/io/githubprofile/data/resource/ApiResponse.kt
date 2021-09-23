@@ -19,25 +19,25 @@ object ApiGeneralKeys {
 sealed class ApiResponse<T> {
     companion object {
 
-        fun <T> create (error: Throwable) : ApiErrorResponse<T> {
-            return ApiErrorResponse(error.message)
+        fun <T> create(throwable: Throwable): Resource<T> {
+            return Resource.failure(throwable)
         }
 
-        fun <T> create (response: Response<T>): ApiResponse<T> {
+        fun <T> create(response: Response<T>): Resource<T> {
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null && response.code() != 204) {
-                    ApiSuccessResponse(body)
+                    Resource.success(body)
                 } else {
-                    ApiEmptyResponse()
+                    Resource.failure(EmptyDataException())
                 }
             } else {
-                ApiErrorResponse(response.errorBody()?.getErrorMessage(ApiGeneralKeys.errorKey))
+                Resource.failure(
+                    Throwable(
+                        response.errorBody()?.getErrorMessage(ApiGeneralKeys.errorKey)
+                    )
+                )
             }
         }
     }
 }
-
-data class ApiSuccessResponse <T> (val body: T) : ApiResponse<T>()
-class ApiEmptyResponse<T> : ApiResponse<T>()
-data class ApiErrorResponse<T>(val error: String?) : ApiResponse<T>()

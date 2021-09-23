@@ -4,7 +4,6 @@ package wottrich.github.io.githubprofile
 
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import wottrich.github.io.githubprofile.di.appModule
 
@@ -16,8 +15,8 @@ import wottrich.github.io.githubprofile.di.appModule
  * Copyright © 2020 GithubProfile. All rights reserved.
  *
  */
- 
-class GithubApplication : Application () {
+
+class GithubApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

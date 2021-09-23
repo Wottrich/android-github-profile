@@ -26,16 +26,10 @@ class GithubDataSource (
 ) : GithubDataSourceInterface {
 
     override fun loadProfile (profileLogin: String) : Flow<Resource<Profile>> {
-        return NetworkBoundResource(
-            processResponse = { it },
-            call = { api.loadProfile(profileLogin) }
-        ).build()
+        return NetworkBoundResource(call = { api.loadProfile(profileLogin) }).build()
     }
 
     override fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>> {
-        return NetworkBoundResource(
-            processResponse = { it },
-            call = { api.loadRepositories(profileLogin) }
-        ).build()
+        return NetworkBoundResource(call = { api.loadRepositories(profileLogin) }).build()
     }
 }

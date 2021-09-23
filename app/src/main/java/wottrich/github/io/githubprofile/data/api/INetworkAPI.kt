@@ -2,7 +2,7 @@ package wottrich.github.io.githubprofile.data.api
 
 import retrofit2.http.GET
 import retrofit2.http.Path
-import wottrich.github.io.githubprofile.data.resource.ApiResponse
+import wottrich.github.io.githubprofile.data.resource.Resource
 import wottrich.github.io.githubprofile.model.Profile
 import wottrich.github.io.githubprofile.model.Repository
 
@@ -18,9 +18,9 @@ import wottrich.github.io.githubprofile.model.Repository
 interface INetworkAPI {
 
     @GET("users/{profileLogin}")
-    suspend fun loadProfile(@Path("profileLogin") profileLogin: String) : ApiResponse<Profile>
+    suspend fun loadProfile(@Path("profileLogin") profileLogin: String) : Resource<Profile>
 
     @GET("users/{profileLogin}/repos")
-    suspend fun loadRepositories(@Path("profileLogin") profileLogin: String) : ApiResponse<List<Repository>>
+    suspend fun loadRepositories(@Path("profileLogin") profileLogin: String) : Resource<List<Repository>>
 
 }

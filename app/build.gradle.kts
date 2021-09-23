@@ -94,7 +94,7 @@ dependencies {
 
 
     //File
-    implementation(fileTree(mapOf("dir" to "libs", "incluse" to listOf("*.jar"))))
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     //Test
     testImplementation(Libs.junit)
