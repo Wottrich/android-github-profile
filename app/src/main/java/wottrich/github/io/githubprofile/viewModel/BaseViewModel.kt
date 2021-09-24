@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import github.io.wottrich.datasource.dispatchers.AppDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import wottrich.github.io.githubprofile.R
-import wottrich.github.io.githubprofile.util.AppDispatchers
 
 /**
  * @author Wottrich

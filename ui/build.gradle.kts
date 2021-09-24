@@ -1,15 +1,14 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    id(Plugins.androidLibrary)
+    id(Plugins.kotlinAndroid)
 }
 
 android {
-    compileSdk = 30
-    buildToolsVersion = "30.0.3"
+    compileSdk = AndroidSdk.targetSdk
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 30
+        minSdk = AndroidSdk.minSdk
+        targetSdk = AndroidSdk.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,9 +45,12 @@ android {
 
 dependencies {
 
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(Libs.kotlinStdlib)
     implementation(Libs.androidCoreKtx)
     implementation(Libs.appCompat)
     composeUi()
-    test()
+    unitTest()
+    instrumentalTest()
 
 }

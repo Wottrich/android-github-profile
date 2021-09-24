@@ -1,22 +1,11 @@
-import org.gradle.api.JavaVersion
-
 object Versions {
 
     const val kotlinVersion = "1.5.21"
-    const val coroutines = "1.3.9"
     const val coreKtxVersion = "1.6.0"
+    const val coroutinesVersion = "1.5.2"
 
     //AppCompat and UI things
     const val appCompatVersion = "1.4.0-alpha01"
-    const val material = "1.4.0"
-    const val constraintLayout = "2.0.4"
-    const val recyclerView = "1.2.0-alpha05"
-
-    //Android
-    const val lifecycle = "2.2.0"
-    const val activityVersion = "1.2.3"
-    const val livedataLifecycle = "2.4.0-alpha01"
-    const val lifecycleRuntime = "2.4.0-alpha01"
 
     //Koin
     const val koinVersion = "3.1.2"
