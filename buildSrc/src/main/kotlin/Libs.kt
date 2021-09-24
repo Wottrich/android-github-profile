@@ -1,9 +1,13 @@
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
 object Libs {
+    const val gradleVersion = "com.android.tools.build:gradle:${Versions.gradleVersion}"
+    const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
+
     //Kotlin
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlinVersion}"
     const val androidCoreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
+    const val coroutinesLib = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesVersion}"
 
     //AppCompat
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
@@ -35,6 +39,11 @@ object Libs {
 
 }
 
+fun DependencyHandlerScope.defaultClasspath() {
+    "classpath"(Libs.gradleVersion)
+    "classpath"(Libs.kotlinGradlePlugin)
+}
+
 fun DependencyHandlerScope.composeUi() {
     "implementation"(Libs.composeUi)
     "implementation"(Libs.composeUiTooling)
@@ -49,8 +58,17 @@ fun DependencyHandlerScope.koin() {
     "implementation"(Libs.insertKoinAndroidCompose)
 }
 
-fun DependencyHandlerScope.test() {
+fun DependencyHandlerScope.unitTest() {
     "testImplementation"(Libs.junit)
+}
+
+fun DependencyHandlerScope.instrumentalTest() {
     "androidTestImplementation"(Libs.junitExt)
     "androidTestImplementation"(Libs.espressoCore)
+}
+
+fun DependencyHandlerScope.apiDigest() {
+    "implementation"(Libs.retrofit)
+    "implementation"(Libs.converterGson)
+    "implementation"(Libs.loggingInterceptor)
 }

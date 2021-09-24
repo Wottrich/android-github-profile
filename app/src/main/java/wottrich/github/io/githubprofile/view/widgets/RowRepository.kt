@@ -11,11 +11,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import github.io.wottrich.datasource.models.Repository
 import github.io.wottrich.ui.values.Description
 import github.io.wottrich.ui.values.Title
 import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.githubprofile.R
-import wottrich.github.io.githubprofile.model.Repository
 import androidx.compose.ui.graphics.Color as ComposeColor
 
 /**

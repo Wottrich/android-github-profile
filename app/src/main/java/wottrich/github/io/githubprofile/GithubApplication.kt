@@ -5,7 +5,7 @@ package wottrich.github.io.githubprofile
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import wottrich.github.io.githubprofile.di.appModule
+import wottrich.github.io.githubprofile.injection.appModule
 
 /**
  * @author Wottrich

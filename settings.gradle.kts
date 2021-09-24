@@ -1,5 +1,6 @@
 rootProject.name = "GithubProfile"
 include(
     ":app",
-    ":ui"
+    ":ui",
+    ":datasource"
 )
