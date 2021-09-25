@@ -1,22 +1,31 @@
 package github.io.wottrich.ui.search
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import github.io.wottrich.ui.R
 import github.io.wottrich.ui.values.colorPrimary
@@ -32,74 +41,94 @@ import github.io.wottrich.ui.values.onPrimary
  *
  */
 
+enum class SearchState {
+    Focused,
+    InitialState
+}
+
 @Composable
 fun SearchComponent(
-    query: String,
-    onValueChange: (String) -> Unit,
-    onSearch: () -> Unit
+    focusRequester: FocusRequester = remember { FocusRequester() },
+    onValueChange: (TextFieldValue) -> Unit,
+    onSearch: () -> Unit,
+    onSearchStateChanged: (SearchState) -> Unit,
+    searchState: SearchState,
+    textFieldValue: TextFieldValue
 ) {
-    var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = query)) }
-    var isSearchEnabled by remember { mutableStateOf(false) }
-    val focusRequester = remember { FocusRequester() }
+    val animationDpAsState by updateTransition(searchState, label = "SearchTransitionState")
+        .animateDp(label = "DpTransition") {
+            when (it) {
+                SearchState.Focused -> SearchDefaults.searchFocusedPadding
+                SearchState.InitialState -> SearchDefaults.searchInitialStatePadding
+            }
+        }
 
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(SearchDefaults.componentHeight)
+            .padding(all = animationDpAsState),
         color = colorPrimary,
-        elevation = 4.dp
+        shape = RoundedCornerShape(animationDpAsState),
+        elevation = SearchDefaults.searchSurfaceElevation
     ) {
-        Column {
-            Crossfade(targetState = isSearchEnabled) { enabled ->
-                if (enabled) {
+        Crossfade(targetState = searchState) { state ->
+            when (state) {
+                SearchState.Focused ->
                     SearchField(
                         focusRequester = focusRequester,
-                        isSearchEnabled = isSearchEnabled,
-                        textFieldValue = textFieldValueState,
+                        searchState = searchState,
+                        textFieldValue = textFieldValue,
                         onValueChange = {
-                            textFieldValueState = it
-                            if (query != it.text) {
-                                onValueChange(it.text)
+                            if (textFieldValue != it) {
+                                onValueChange(it)
                             }
                         },
                         onSearch = {
-                            isSearchEnabled = false
+                            onSearchStateChanged(SearchState.InitialState)
                             onSearch()
                         },
                         onClearValue = {
                             if (it.text.isEmpty()) {
-                                isSearchEnabled = false
-                            } else {
-                                textFieldValueState = TextFieldValue()
-                                onValueChange("")
+                                onSearchStateChanged(SearchState.InitialState)
                             }
+                            onValueChange(TextFieldValue())
                         }
                     )
-                } else {
-                    SearchedState(onEnableSearch = { isSearchEnabled = true }, query = query)
-                }
+                SearchState.InitialState -> SearchContent(
+                    onSearchStateChanged = onSearchStateChanged,
+                    query = textFieldValue.text
+                )
             }
         }
     }
 }
 
 @Composable
-private fun SearchedState(onEnableSearch: () -> Unit, query: String) {
+private fun SearchContent(onSearchStateChanged: (SearchState) -> Unit, query: String) {
     val pageTitle = if (query.isEmpty()) stringResource(id = R.string.app_name) else query
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp)
-            .padding(horizontal = 8.dp),
+            .height(SearchDefaults.searchContentHeight)
+            .padding(horizontal = 8.dp)
+            .clickable(onClick = { onSearchStateChanged(SearchState.Focused) }),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = pageTitle,
             style = githubApplicationTypography.h6,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
             color = onPrimary
         )
-        IconButton(onClick = { onEnableSearch() }) {
-            IconSearch()
-        }
+        Icon(
+            modifier = Modifier.weight(1f, fill = false),
+            imageVector = Icons.Default.Search,
+            contentDescription = stringResource(id = R.string.start_search_content_description),
+            tint = onPrimary
+        )
     }
 }
 
@@ -109,49 +138,36 @@ private fun SearchField(
     onSearch: () -> Unit,
     onClearValue: (TextFieldValue) -> Unit,
     focusRequester: FocusRequester,
-    isSearchEnabled: Boolean,
+    searchState: SearchState,
     textFieldValue: TextFieldValue
 ) {
     TextField(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
+            .fillMaxSize()
             .focusRequester(focusRequester),
         value = textFieldValue,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Search
+            keyboardType = KeyboardType.Text, imeAction = ImeAction.Search
         ),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                onSearch()
-            }
-        ),
+        keyboardActions = KeyboardActions(onSearch = { onSearch() }),
         trailingIcon = {
             IconClear {
                 onClearValue(textFieldValue)
             }
         },
         colors = TextFieldDefaults.textFieldColors(
-            textColor = onPrimary
+            textColor = onPrimary,
+            cursorColor = onPrimary,
+            focusedIndicatorColor = Color.Transparent
         )
     )
 
     SideEffect {
-        if (isSearchEnabled) {
+        if (searchState == SearchState.Focused) {
             focusRequester.requestFocus()
         }
     }
-}
-
-@Composable
-private fun IconSearch() {
-    Icon(
-        imageVector = Icons.Default.Search,
-        contentDescription = "Search profile",
-        tint = onPrimary
-    )
 }
 
 @Composable
@@ -159,8 +175,16 @@ private fun IconClear(onClearValue: () -> Unit) {
     IconButton(onClick = { onClearValue() }) {
         Icon(
             imageVector = Icons.Default.Clear,
-            contentDescription = "Search profile",
+            contentDescription = stringResource(id = R.string.clear_search_content_description),
             tint = onPrimary
         )
     }
+}
+
+private object SearchDefaults {
+    val componentHeight = 56.dp
+    val searchContentHeight = 56.dp
+    val searchFocusedPadding = 0.dp
+    val searchInitialStatePadding = 8.dp
+    val searchSurfaceElevation = 4.dp
 }

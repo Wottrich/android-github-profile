@@ -17,5 +17,6 @@
 
     <string name="search_title">Procurar perfil</string>
     <string name="welcome_find_profile">Procure um perfil :)</string>
+    <string name="repositories_count">%s resultados para repositórios públicos</string>
 
 </resources>

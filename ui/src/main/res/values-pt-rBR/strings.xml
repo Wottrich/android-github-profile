@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GithubProfile</string>
+    <string name="clear_search_content_description">Limpar campo de texto</string>
+    <string name="start_search_content_description">Começar a pesquisar</string>
+</resources>

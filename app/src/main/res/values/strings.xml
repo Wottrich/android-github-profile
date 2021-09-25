@@ -18,6 +18,7 @@
     <string name="row_repository_branch_forked">Branch forked</string>
     <string name="search_title">Search profile</string>
     <string name="welcome_find_profile">Find a profile :)</string>
+    <string name="repositories_count">%s result for public repositories</string>
 
 
 </resources>

@@ -9,8 +9,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.TextFieldValue
 import github.io.wottrich.ui.GithubApplicationTheme
 import github.io.wottrich.ui.search.SearchComponent
+import github.io.wottrich.ui.search.SearchState
+import github.io.wottrich.ui.values.backgroundColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.showAlert
@@ -26,15 +29,19 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             GithubApplicationTheme {
-                var query by remember { mutableStateOf("") }
+                var textFieldValue by remember { mutableStateOf(TextFieldValue()) }
+                var searchState by remember { mutableStateOf(SearchState.InitialState) }
                 Scaffold(
                     topBar = {
                         SearchComponent(
-                            query = query,
-                            onValueChange = { query = it },
-                            onSearch = { viewModel.loadServices(query) }
+                            onValueChange = { textFieldValue = it },
+                            onSearch = { viewModel.loadServices(textFieldValue.text) },
+                            onSearchStateChanged = { searchState = it },
+                            searchState = searchState,
+                            textFieldValue = textFieldValue
                         )
-                    }
+                    },
+                    backgroundColor = backgroundColor
                 ) {
                     ProfileScreen(viewModel = viewModel)
                 }
@@ -59,34 +66,5 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.menu_profile, menu)
-//
-//        val searchItem = menu?.findItem(R.id.itFilter)
-//        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-//        val searchView = searchItem?.actionView as? SearchView
-//
-//        searchItem?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-//            override fun onMenuItemActionExpand(item: MenuItem?): Boolean = true
-//            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean = true
-//        })
-//
-//        searchView?.apply {
-//            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-//            setOnQueryTextListener(this@ProfileActivity)
-//        }
-//
-//        return super.onCreateOptionsMenu(menu)
-//    }
-//
-//    override fun onQueryTextSubmit(query: String?): Boolean {
-//        if (query != null) {
-//            viewModel.loadServices(query)
-//        }
-//        return false
-//    }
-//
-//    override fun onQueryTextChange(newText: String?): Boolean = false
 
 }
