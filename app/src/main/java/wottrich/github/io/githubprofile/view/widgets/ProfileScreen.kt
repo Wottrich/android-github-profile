@@ -1,16 +1,22 @@
 package wottrich.github.io.githubprofile.view.widgets
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import github.io.wottrich.datasource.models.Profile
 import github.io.wottrich.datasource.models.Repository
 import github.io.wottrich.ui.state.State
@@ -18,6 +24,7 @@ import github.io.wottrich.ui.state.StateComponent
 import github.io.wottrich.ui.state.stateListComponent
 import github.io.wottrich.ui.values.Subtitle
 import github.io.wottrich.ui.values.Title
+import github.io.wottrich.ui.values.backgroundColor
 import github.io.wottrich.ui.widgets.ProgressBar
 import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.githubprofile.R
@@ -76,7 +83,26 @@ fun LazyListScope.buildHeaderItem(headerState: State<Profile>) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.repositoriesContainer(repositoriesState: State<List<Repository>>) {
+    if (repositoriesState.isSuccess()) {
+        stickyHeader {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = backgroundColor)
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = stringResource(
+                        id = R.string.repositories_count,
+                        repositoriesState.success.size
+                    ),
+                    style = Title.titleBold
+                )
+            }
+        }
+    }
     stateListComponent(
         state = repositoriesState,
         initial = {
