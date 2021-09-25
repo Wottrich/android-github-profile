@@ -83,26 +83,8 @@ fun LazyListScope.buildHeaderItem(headerState: State<Profile>) {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.repositoriesContainer(repositoriesState: State<List<Repository>>) {
-    if (repositoriesState.isSuccess()) {
-        stickyHeader {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = backgroundColor)
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = stringResource(
-                        id = R.string.repositories_count,
-                        repositoriesState.success.size
-                    ),
-                    style = Title.titleBold
-                )
-            }
-        }
-    }
+    repositoriesStickyHeader(repositoriesState)
     stateListComponent(
         state = repositoriesState,
         initial = {
@@ -128,4 +110,26 @@ fun FindError(message: String?) {
         textAlign = TextAlign.Center,
         style = Subtitle.subtitleBold
     )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyListScope.repositoriesStickyHeader(repositoriesState: State<List<Repository>>) {
+    if (repositoriesState.isSuccess()) {
+        stickyHeader {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = backgroundColor)
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = stringResource(
+                        id = R.string.repositories_count,
+                        repositoriesState.success.size
+                    ),
+                    style = Title.titleBold
+                )
+            }
+        }
+    }
 }
