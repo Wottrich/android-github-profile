@@ -1,15 +1,19 @@
 package wottrich.github.io.githubprofile.view
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.TextFieldValue
 import github.io.wottrich.ui.GithubApplicationTheme
+import github.io.wottrich.ui.search.SearchComponent
+import github.io.wottrich.ui.search.SearchState
+import github.io.wottrich.ui.values.backgroundColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.showAlert
@@ -17,7 +21,7 @@ import wottrich.github.io.githubprofile.view.widgets.ProfileScreen
 import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
 
 @ExperimentalFoundationApi
-class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+class ProfileActivity : AppCompatActivity() {
 
     private val viewModel: ProfileViewModel by viewModel()
 
@@ -25,7 +29,22 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         super.onCreate(savedInstanceState)
         setContent {
             GithubApplicationTheme {
-                ProfileScreen(viewModel = viewModel)
+                var textFieldValue by remember { mutableStateOf(TextFieldValue()) }
+                var searchState by remember { mutableStateOf(SearchState.InitialState) }
+                Scaffold(
+                    topBar = {
+                        SearchComponent(
+                            onValueChange = { textFieldValue = it },
+                            onSearch = { viewModel.loadServices(textFieldValue.text) },
+                            onSearchStateChanged = { searchState = it },
+                            searchState = searchState,
+                            textFieldValue = textFieldValue
+                        )
+                    },
+                    backgroundColor = backgroundColor
+                ) {
+                    ProfileScreen(viewModel = viewModel)
+                }
             }
         }
 
@@ -47,34 +66,5 @@ class ProfileActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             }
         }
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_profile, menu)
-
-        val searchItem = menu?.findItem(R.id.itFilter)
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = searchItem?.actionView as? SearchView
-
-        searchItem?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean = true
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean = true
-        })
-
-        searchView?.apply {
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-            setOnQueryTextListener(this@ProfileActivity)
-        }
-
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) {
-            viewModel.loadServices(query)
-        }
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean = false
 
 }

@@ -27,6 +27,8 @@ class State<out T> private constructor(val value: Any) {
             return value as T
         }
 
+    fun isSuccess(): Boolean = value !is StateInitial && value !is StateFailure
+
     fun isInitial(): Boolean = value is StateInitial
 
     fun isInitialNotLoading(): Boolean = value is StateInitial && !value.loading
