@@ -1,4 +1,4 @@
-package wottrich.github.io.githubprofile.view
+package wottrich.github.io.githubprofile.ui.profile
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -11,14 +11,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import github.io.wottrich.ui.GithubApplicationTheme
-import github.io.wottrich.ui.search.SearchComponent
-import github.io.wottrich.ui.search.SearchState
+import github.io.wottrich.ui.components.SearchComponent
+import github.io.wottrich.ui.components.SearchState
 import github.io.wottrich.ui.values.backgroundColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.showAlert
-import wottrich.github.io.githubprofile.view.widgets.ProfileScreen
-import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
+import wottrich.github.io.githubprofile.ui.profile.screen.ProfileScreen
+import wottrich.github.io.githubprofile.ui.repository.RepositoryActivity
 
 @ExperimentalFoundationApi
 class ProfileActivity : AppCompatActivity() {
@@ -43,7 +43,16 @@ class ProfileActivity : AppCompatActivity() {
                     },
                     backgroundColor = backgroundColor
                 ) {
-                    ProfileScreen(viewModel = viewModel)
+                    ProfileScreen(
+                        viewModel = viewModel,
+                        onRepositoryClick = {
+                            RepositoryActivity.launch(
+                                this,
+                                profileLogin = it.owner.login,
+                                repositoryName = it.name
+                            )
+                        }
+                    )
                 }
             }
         }

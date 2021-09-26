@@ -1,4 +1,4 @@
-package wottrich.github.io.githubprofile.viewModel
+package wottrich.github.io.githubprofile.util
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

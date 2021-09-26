@@ -1,4 +1,4 @@
-package wottrich.github.io.githubprofile.view.widgets
+package wottrich.github.io.githubprofile.ui.profile.screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -25,10 +25,10 @@ import github.io.wottrich.ui.state.stateListComponent
 import github.io.wottrich.ui.values.Subtitle
 import github.io.wottrich.ui.values.Title
 import github.io.wottrich.ui.values.backgroundColor
-import github.io.wottrich.ui.widgets.ProgressBar
+import github.io.wottrich.ui.widgets.CircularProgress
 import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.githubprofile.R
-import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
+import wottrich.github.io.githubprofile.ui.profile.ProfileViewModel
 
 /**
  * @author Wottrich
@@ -41,7 +41,7 @@ import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
 
 @ExperimentalFoundationApi
 @Composable
-fun ProfileScreen(viewModel: ProfileViewModel) {
+fun ProfileScreen(viewModel: ProfileViewModel, onRepositoryClick: (Repository) -> Unit) {
 
     val headerState by viewModel.headerStateFlow.collectAsState()
     val repositoriesState by viewModel.repositoriesStateFlow.collectAsState()
@@ -60,7 +60,7 @@ fun ProfileScreen(viewModel: ProfileViewModel) {
         } else {
             LazyColumn {
                 buildHeaderItem(headerState)
-                repositoriesContainer(repositoriesState)
+                repositoriesContainer(repositoriesState, onRepositoryClick)
             }
         }
     }
@@ -71,7 +71,7 @@ fun LazyListScope.buildHeaderItem(headerState: State<Profile>) {
         StateComponent(
             state = headerState,
             initial = {
-                ProgressBar()
+                CircularProgress()
             },
             failure = {
                 FindError(message = it.throwable.message)
@@ -83,18 +83,21 @@ fun LazyListScope.buildHeaderItem(headerState: State<Profile>) {
     }
 }
 
-fun LazyListScope.repositoriesContainer(repositoriesState: State<List<Repository>>) {
+fun LazyListScope.repositoriesContainer(
+    repositoriesState: State<List<Repository>>,
+    onRepositoryClick: (Repository) -> Unit
+) {
     repositoriesStickyHeader(repositoriesState)
     stateListComponent(
         state = repositoriesState,
         initial = {
-            ProgressBar()
+            CircularProgress()
         },
         failure = {
             FindError(message = it.throwable.message)
         },
         success = {
-            RowRepository(repository = it)
+            RowRepository(repository = it, onRepositoryClick = onRepositoryClick)
         }
     )
 }

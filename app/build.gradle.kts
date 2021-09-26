@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdk = 30
-    buildToolsVersion = "30.0.3"
+    compileSdk = AndroidSdk.targetSdk
+    buildToolsVersion = AndroidSdk.buildToolsVersion
 
     defaultConfig {
         applicationId = "wottrich.github.io.githubprofile"
-        minSdk = 21
-        targetSdk = 30
+        minSdk = AndroidSdk.minSdk
+        targetSdk = AndroidSdk.targetSdk
         versionCode = 1
         versionName = "1.0"
 
@@ -66,6 +66,7 @@ dependencies {
 
     //Compose
     composeUi()
+    implementation(Libs.composeNavigation)
 
     //Coil
     implementation(Libs.coilCompose)

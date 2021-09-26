@@ -1,22 +1,22 @@
-package wottrich.github.io.githubprofile.view.widgets
+package wottrich.github.io.githubprofile.ui.profile.screen
 
-import android.graphics.Color
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import github.io.wottrich.datasource.models.Profile
 import github.io.wottrich.datasource.models.Repository
 import github.io.wottrich.ui.values.Description
 import github.io.wottrich.ui.values.Title
 import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.githubprofile.R
-import androidx.compose.ui.graphics.Color as ComposeColor
+import wottrich.github.io.githubprofile.ui.shared.RepositoryLanguageContent
+import wottrich.github.io.githubprofile.ui.shared.RepositoryStarsContent
 
 /**
  * @author Wottrich
@@ -28,15 +28,17 @@ import androidx.compose.ui.graphics.Color as ComposeColor
  */
 
 @Composable
-fun RowRepository (repository: Repository) {
+fun RowRepository(repository: Repository, onRepositoryClick: (Repository) -> Unit) {
 
     val cardModifier = Modifier
         .padding(all = 10.dp)
         .fillMaxWidth()
 
     val columnModifier = Modifier
-        .padding(all = 10.dp)
         .fillMaxWidth()
+        .clickable { onRepositoryClick(repository) }
+        .padding(all = 10.dp)
+
 
     Card(
         modifier = cardModifier
@@ -66,7 +68,7 @@ fun RowRepository (repository: Repository) {
 }
 
 @Composable
-private fun RepositoryLanguageAndStars (repository: Repository) {
+private fun RepositoryLanguageAndStars(repository: Repository) {
 
     val rowModifier = Modifier.fillMaxWidth()
 
@@ -81,28 +83,27 @@ private fun RepositoryLanguageAndStars (repository: Repository) {
 
 @Composable
 private fun RowScope.BuildLanguageContent(repository: Repository) {
-    val color = Color.parseColor(repository.languageColor)
-    TextView(
-        text = repository.language,
-        color = ComposeColor(color),//ComposeColor is Color in compose
-        style = Description.descriptionBold,
-        isVisible = repository.language?.isNotEmpty() == true,
-        modifier = Modifier.weight(1F)
-    )
+    val language = repository.language
+    if (!language.isNullOrEmpty()) {
+        RepositoryLanguageContent(
+            modifier = Modifier.weight(1F),
+            textStyle = Description.descriptionBold,
+            language = language,
+            languageColor = repository.languageColor
+        )
+    }
 }
 
 @Composable
-private fun RowScope.RepositoryStars (repository: Repository) {
+private fun RowScope.RepositoryStars(repository: Repository) {
     if (repository.stargazersCount != 0) {
-        val image = painterResource(id = R.drawable.ic_star_border_24)
         Row(
             modifier = Modifier.weight(1F),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(painter = image, contentDescription = "Number of stars")
-            TextView(
-                text = repository.stargazersCount.toString(),
-                style = Description.descriptionBold
+            RepositoryStarsContent(
+                textStyle = Description.descriptionBold,
+                stargazersCount = repository.stargazersCount.toString()
             )
         }
     }
@@ -110,19 +111,31 @@ private fun RowScope.RepositoryStars (repository: Repository) {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultRowRepositoriesPreview () {
+fun DefaultRowRepositoriesPreview() {
     Row {
         RowRepository(
             repository = Repository(
+                "NetunoNavigationPod",
                 "Wottrich/NetunoNavigationPod",
                 "",
                 "\uD83D\uDD31 NetunoNavigationPod \uD83D\uDD31 - To take navigation to the next level (MIT License)",
                 "",
-                "",
                 "Kotlin",
                 true,
-                10
+                10,
+                watchers = 1,
+                openPullRequestCount = 1,
+                owner = Profile(
+                    "Wottrich",
+                    "Lucas Cruz Wottrich",
+                    "Android/iOS",
+                    "",
+                    10,
+                    10
+                )
             )
-        )
+        ) {
+
+        }
     }
 }

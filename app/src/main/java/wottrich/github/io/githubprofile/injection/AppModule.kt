@@ -6,7 +6,8 @@ import github.io.wottrich.datasource.dispatchers.AppDispatchers
 import github.io.wottrich.datasource.network.Network
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import wottrich.github.io.githubprofile.viewModel.ProfileViewModel
+import wottrich.github.io.githubprofile.ui.profile.ProfileViewModel
+import wottrich.github.io.githubprofile.ui.repository.screen.detail.RepositoryScreenViewModel
 
 /**
  * @author Wottrich
@@ -27,6 +28,9 @@ val networkModules = module {
 
 val viewModelModule = module {
     viewModel { ProfileViewModel(get(), get()) }
+    viewModel { (profileLogin: String, repositoryName: String) ->
+        RepositoryScreenViewModel(get(), get(), profileLogin, repositoryName)
+    }
 }
 
 val appModule = listOf(dispatchersModule, networkModules, viewModelModule)

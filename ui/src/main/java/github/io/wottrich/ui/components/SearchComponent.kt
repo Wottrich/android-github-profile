@@ -1,4 +1,4 @@
-package github.io.wottrich.ui.search
+package github.io.wottrich.ui.components
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateDp

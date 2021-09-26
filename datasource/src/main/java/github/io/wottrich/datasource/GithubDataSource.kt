@@ -17,19 +17,30 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface GithubDataSourceInterface {
-    fun loadProfile (profileLogin: String) : Flow<Resource<Profile>>
-    fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>>
+    fun loadProfile(profileLogin: String): Flow<Resource<Profile>>
+    fun loadRepositories(profileLogin: String): Flow<Resource<List<Repository>>>
+    fun loadRepository(profileLogin: String, repositoryName: String): Flow<Resource<Repository>>
 }
 
-class GithubDataSource (
+class GithubDataSource(
     private val api: INetworkAPI
 ) : GithubDataSourceInterface {
 
-    override fun loadProfile (profileLogin: String) : Flow<Resource<Profile>> {
+    override fun loadProfile(profileLogin: String): Flow<Resource<Profile>> {
         return NetworkBoundResource(call = { api.loadProfile(profileLogin) }).build()
     }
 
-    override fun loadRepositories (profileLogin: String) : Flow<Resource<List<Repository>>> {
+    override fun loadRepositories(profileLogin: String): Flow<Resource<List<Repository>>> {
         return NetworkBoundResource(call = { api.loadRepositories(profileLogin) }).build()
     }
+
+    override fun loadRepository(
+        profileLogin: String,
+        repositoryName: String
+    ): Flow<Resource<Repository>> {
+        return NetworkBoundResource(
+            call = { api.loadRepositoryDetail(profileLogin, repositoryName) }
+        ).build()
+    }
+
 }
