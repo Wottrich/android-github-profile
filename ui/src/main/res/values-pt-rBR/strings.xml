@@ -3,4 +3,5 @@
     <string name="app_name">GithubProfile</string>
     <string name="clear_search_content_description">Limpar campo de texto</string>
     <string name="start_search_content_description">Começar a pesquisar</string>
+    <string name="arrow_back_content_description">Voltar</string>
 </resources>

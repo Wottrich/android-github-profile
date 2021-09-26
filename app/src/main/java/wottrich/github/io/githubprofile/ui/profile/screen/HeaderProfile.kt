@@ -1,22 +1,22 @@
-package wottrich.github.io.githubprofile.view.widgets
+package wottrich.github.io.githubprofile.ui.profile.screen
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.LocalImageLoader
-import coil.compose.rememberImagePainter
-import coil.transform.CircleCropTransformation
 import github.io.wottrich.datasource.models.Profile
 import github.io.wottrich.ui.values.Description
 import github.io.wottrich.ui.values.Subtitle
 import github.io.wottrich.ui.values.Title
 import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.githubprofile.R
+import wottrich.github.io.githubprofile.ui.shared.BuildProfileImage
 
 /**
  * @author Wottrich
@@ -58,29 +58,8 @@ fun HeaderProfile(profile: Profile?, lazyListState: LazyListState?) {
 @Composable
 fun HeaderProfile(profile: Profile?) {
     Row(modifier = Modifier.padding(all = 10.dp)) {
-        BuildProfileImage(avatarUrl = profile?.avatarUrl)
+        BuildProfileImage(avatarUrl = profile?.avatarUrl, imageSize = 86.dp)
         BuildProfileInformation(profile = profile)
-    }
-}
-
-@Composable
-private fun BuildProfileImage(avatarUrl: String?) {
-    if (!avatarUrl.isNullOrEmpty()) {
-        Image(
-            modifier = Modifier.size(86.dp),
-            painter = rememberImagePainter(
-                data = avatarUrl,
-                imageLoader = LocalImageLoader.current,
-                builder = {
-                    crossfade(true)
-                    placeholder(
-                        drawableResId = R.drawable.ic_person_32
-                    )
-                    transformations(CircleCropTransformation())
-                }
-            ),
-            contentDescription = "avatar image",
-        )
     }
 }
 

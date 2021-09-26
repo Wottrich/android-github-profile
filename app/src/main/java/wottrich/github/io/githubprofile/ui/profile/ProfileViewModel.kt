@@ -1,4 +1,4 @@
-package wottrich.github.io.githubprofile.viewModel
+package wottrich.github.io.githubprofile.ui.profile
 
 import github.io.wottrich.datasource.GithubDataSourceInterface
 import github.io.wottrich.datasource.dispatchers.AppDispatchers
@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.toState
+import wottrich.github.io.githubprofile.util.BaseViewModel
 
 /**
  * @author Wottrich

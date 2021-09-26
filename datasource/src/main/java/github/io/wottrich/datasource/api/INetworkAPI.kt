@@ -17,10 +17,17 @@ import retrofit2.http.Path
 
 interface INetworkAPI {
 
-    @GET("users/{profileLogin}")
-    suspend fun loadProfile(@Path("profileLogin") profileLogin: String): Resource<Profile>
+    @GET("users/{owner}")
+    suspend fun loadProfile(@Path("owner") profileLogin: String): Resource<Profile>
 
-    @GET("users/{profileLogin}/repos")
-    suspend fun loadRepositories(@Path("profileLogin") profileLogin: String): Resource<List<Repository>>
+    @GET("users/{owner}/repos")
+    suspend fun loadRepositories(@Path("owner") profileLogin: String): Resource<List<Repository>>
+
+    @GET("repos/{owner}/{repo}")
+    suspend fun loadRepositoryDetail(
+        @Path("owner") profileLogin: String,
+        @Path("repo") repositoryName: String
+    ) : Resource<Repository>
+
 
 }
