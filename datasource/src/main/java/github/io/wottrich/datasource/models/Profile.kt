@@ -1,5 +1,6 @@
 package github.io.wottrich.datasource.models
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -10,7 +11,8 @@ import com.google.gson.annotations.SerializedName
  * Copyright © 2020 GithubProfile. All rights reserved.
  *
  */
- 
+
+@Keep
 data class Profile (
     val login: String,
     val name: String,

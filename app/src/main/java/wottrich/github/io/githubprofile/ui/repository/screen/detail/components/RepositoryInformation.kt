@@ -1,14 +1,14 @@
 package wottrich.github.io.githubprofile.ui.repository.screen.detail.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import github.io.wottrich.ui.components.SubtitleRow
 import github.io.wottrich.ui.components.TitleRow
+import github.io.wottrich.ui.values.backgroundColor
 
 /**
  * @author Wottrich
@@ -22,7 +22,7 @@ import github.io.wottrich.ui.components.TitleRow
 @Composable
 fun RepositoryInformation(name: String, description: String?) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = Modifier.background(color = backgroundColor).padding(all = 16.dp)
     ) {
         TitleRow(text = name)
         description?.let {
@@ -31,6 +31,5 @@ fun RepositoryInformation(name: String, description: String?) {
                 text = it
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }

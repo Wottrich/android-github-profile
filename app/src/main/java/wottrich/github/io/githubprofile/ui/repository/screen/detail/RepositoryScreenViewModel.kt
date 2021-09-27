@@ -3,6 +3,7 @@ package wottrich.github.io.githubprofile.ui.repository.screen.detail
 import github.io.wottrich.datasource.GithubDataSourceInterface
 import github.io.wottrich.datasource.dispatchers.AppDispatchers
 import github.io.wottrich.datasource.models.Repository
+import github.io.wottrich.datasource.models.RepositoryContent
 import github.io.wottrich.ui.state.State
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,10 +30,19 @@ class RepositoryScreenViewModel(
     private val _repositoryState = MutableStateFlow<State<Repository>>(State.initial())
     val repositoryState = _repositoryState.asStateFlow()
 
+    private val _repositoryContentState =
+        MutableStateFlow<State<List<RepositoryContent>>>(State.initial())
+    val repositoryContentState = _repositoryContentState.asStateFlow()
+
     init {
         launchIO {
             service.loadRepository(profileLogin, repositoryName).collect {
                 _repositoryState.value = it.toState()
+            }
+        }
+        launchIO {
+            service.loadRepositoryContents(profileLogin, repositoryName).collect {
+                _repositoryContentState.value = it.toState()
             }
         }
     }
