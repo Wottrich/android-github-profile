@@ -1,5 +1,6 @@
 package github.io.wottrich.datasource.models
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import github.io.wottrich.datasource.colorLanguages
 
@@ -12,6 +13,7 @@ import github.io.wottrich.datasource.colorLanguages
  *
  */
 
+@Keep
 data class Repository(
     val name: String,
     @SerializedName("full_name")

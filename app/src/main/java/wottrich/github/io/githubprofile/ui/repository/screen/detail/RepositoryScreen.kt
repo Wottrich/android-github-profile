@@ -1,29 +1,22 @@
 package wottrich.github.io.githubprofile.ui.repository.screen.detail
 
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import github.io.wottrich.datasource.models.Profile
 import github.io.wottrich.datasource.models.Repository
+import github.io.wottrich.datasource.models.RepositoryContent
+import github.io.wottrich.datasource.models.RepositoryContentType
 import github.io.wottrich.ui.state.State
 import github.io.wottrich.ui.state.StateComponent
 import github.io.wottrich.ui.widgets.CircularProgress
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
-import wottrich.github.io.githubprofile.ui.repository.screen.detail.components.RepositoryInformation
-import wottrich.github.io.githubprofile.ui.repository.screen.detail.components.RepositoryOwner
-import wottrich.github.io.githubprofile.ui.repository.screen.detail.components.RepositoryPullRequests
-import wottrich.github.io.githubprofile.ui.repository.screen.detail.components.RepositoryStats
+import wottrich.github.io.githubprofile.ui.repository.screen.detail.components.*
 
 /**
  * @author Wottrich
@@ -44,15 +37,19 @@ fun RepositoryScreen(
 ) {
 
     val repositoryState by viewModel.repositoryState.collectAsState()
-    val scrollState = rememberScrollState()
+    val contentsState by viewModel.repositoryContentState.collectAsState()
 
-    RepositoryStateComponent(repositoryState = repositoryState, scrollState = scrollState)
+    RepositoryStateComponent(
+        repositoryState = repositoryState,
+        contentsState = contentsState
+    )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun RepositoryStateComponent(
     repositoryState: State<Repository>,
-    scrollState: ScrollState
+    contentsState: State<List<RepositoryContent>>
 ) {
     StateComponent(
         state = repositoryState,
@@ -63,30 +60,27 @@ private fun RepositoryStateComponent(
 
         },
         success = {
-            Column(
-                modifier = Modifier
-                    .scrollable(
-                        state = scrollState,
-                        orientation = Orientation.Vertical
+            LazyColumn {
+
+                stickyHeader {
+                    RepositoryInformation(
+                        name = it.name,
+                        description = it.description
                     )
-                    .padding(vertical = 16.dp)
-            ) {
+                }
 
-                RepositoryInformation(name = it.name, description = it.description)
+                item {
+                    Divider()
+                    RepositoryOwner(owner = it.owner)
+                    Divider()
+                    RepositoryStats(repository = it)
+                    Divider()
+                    RepositoryPullRequests(pullRequestCount = it.openPullRequestCount)
+                    Divider()
+                }
 
-                Divider()
+                repositoryContents(contentsState)
 
-                RepositoryOwner(owner = it.owner)
-
-                Divider()
-
-                RepositoryStats(repository = it)
-
-                Divider()
-
-                RepositoryPullRequests(pullRequestCount = it.openPullRequestCount)
-
-                Divider()
             }
         }
     )
@@ -118,6 +112,11 @@ fun RepositoryScreenPreview() {
                 )
             )
         ),
-        ScrollState(0)
+        State.success(
+            listOf(
+                RepositoryContent(name = "dir", path = "dir", type = RepositoryContentType.DIR),
+                RepositoryContent(name = "file", path = "file", type = RepositoryContentType.FILE)
+            )
+        )
     )
 }

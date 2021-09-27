@@ -26,5 +26,8 @@
     <string name="pull_request_count">Números de pull requests abertos</string>
     <string name="pull_request_label">Pull requests</string>
     <string name="repository_archives">Arquivos</string>
+    <string name="repository_archives_not_loaded">Não foi possível carregar os arquivos</string>
+    <string name="repository_file_icon_content_description">Arquivo %s</string>
+    <string name="repository_dir_icon_content_description">Diretório %s</string>
 
 </resources>
