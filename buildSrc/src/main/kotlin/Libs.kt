@@ -11,6 +11,9 @@ object Libs {
     const val coroutinesLib =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesVersion}"
 
+    const val coroutinesTestLib =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutinesVersion}"
+
     //AppCompat
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
 
@@ -42,6 +45,8 @@ object Libs {
         "com.squareup.okhttp3:logging-interceptor:${Versions.loggingInterceptorVersion}"
 
     //Test
+    const val mockK = "io.mockk:mockk:${Versions.mockKVersion}"
+    const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTestingVersion}"
     const val junit = "junit:junit:${Versions.junitVersion}"
     const val junitExt = "androidx.test.ext:junit:${Versions.junitExtVersion}"
     const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCoreVersion}"
@@ -61,6 +66,11 @@ fun DependencyHandlerScope.composeUi() {
     "implementation"(Libs.composeActivity)
 }
 
+fun DependencyHandlerScope.coroutines() {
+    "implementation"(Libs.coroutinesLib)
+    "implementation"(Libs.coroutinesTestLib)
+}
+
 fun DependencyHandlerScope.koin() {
     "implementation"(Libs.insertKoinCore)
     "implementation"(Libs.insertKoinAndroid)
@@ -68,6 +78,8 @@ fun DependencyHandlerScope.koin() {
 }
 
 fun DependencyHandlerScope.unitTest() {
+    "testImplementation"(Libs.mockK)
+    "testImplementation"(Libs.coreTesting)
     "testImplementation"(Libs.junit)
 }
 

@@ -26,6 +26,8 @@ object Versions {
     const val gradleVersion = "7.0.0"
 
     //Test
+    const val mockKVersion = "1.12.0"
+    const val coreTestingVersion = "2.1.0"
     const val junitVersion = "4.13.2"
     const val junitExtVersion = "1.1.3-beta01"
     const val espressoCoreVersion = "3.4.0-beta01"
