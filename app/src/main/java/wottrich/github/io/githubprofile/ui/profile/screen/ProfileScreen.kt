@@ -19,9 +19,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import github.io.wottrich.datasource.models.Profile
 import github.io.wottrich.datasource.models.Repository
-import github.io.wottrich.ui.state.State
-import github.io.wottrich.ui.state.StateComponent
-import github.io.wottrich.ui.state.stateListComponent
+import github.io.wottrich.ui.state.ScreenState
+import github.io.wottrich.ui.state.ScreenStateComponent
+import github.io.wottrich.ui.state.screenStateListComponent
 import github.io.wottrich.ui.values.Subtitle
 import github.io.wottrich.ui.values.Title
 import github.io.wottrich.ui.values.backgroundColor
@@ -66,9 +66,9 @@ fun ProfileScreen(viewModel: ProfileViewModel, onRepositoryClick: (Repository) -
     }
 }
 
-fun LazyListScope.buildHeaderItem(headerState: State<Profile>) {
+fun LazyListScope.buildHeaderItem(headerState: ScreenState<Profile>) {
     item {
-        StateComponent(
+        ScreenStateComponent(
             state = headerState,
             initial = {
                 CircularProgress()
@@ -84,11 +84,11 @@ fun LazyListScope.buildHeaderItem(headerState: State<Profile>) {
 }
 
 fun LazyListScope.repositoriesContainer(
-    repositoriesState: State<List<Repository>>,
+    repositoriesState: ScreenState<List<Repository>>,
     onRepositoryClick: (Repository) -> Unit
 ) {
     repositoriesStickyHeader(repositoriesState)
-    stateListComponent(
+    screenStateListComponent(
         state = repositoriesState,
         initial = {
             CircularProgress()
@@ -116,7 +116,7 @@ fun FindError(message: String?) {
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.repositoriesStickyHeader(repositoriesState: State<List<Repository>>) {
+private fun LazyListScope.repositoriesStickyHeader(repositoriesState: ScreenState<List<Repository>>) {
     if (repositoriesState.isSuccess()) {
         stickyHeader {
             Row(

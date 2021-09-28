@@ -15,30 +15,28 @@ import androidx.compose.runtime.Composable
  */
 
 @Composable
-inline fun <reified T> StateComponent(
-    state: State<T>,
-    initial: @Composable (StateInitial) -> Unit,
-    failure: @Composable (StateFailure) -> Unit,
+inline fun <reified T> ScreenStateComponent(
+    state: ScreenState<T>,
+    initial: @Composable (ScreenStateInitial) -> Unit,
+    failure: @Composable (ScreenStateFailure) -> Unit,
     success: @Composable (T) -> Unit
 ) {
     when (val value = state.value) {
-        is StateInitial -> initial(value)
-        is StateFailure -> failure(value)
+        is ScreenStateInitial -> initial(value)
+        is ScreenStateFailure -> failure(value)
         is T -> success(value)
     }
 }
 
-inline fun <reified T> LazyListScope.stateListComponent(
-    state: State<List<T>>,
-    crossinline initial: @Composable (StateInitial) -> Unit,
-    crossinline failure: @Composable (StateFailure) -> Unit,
+inline fun <reified T> LazyListScope.screenStateListComponent(
+    state: ScreenState<List<T>>,
+    crossinline initial: @Composable (ScreenStateInitial) -> Unit,
+    crossinline failure: @Composable (ScreenStateFailure) -> Unit,
     crossinline success: @Composable LazyItemScope.(T) -> Unit
 ) {
     when (val value = state.value) {
-        is StateInitial -> item {
-            initial(value)
-        }
-        is StateFailure -> item { failure(value) }
+        is ScreenStateInitial -> item { initial(value) }
+        is ScreenStateFailure -> item { failure(value) }
         is List<*> -> {
             items(value) {
                 success(it as T)

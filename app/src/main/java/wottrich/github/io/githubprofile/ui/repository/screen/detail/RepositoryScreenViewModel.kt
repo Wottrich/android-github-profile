@@ -4,7 +4,7 @@ import github.io.wottrich.datasource.GithubDataSourceInterface
 import github.io.wottrich.datasource.dispatchers.AppDispatchers
 import github.io.wottrich.datasource.models.Repository
 import github.io.wottrich.datasource.models.RepositoryContent
-import github.io.wottrich.ui.state.State
+import github.io.wottrich.ui.state.ScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -27,11 +27,11 @@ class RepositoryScreenViewModel(
     private val repositoryName: String
 ) : BaseViewModel(dispatchers) {
 
-    private val _repositoryState = MutableStateFlow<State<Repository>>(State.initial())
+    private val _repositoryState = MutableStateFlow<ScreenState<Repository>>(ScreenState.initial())
     val repositoryState = _repositoryState.asStateFlow()
 
     private val _repositoryContentState =
-        MutableStateFlow<State<List<RepositoryContent>>>(State.initial())
+        MutableStateFlow<ScreenState<List<RepositoryContent>>>(ScreenState.initial())
     val repositoryContentState = _repositoryContentState.asStateFlow()
 
     init {

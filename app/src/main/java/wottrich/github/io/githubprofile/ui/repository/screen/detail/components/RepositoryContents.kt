@@ -19,8 +19,8 @@ import github.io.wottrich.datasource.models.RepositoryContent
 import github.io.wottrich.datasource.models.RepositoryContentType
 import github.io.wottrich.ui.components.SubtitleRow
 import github.io.wottrich.ui.components.TitleRow
-import github.io.wottrich.ui.state.State
-import github.io.wottrich.ui.state.stateListComponent
+import github.io.wottrich.ui.state.ScreenState
+import github.io.wottrich.ui.state.screenStateListComponent
 import github.io.wottrich.ui.values.Roboto
 import github.io.wottrich.ui.values.backgroundColor
 import github.io.wottrich.ui.values.colorPrimary
@@ -39,7 +39,7 @@ import wottrich.github.io.githubprofile.R
  */
 
 @OptIn(ExperimentalFoundationApi::class)
-fun LazyListScope.repositoryContents(contentsState: State<List<RepositoryContent>>) {
+fun LazyListScope.repositoryContents(contentsState: ScreenState<List<RepositoryContent>>) {
     stickyHeader {
         Row(
             modifier = Modifier
@@ -72,7 +72,7 @@ fun LazyListScope.repositoryContents(contentsState: State<List<RepositoryContent
             }
         }
     }
-    stateListComponent(
+    screenStateListComponent(
         state = contentsState,
         initial = {},
         failure = {
@@ -128,7 +128,7 @@ private fun BuildContentIcon(name: String, repositoryContentType: RepositoryCont
 fun RepositoryContentsPreview() {
     LazyColumn {
         repositoryContents(
-            State.success(
+            ScreenState.success(
                 listOf(
                     RepositoryContent(name = "dir", path = "dir", type = RepositoryContentType.DIR),
                     RepositoryContent(name = "file", path = "file", type = RepositoryContentType.FILE)

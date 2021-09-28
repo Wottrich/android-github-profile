@@ -1,8 +1,8 @@
 package wottrich.github.io.githubprofile.archive
 
 import github.io.wottrich.datasource.resource.Resource
-import github.io.wottrich.ui.state.State
-import github.io.wottrich.ui.state.StateFailure
+import github.io.wottrich.ui.state.ScreenState
+import github.io.wottrich.ui.state.ScreenStateFailure
 
 /**
  * @author Wottrich
@@ -13,11 +13,11 @@ import github.io.wottrich.ui.state.StateFailure
  *
  */
 
-fun <T> Resource<T>.toState(): State<T> = when (this) {
-    is Resource.Failure -> State.failure<T>(StateFailure(this.throwable))
-    is Resource.Loading -> State.initial()
+fun <T> Resource<T>.toState(): ScreenState<T> = when (this) {
+    is Resource.Failure -> ScreenState.failure<T>(ScreenStateFailure(this.throwable))
+    is Resource.Loading -> ScreenState.initial()
     is Resource.Success -> {
         val success = checkNotNull(this.data)
-        State.success(success)
+        ScreenState.success(success)
     }
 }

@@ -4,8 +4,8 @@ import github.io.wottrich.datasource.GithubDataSourceInterface
 import github.io.wottrich.datasource.dispatchers.AppDispatchers
 import github.io.wottrich.datasource.models.Profile
 import github.io.wottrich.datasource.models.Repository
-import github.io.wottrich.ui.state.State
-import github.io.wottrich.ui.state.StateInitial
+import github.io.wottrich.ui.state.ScreenState
+import github.io.wottrich.ui.state.ScreenStateInitial
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -30,13 +30,13 @@ class ProfileViewModel(
     private var currentGithubUser: String? = null
 
     private val _headerStateFlow =
-        MutableStateFlow<State<Profile>>(State.initial(StateInitial(false)))
-    val headerStateFlow: StateFlow<State<Profile>> = _headerStateFlow
+        MutableStateFlow<ScreenState<Profile>>(ScreenState.initial(ScreenStateInitial(false)))
+    val headerStateFlow: StateFlow<ScreenState<Profile>> = _headerStateFlow
 
-    private val _repositoriesStateFlow = MutableStateFlow<State<List<Repository>>>(
-        State.initial(StateInitial(false))
+    private val _repositoriesStateFlow = MutableStateFlow<ScreenState<List<Repository>>>(
+        ScreenState.initial(ScreenStateInitial(false))
     )
-    val repositoriesStateFlow: StateFlow<State<List<Repository>>> = _repositoriesStateFlow
+    val repositoriesStateFlow: StateFlow<ScreenState<List<Repository>>> = _repositoriesStateFlow
 
     fun loadServices(githubUser: String) {
         if (currentGithubUser != githubUser) {

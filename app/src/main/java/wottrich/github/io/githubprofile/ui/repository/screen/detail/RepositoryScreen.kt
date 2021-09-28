@@ -11,8 +11,8 @@ import github.io.wottrich.datasource.models.Profile
 import github.io.wottrich.datasource.models.Repository
 import github.io.wottrich.datasource.models.RepositoryContent
 import github.io.wottrich.datasource.models.RepositoryContentType
-import github.io.wottrich.ui.state.State
-import github.io.wottrich.ui.state.StateComponent
+import github.io.wottrich.ui.state.ScreenState
+import github.io.wottrich.ui.state.ScreenStateComponent
 import github.io.wottrich.ui.widgets.CircularProgress
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -48,10 +48,10 @@ fun RepositoryScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun RepositoryStateComponent(
-    repositoryState: State<Repository>,
-    contentsState: State<List<RepositoryContent>>
+    repositoryState: ScreenState<Repository>,
+    contentsState: ScreenState<List<RepositoryContent>>
 ) {
-    StateComponent(
+    ScreenStateComponent(
         state = repositoryState,
         initial = {
             CircularProgress()
@@ -90,7 +90,7 @@ private fun RepositoryStateComponent(
 @Composable
 fun RepositoryScreenPreview() {
     RepositoryStateComponent(
-        State.success(
+        ScreenState.success(
             Repository(
                 "NetunoNavigationPod",
                 "Wottrich/NetunoNavigationPod",
@@ -112,7 +112,7 @@ fun RepositoryScreenPreview() {
                 )
             )
         ),
-        State.success(
+        ScreenState.success(
             listOf(
                 RepositoryContent(name = "dir", path = "dir", type = RepositoryContentType.DIR),
                 RepositoryContent(name = "file", path = "file", type = RepositoryContentType.FILE)
