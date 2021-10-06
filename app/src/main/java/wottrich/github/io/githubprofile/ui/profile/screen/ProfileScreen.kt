@@ -42,13 +42,9 @@ import wottrich.github.io.githubprofile.ui.profile.ProfileViewModel
 @ExperimentalFoundationApi
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel, onRepositoryClick: (Repository) -> Unit) {
-
-    val headerState by viewModel.headerStateFlow.collectAsState()
-    val repositoriesState by viewModel.repositoriesStateFlow.collectAsState()
-
-    val isInitialState =
-        headerState.isInitialNotLoading() && repositoriesState.isInitialNotLoading()
-
+    val profileState by viewModel.profileState.collectAsState()
+    val isInitialState = profileState.isInitial()
+    
     Column(modifier = Modifier.fillMaxWidth()) {
         if (isInitialState) {
             TextView(
@@ -59,8 +55,8 @@ fun ProfileScreen(viewModel: ProfileViewModel, onRepositoryClick: (Repository) -
             )
         } else {
             LazyColumn {
-                buildHeaderItem(headerState)
-                repositoriesContainer(repositoriesState, onRepositoryClick)
+                buildHeaderItem(profileState.headerState)
+                repositoriesContainer(profileState.repositoriesState, onRepositoryClick)
             }
         }
     }

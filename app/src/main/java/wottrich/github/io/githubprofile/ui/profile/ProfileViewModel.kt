@@ -7,7 +7,7 @@ import github.io.wottrich.datasource.models.Repository
 import github.io.wottrich.ui.state.ScreenState
 import github.io.wottrich.ui.state.ScreenStateInitial
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.archive.toState
@@ -29,14 +29,8 @@ class ProfileViewModel(
 
     private var currentGithubUser: String? = null
 
-    private val _headerStateFlow =
-        MutableStateFlow<ScreenState<Profile>>(ScreenState.initial(ScreenStateInitial(false)))
-    val headerStateFlow: StateFlow<ScreenState<Profile>> = _headerStateFlow
-
-    private val _repositoriesStateFlow = MutableStateFlow<ScreenState<List<Repository>>>(
-        ScreenState.initial(ScreenStateInitial(false))
-    )
-    val repositoriesStateFlow: StateFlow<ScreenState<List<Repository>>> = _repositoriesStateFlow
+    private val _profileState = MutableStateFlow(ProfileState())
+    val profileState = _profileState.asStateFlow()
 
     fun loadServices(githubUser: String) {
         if (currentGithubUser != githubUser) {
@@ -54,14 +48,27 @@ class ProfileViewModel(
 
     private suspend fun loadProfile(githubUser: String) {
         service.loadProfile(githubUser).collect { profileResource ->
-            _headerStateFlow.value = profileResource.toState()
+            _profileState.value = profileState.value.copy(headerState = profileResource.toState())
         }
     }
 
     private suspend fun loadRepositories(githubUser: String) {
         service.loadRepositories(githubUser).collect { repositoriesResource ->
-            _repositoriesStateFlow.value = repositoriesResource.toState()
+            _profileState.value =
+                profileState.value.copy(repositoriesState = repositoriesResource.toState())
         }
     }
 
+}
+
+data class ProfileState(
+    val headerState: ScreenState<Profile> = ScreenState.initial(ScreenStateInitial(false)),
+    val repositoriesState: ScreenState<List<Repository>> = ScreenState.initial(
+        ScreenStateInitial(
+            false
+        )
+    )
+) {
+    fun isInitial() =
+        headerState.isInitialNotLoading() && repositoriesState.isInitialNotLoading()
 }

@@ -73,16 +73,16 @@ class ProfileViewModelTest : BaseUnitTest() {
         coVerify(exactly = 1) { service.loadProfile(login) }
         coVerify(exactly = 1) { service.loadRepositories(login) }
 
-        assertTrue(sut.headerStateFlow.value.isSuccess())
+        assertTrue(sut.profileState.value.headerState.isSuccess())
         assertEquals(
             expectedProfile,
-            sut.headerStateFlow.value.success
+            sut.profileState.value.headerState.success
         )
 
-        assertTrue(sut.repositoriesStateFlow.value.isSuccess())
+        assertTrue(sut.profileState.value.repositoriesState.isSuccess())
         assertEquals(
             expectedRepositoriesList,
-            sut.repositoriesStateFlow.value.success
+            sut.profileState.value.repositoriesState.success
         )
     }
 
