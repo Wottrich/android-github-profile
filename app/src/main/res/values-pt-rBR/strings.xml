@@ -18,6 +18,7 @@
     <string name="search_title">Procurar perfil</string>
     <string name="welcome_find_profile">Procure um perfil :)</string>
     <string name="repositories_count">%s resultados para repositórios públicos</string>
+    <string name="repositories_loading_label">Carregando repositórios</string>
 
     <string name="repository_title">Detalhes do repositório</string>
     <string name="repository_owner_label">Proprietário(a):</string>

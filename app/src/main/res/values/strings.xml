@@ -11,6 +11,7 @@
 
     <string name="format_repositories_stars">%s stars</string>
     <string name="repositories_count">%s result for public repositories</string>
+    <string name="repositories_loading_label">Loading repositories</string>
 
     <string name="dialog_default_error_title">Attention!</string>
     <string name="row_repository_branch_forked">Branch forked</string>

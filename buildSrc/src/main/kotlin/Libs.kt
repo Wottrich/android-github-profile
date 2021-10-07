@@ -30,6 +30,8 @@ object Libs {
     const val composeMaterial = "androidx.compose.material:material:${Versions.composeVersion}"
     const val composeActivity =
         "androidx.activity:activity-compose:${Versions.composeActivityVersion}"
+    const val placeholder =
+        "com.google.accompanist:accompanist-placeholder:${Versions.accompanistVersion}"
 
     //Compose Navigation
     const val composeNavigation =
@@ -64,6 +66,7 @@ fun DependencyHandlerScope.composeUi() {
     "implementation"(Libs.composeRuntime)
     "implementation"(Libs.composeMaterial)
     "implementation"(Libs.composeActivity)
+    "implementation"(Libs.placeholder)
 }
 
 fun DependencyHandlerScope.coroutines() {

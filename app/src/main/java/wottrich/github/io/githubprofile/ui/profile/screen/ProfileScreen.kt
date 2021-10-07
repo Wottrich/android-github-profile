@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,7 +26,7 @@ import github.io.wottrich.ui.state.screenStateListComponent
 import github.io.wottrich.ui.values.Subtitle
 import github.io.wottrich.ui.values.Title
 import github.io.wottrich.ui.values.backgroundColor
-import github.io.wottrich.ui.widgets.CircularProgress
+import github.io.wottrich.ui.values.colorPrimary
 import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.githubprofile.R
 import wottrich.github.io.githubprofile.ui.profile.ProfileViewModel
@@ -44,7 +45,7 @@ import wottrich.github.io.githubprofile.ui.profile.ProfileViewModel
 fun ProfileScreen(viewModel: ProfileViewModel, onRepositoryClick: (Repository) -> Unit) {
     val profileState by viewModel.profileState.collectAsState()
     val isInitialState = profileState.isInitial()
-    
+
     Column(modifier = Modifier.fillMaxWidth()) {
         if (isInitialState) {
             TextView(
@@ -67,7 +68,7 @@ fun LazyListScope.buildHeaderItem(headerState: ScreenState<Profile>) {
         ScreenStateComponent(
             state = headerState,
             initial = {
-                CircularProgress()
+                HeaderPlaceholder()
             },
             failure = {
                 FindError(message = it.throwable.message)
@@ -87,7 +88,21 @@ fun LazyListScope.repositoriesContainer(
     screenStateListComponent(
         state = repositoriesState,
         initial = {
-            CircularProgress()
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = backgroundColor)
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.repositories_loading_label),
+                    style = Title.titleBold
+                )
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = colorPrimary
+                )
+            }
         },
         failure = {
             FindError(message = it.throwable.message)
