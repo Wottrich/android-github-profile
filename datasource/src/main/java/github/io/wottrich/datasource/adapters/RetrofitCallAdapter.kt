@@ -1,6 +1,6 @@
 package github.io.wottrich.datasource.adapters
 
-import github.io.wottrich.datasource.resource.Resource
+import wottrich.github.io.resource.Resource
 import retrofit2.Call
 import retrofit2.CallAdapter
 import java.lang.reflect.Type

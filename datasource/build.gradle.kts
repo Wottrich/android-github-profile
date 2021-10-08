@@ -32,7 +32,6 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.composeVersion
-        kotlinCompilerVersion = Versions.kotlinVersion
     }
 
     testOptions {
@@ -41,15 +40,6 @@ android {
 
     packagingOptions {
         resources.excludes.add("META-INF/*")
-//        exclude("META-INF/DEPENDENCIES")
-//        exclude("META-INF/LICENSE")
-//        exclude("META-INF/LICENSE.txt")
-//        exclude("META-INF/license.txt")
-//        exclude("META-INF/NOTICE")
-//        exclude("META-INF/NOTICE.txt")
-//        exclude("META-INF/notice.txt")
-//        exclude("META-INF/ASL2.0")
-//        exclude("META-INF/*.kotlin_module")
     }
 }
 
@@ -62,6 +52,8 @@ dependencies {
 
     //Api
     apiDigest()
+
+    implementation(project(":resource"))
 
     //File
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unknown_error">Unknown error…</string>
+    <string name="equal_login_error">Este perfil já está carregado.</string>
+
+    <!--  Profile formats  -->
+    <string name="profile_followers">Followers: </string>
+    <string name="profile_following">Following: </string>
+
+    <!--  Repositories  -->
+    <string name="format_repositories_stars">%s estrelas</string>
+
+    <!--  Dialog  -->
+    <string name="dialog_default_error_title">Atenção!</string>
+    <string name="row_repository_branch_forked">Branch forked</string>
+
+    <string name="search_title">Procurar perfil</string>
+    <string name="welcome_find_profile">Procure um perfil :)</string>
+    <string name="repositories_count">%s resultados para repositórios públicos</string>
+    <string name="repositories_loading_label">Carregando repositórios</string>
+</resources>

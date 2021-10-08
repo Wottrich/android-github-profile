@@ -1,33 +1,3 @@
 <resources>
     <string name="app_name" translatable="false">GithubProfile</string>
-
-    <string name="image_profile_content_description" translatable="false">image profile</string>
-
-    <string name="unknown_error">Unknown error…</string>
-    <string name="equal_login_error">This profile is already loaded.</string>
-
-    <string name="profile_followers">Followers: </string>
-    <string name="profile_following">Following: </string>
-
-    <string name="format_repositories_stars">%s stars</string>
-    <string name="repositories_count">%s result for public repositories</string>
-    <string name="repositories_loading_label">Loading repositories</string>
-
-    <string name="dialog_default_error_title">Attention!</string>
-    <string name="row_repository_branch_forked">Branch forked</string>
-    <string name="search_title">Search profile</string>
-    <string name="welcome_find_profile">Find a profile :)</string>
-
-    <string name="repository_title">Repository detail</string>
-    <string name="repository_owner_label">Owner:</string>
-    <string name="start_content_description">Number of stars</string>
-    <string name="watch_eye_content_description">Number of watchers</string>
-    <string name="pull_request_count">Number of opened Pull requests</string>
-    <string name="pull_request_label">Pull requests</string>
-    <string name="repository_archives">Archives</string>
-    <string name="repository_archives_not_loaded">Unable to load files</string>
-    <string name="repository_file_icon_content_description">File %s</string>
-    <string name="repository_dir_icon_content_description">Dir %s</string>
-
-
 </resources>
