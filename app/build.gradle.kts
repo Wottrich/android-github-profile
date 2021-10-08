@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
 }
 
@@ -42,7 +41,6 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.composeVersion
-        kotlinCompilerVersion = Versions.kotlinVersion
     }
 
     testOptions {
@@ -86,7 +84,12 @@ dependencies {
 
     //Modules
     implementation(project(path = ":ui"))
+    implementation(project(path = ":base"))
     implementation(project(path = ":datasource"))
+    implementation(project(":resource"))
+    implementation(project(":screenstate"))
+    implementation(project(":profile"))
+    implementation(project(":repository"))
 
     //File
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))

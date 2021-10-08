@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="repository_title">Repository detail</string>
+    <string name="repository_owner_label">Owner:</string>
+    <string name="watch_eye_content_description">Number of watchers</string>
+    <string name="pull_request_count">Number of opened Pull requests</string>
+    <string name="pull_request_label">Pull requests</string>
+    <string name="repository_archives">Archives</string>
+    <string name="repository_archives_not_loaded">Unable to load files</string>
+    <string name="repository_file_icon_content_description">File %s</string>
+    <string name="repository_dir_icon_content_description">Dir %s</string>
+</resources>

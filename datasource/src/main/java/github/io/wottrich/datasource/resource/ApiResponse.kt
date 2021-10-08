@@ -3,6 +3,7 @@ package github.io.wottrich.datasource.resource
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
+import wottrich.github.io.resource.Resource
 
 /**
  * @author Wottrich

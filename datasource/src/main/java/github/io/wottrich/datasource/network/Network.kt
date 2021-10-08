@@ -2,7 +2,6 @@ package github.io.wottrich.datasource.network
 
 import github.io.wottrich.datasource.BuildConfig
 import github.io.wottrich.datasource.adapters.RetrofitCallAdapterFactory
-import github.io.wottrich.datasource.api.INetworkAPI
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,16 +18,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object Network {
 
-    val api: INetworkAPI
-        get() = Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RetrofitCallAdapterFactory())
-            .client(clientHttp)
-            .build()
-            .create(INetworkAPI::class.java)
+    fun buildRetrofit(
+        baseUrl: String = BuildConfig.BASE_URL,
+        client: OkHttpClient = defaultHttpClient
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RetrofitCallAdapterFactory())
+        .client(client)
+        .build()
 
-    private fun OkHttpClient.Builder.addLoggingInterceptor(): OkHttpClient.Builder {
+    private fun OkHttpClient.Builder.addDefaultLoggingInterceptor(): OkHttpClient.Builder {
         return addInterceptor(
             HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -36,11 +36,11 @@ object Network {
         )
     }
 
-    private val clientHttp: OkHttpClient
+    private val defaultHttpClient: OkHttpClient
         get() {
             val builder = OkHttpClient.Builder()
             if (BuildConfig.DEBUG) {
-                builder.addLoggingInterceptor()
+                builder.addDefaultLoggingInterceptor()
             }
             return builder.build()
         }

@@ -1,13 +1,18 @@
 package wottrich.github.io.githubprofile.injection
 
-import github.io.wottrich.datasource.GithubDataSource
-import github.io.wottrich.datasource.GithubDataSourceInterface
+import github.io.wottrich.datasource.datasource.ProfileDataSource
+import github.io.wottrich.datasource.datasource.ProfileDataSourceImpl
+import github.io.wottrich.datasource.datasource.RepositoryDataSource
+import github.io.wottrich.datasource.datasource.RepositoryDataSourceImpl
 import github.io.wottrich.datasource.dispatchers.AppDispatchers
-import github.io.wottrich.datasource.network.Network
+import github.io.wottrich.datasource.network.PublicEndpoints
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import wottrich.github.io.githubprofile.ui.profile.ProfileViewModel
-import wottrich.github.io.githubprofile.ui.repository.screen.detail.RepositoryScreenViewModel
+import wottrich.github.io.githubprofile.boundary.ProfileBoundaryImpl
+import wottrich.github.io.githubprofile.ui.SplashViewModel
+import wottrich.github.io.repository.screen.detail.RepositoryScreenViewModel
+import wottrich.github.io.profile.boundary.ProfileBoundary
+import wottrich.github.io.profile.ProfileViewModel
 
 /**
  * @author Wottrich
@@ -18,19 +23,31 @@ import wottrich.github.io.githubprofile.ui.repository.screen.detail.RepositorySc
  *
  */
 
+val boundaries = module {
+    factory<ProfileBoundary> { ProfileBoundaryImpl() }
+}
+
 val dispatchersModule = module { single { AppDispatchers() } }
 
 val networkModules = module {
-    single { Network.api }
+    single { PublicEndpoints.profileEndpoint }
+    single { PublicEndpoints.repositoryEndpoint }
 
-    single<GithubDataSourceInterface> { GithubDataSource(get()) }
+    single<ProfileDataSource> { ProfileDataSourceImpl(get()) }
+    single<RepositoryDataSource> { RepositoryDataSourceImpl(get()) }
 }
 
 val viewModelModule = module {
-    viewModel { ProfileViewModel(get(), get()) }
+    viewModel { SplashViewModel(get()) }
+    viewModel { ProfileViewModel(get(), get(), get()) }
     viewModel { (profileLogin: String, repositoryName: String) ->
-        RepositoryScreenViewModel(get(), get(), profileLogin, repositoryName)
+        wottrich.github.io.repository.screen.detail.RepositoryScreenViewModel(
+            get(),
+            get(),
+            profileLogin,
+            repositoryName
+        )
     }
 }
 
-val appModule = listOf(dispatchersModule, networkModules, viewModelModule)
+val appModule = listOf(boundaries, dispatchersModule, networkModules, viewModelModule)

@@ -3,6 +3,7 @@ package github.io.wottrich.datasource.resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
+import wottrich.github.io.resource.Resource
 
 /**
  * @author Wottrich

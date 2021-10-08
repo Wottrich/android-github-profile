@@ -1,7 +1,7 @@
 package github.io.wottrich.datasource.adapters
 
 import github.io.wottrich.datasource.resource.ApiResponse
-import github.io.wottrich.datasource.resource.Resource
+import wottrich.github.io.resource.Resource
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call

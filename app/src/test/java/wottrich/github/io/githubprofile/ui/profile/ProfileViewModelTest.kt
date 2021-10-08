@@ -1,9 +1,9 @@
 package wottrich.github.io.githubprofile.ui.profile
 
-import github.io.wottrich.datasource.GithubDataSourceInterface
+import github.io.wottrich.datasource.datasource.ProfileDataSource
+import github.io.wottrich.datasource.datasource.RepositoryDataSource
 import github.io.wottrich.datasource.models.Profile
 import github.io.wottrich.datasource.models.Repository
-import github.io.wottrich.datasource.resource.Resource
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -14,6 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import wottrich.github.io.githubprofile.BaseUnitTest
 import wottrich.github.io.githubprofile.R
+import wottrich.github.io.resource.Resource
 
 /**
  * @author Wottrich
@@ -25,8 +26,9 @@ import wottrich.github.io.githubprofile.R
 
 class ProfileViewModelTest : BaseUnitTest() {
 
-    private lateinit var service: GithubDataSourceInterface
-    private lateinit var sut: ProfileViewModel
+    private lateinit var profileDataSource: ProfileDataSource
+    private lateinit var repositoryDataSource: RepositoryDataSource
+    private lateinit var sut: wottrich.github.io.profile.ProfileViewModel
 
     private val dummyProfile = Profile(
         "Wottrich",
@@ -53,10 +55,12 @@ class ProfileViewModelTest : BaseUnitTest() {
 
     @Before
     fun setUp() {
-        service = mockk()
-        sut = ProfileViewModel(
+        profileDataSource = mockk()
+        repositoryDataSource = mockk()
+        sut = wottrich.github.io.profile.ProfileViewModel(
             dispatchers = coroutinesTestRule.dispatchers,
-            service
+            profileDataSource = profileDataSource,
+            repositoryDataSource = repositoryDataSource
         )
     }
 
@@ -70,8 +74,8 @@ class ProfileViewModelTest : BaseUnitTest() {
 
         sut.loadServices(login)
 
-        coVerify(exactly = 1) { service.loadProfile(login) }
-        coVerify(exactly = 1) { service.loadRepositories(login) }
+        coVerify(exactly = 1) { profileDataSource.loadProfile(login) }
+        coVerify(exactly = 1) { repositoryDataSource.loadRepositories(login) }
 
         assertTrue(sut.profileState.value.headerState.isSuccess())
         assertEquals(
@@ -97,8 +101,8 @@ class ProfileViewModelTest : BaseUnitTest() {
 
         sut.loadServices(login)
 
-        coVerify(exactly = 1) { service.loadProfile(login) }
-        coVerify(exactly = 1) { service.loadRepositories(login) }
+        coVerify(exactly = 1) { profileDataSource.loadProfile(login) }
+        coVerify(exactly = 1) { repositoryDataSource.loadRepositories(login) }
 
         sut.loadServices(login)
 
@@ -109,11 +113,11 @@ class ProfileViewModelTest : BaseUnitTest() {
     }
 
     private fun mockLoadProfile(resourceProfile: Resource<Profile>) {
-        coEvery { service.loadProfile(any()) } returns flow { emit(resourceProfile) }
+        coEvery { profileDataSource.loadProfile(any()) } returns flow { emit(resourceProfile) }
     }
 
     private fun mockLoadRepository(resourceProfile: Resource<List<Repository>>) {
-        coEvery { service.loadRepositories(any()) } returns flow { emit(resourceProfile) }
+        coEvery { repositoryDataSource.loadRepositories(any()) } returns flow { emit(resourceProfile) }
     }
 
 }
