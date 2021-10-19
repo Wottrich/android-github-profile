@@ -1,4 +1,4 @@
-package wottrich.github.io.profile
+package wottrich.github.io.profile.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,8 +14,10 @@ import github.io.wottrich.datasource.models.Repository
 import github.io.wottrich.ui.values.Description
 import github.io.wottrich.ui.values.Title
 import github.io.wottrich.ui.widgets.TextView
+import wottrich.github.io.profile.R
 import wottrich.github.io.profilerepositorysharedcomponents.RepositoryLanguageContent
 import wottrich.github.io.profilerepositorysharedcomponents.RepositoryStarsContent
+import wottrich.github.io.repository.RepositorySharedComponentsImpl
 
 /**
  * @author Wottrich
@@ -27,7 +29,11 @@ import wottrich.github.io.profilerepositorysharedcomponents.RepositoryStarsConte
  */
 
 @Composable
-fun RowRepository(repository: Repository, onRepositoryClick: (Repository) -> Unit) {
+fun RowRepository(
+    repository: Repository,
+    onRepositoryClick: (Repository) -> Unit,
+    repositorySharedComponents: wottrich.github.io.repository.RepositorySharedComponentsImpl
+) {
 
     val cardModifier = Modifier
         .padding(all = 10.dp)

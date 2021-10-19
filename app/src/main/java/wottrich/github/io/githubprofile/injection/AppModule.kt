@@ -10,9 +10,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import wottrich.github.io.githubprofile.boundary.ProfileBoundaryImpl
 import wottrich.github.io.githubprofile.ui.SplashViewModel
-import wottrich.github.io.repository.screen.detail.RepositoryScreenViewModel
-import wottrich.github.io.profile.boundary.ProfileBoundary
 import wottrich.github.io.profile.ProfileViewModel
+import wottrich.github.io.profile.boundary.ProfileBoundary
+import wottrich.github.io.publicrepository.repositoryModule
 
 /**
  * @author Wottrich
@@ -40,14 +40,12 @@ val networkModules = module {
 val viewModelModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel { ProfileViewModel(get(), get(), get()) }
-    viewModel { (profileLogin: String, repositoryName: String) ->
-        wottrich.github.io.repository.screen.detail.RepositoryScreenViewModel(
-            get(),
-            get(),
-            profileLogin,
-            repositoryName
-        )
-    }
 }
 
-val appModule = listOf(boundaries, dispatchersModule, networkModules, viewModelModule)
+val appModule = listOf(
+    boundaries,
+    repositoryModule,
+    dispatchersModule,
+    networkModules,
+    viewModelModule
+)

@@ -47,20 +47,7 @@ android {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(Libs.kotlinStdlib)
-    implementation(Libs.androidCoreKtx)
-    implementation(Libs.appCompat)
-    implementation(Libs.composeNavigation)
-    implementation(project(":ui"))
-    implementation(project(":base"))
-    implementation(project(":screenstate"))
-    implementation(project(":profilerepositorysharedcomponents"))
-    implementation(project(":datasource"))
-    implementation(project(":resource"))
-    coroutines()
+    implementation(project(":repositorygroup:repository"))
     koin()
     composeUi()
-    unitTest()
-    instrumentalTest()
 }

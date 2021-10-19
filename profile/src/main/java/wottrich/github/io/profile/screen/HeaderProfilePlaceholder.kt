@@ -1,4 +1,4 @@
-package wottrich.github.io.profile
+package wottrich.github.io.profile.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

@@ -89,7 +89,7 @@ dependencies {
     implementation(project(":resource"))
     implementation(project(":screenstate"))
     implementation(project(":profile"))
-    implementation(project(":repository"))
+    implementation(project(":repositorygroup:publicrepository"))
 
     //File
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))

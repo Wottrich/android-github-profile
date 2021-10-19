@@ -45,21 +45,8 @@ android {
         resources.excludes.add("META-INF/*")
     }
 }
-
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(Libs.kotlinStdlib)
-    implementation(Libs.androidCoreKtx)
-    implementation(Libs.appCompat)
-    implementation(project(":ui"))
-    implementation(project(":base"))
-    implementation(project(":screenstate"))
-    implementation(project(":profilerepositorysharedcomponents"))
-    implementation(project(":repositorygroup:publicrepository"))
-    implementation(project(":datasource"))
-    implementation(project(":resource"))
-    coroutines()
-    koin()
+    api(project(":repositorygroup:dependenciesrepository"))
     composeUi()
     unitTest()
     instrumentalTest()

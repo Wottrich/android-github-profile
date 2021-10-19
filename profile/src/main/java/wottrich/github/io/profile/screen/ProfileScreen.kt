@@ -27,11 +27,11 @@ import github.io.wottrich.ui.values.colorPrimary
 import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.base.state.ScreenStateComponent
 import wottrich.github.io.base.state.screenStateListComponent
-import wottrich.github.io.profile.HeaderPlaceholder
+import wottrich.github.io.profile.screen.HeaderPlaceholder
 import wottrich.github.io.profile.HeaderProfile
 import wottrich.github.io.profile.ProfileViewModel
 import wottrich.github.io.profile.R
-import wottrich.github.io.profile.RowRepository
+import wottrich.github.io.profile.screen.RowRepository
 import wottrich.github.io.screenstate.ScreenState
 
 /**
