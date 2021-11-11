@@ -1,6 +1,8 @@
 plugins {
     id(Plugins.androidLibrary)
     id(Plugins.kotlinAndroid)
+    id(Plugins.kotlinKapt)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -53,10 +55,17 @@ dependencies {
     //Api
     apiDigest()
 
+    //Database
+    room()
+    kapt(Libs.roomCompiler)
+
     implementation(project(":resource"))
 
     //File
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
+    //injection
+    koin()
 
     //Test
     unitTest()

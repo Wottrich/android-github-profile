@@ -46,6 +46,11 @@ object Libs {
     const val loggingInterceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.loggingInterceptorVersion}"
 
+    //Room
+    const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+
     //Test
     const val mockK = "io.mockk:mockk:${Versions.mockKVersion}"
     const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTestingVersion}"
@@ -95,4 +100,9 @@ fun DependencyHandlerScope.apiDigest() {
     "implementation"(Libs.retrofit)
     "implementation"(Libs.converterGson)
     "implementation"(Libs.loggingInterceptor)
+}
+
+fun DependencyHandlerScope.room() {
+    "implementation"(Libs.roomRuntime)
+    "implementation"(Libs.roomKtx)
 }

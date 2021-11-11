@@ -19,6 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.base.extensions.showAlert
 import wottrich.github.io.githubprofile.ui.profile.screen.ProfileScreen
 import wottrich.github.io.profile.boundary.ProfileBoundary
+import wottrich.github.io.profile.screen.search.ProfileSearchScreen
 
 @ExperimentalFoundationApi
 class ProfileActivity : AppCompatActivity() {
@@ -44,16 +45,25 @@ class ProfileActivity : AppCompatActivity() {
                     },
                     backgroundColor = backgroundColor
                 ) {
-                    ProfileScreen(
-                        viewModel = viewModel,
-                        onRepositoryClick = {
-                            boundary.launchRepositoryDetail(
-                                this,
-                                it.owner.login,
-                                it.name
-                            )
-                        }
-                    )
+                    if (searchState == SearchState.Focused) {
+                        ProfileSearchScreen(
+                            profileLoginQuery = textFieldValue.text,
+                            onProfileSelected = {
+                                viewModel.onSavedItem(it)
+                            }
+                        )
+                    } else {
+                        ProfileScreen(
+                            viewModel = viewModel,
+                            onRepositoryClick = {
+                                boundary.launchRepositoryDetail(
+                                    this,
+                                    it.owner.login,
+                                    it.name
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

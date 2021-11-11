@@ -37,6 +37,9 @@ class ScreenState<out T> private constructor(val value: Any) {
 
         fun <T> initial(state: ScreenStateInitial = ScreenStateInitial()) = ScreenState<T>(state)
 
+        fun <T> initialWithoutLoading(state: ScreenStateInitial = ScreenStateInitial(false)) =
+            ScreenState<T>(state)
+
         fun <T> failure(state: ScreenStateFailure) = ScreenState<T>(state)
 
         fun <T> success(state: T) = ScreenState<T>(state as Any)

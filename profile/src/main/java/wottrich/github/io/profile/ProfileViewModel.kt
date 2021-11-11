@@ -1,5 +1,6 @@
 package wottrich.github.io.profile
 
+import github.io.wottrich.datasource.database.ProfileDao
 import github.io.wottrich.datasource.datasource.ProfileDataSource
 import github.io.wottrich.datasource.datasource.RepositoryDataSource
 import github.io.wottrich.datasource.dispatchers.AppDispatchers
@@ -25,7 +26,8 @@ import wottrich.github.io.screenstate.ScreenStateInitial
 class ProfileViewModel(
     dispatchers: AppDispatchers,
     private val profileDataSource: ProfileDataSource,
-    private val repositoryDataSource: RepositoryDataSource
+    private val repositoryDataSource: RepositoryDataSource,
+    private val profileDao: ProfileDao
 ) : BaseViewModel(dispatchers) {
 
     private var currentGithubUser: String? = null
@@ -47,9 +49,23 @@ class ProfileViewModel(
         }
     }
 
+    fun onSavedItem(profile: Profile) {
+        if (currentGithubUser != profile.login) {
+            currentGithubUser = profile.login
+            _profileState.value =
+                profileState.value.copy(headerState = ScreenState.success(profile))
+        } else {
+            _error.value = R.string.equal_login_error
+        }
+    }
+
     private suspend fun loadProfile(githubUser: String) {
         profileDataSource.loadProfile(githubUser).collect { profileResource ->
-            _profileState.value = profileState.value.copy(headerState = profileResource.toState())
+            val headerState = profileResource.toState()
+            _profileState.value = profileState.value.copy(headerState = headerState)
+            if (headerState.isSuccess()) {
+                profileDao.insert(headerState.success)
+            }
         }
     }
 

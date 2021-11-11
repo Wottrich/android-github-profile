@@ -26,6 +26,9 @@ object Versions {
     //Gradle
     const val gradleVersion = "7.0.0"
 
+    //Room
+    const val room = "2.3.0"
+
     //Test
     const val mockKVersion = "1.12.0"
     const val coreTestingVersion = "2.1.0"
