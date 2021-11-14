@@ -37,7 +37,8 @@ fun RepositoryScreen(
     repositoryName: String,
     viewModel: RepositoryScreenViewModel = getViewModel {
         parametersOf(profileLogin, repositoryName)
-    }
+    },
+    onRepositoryContentClick: (String) -> Unit
 ) {
 
     val repositoryState by viewModel.repositoryState.collectAsState()
@@ -45,7 +46,8 @@ fun RepositoryScreen(
 
     RepositoryStateComponent(
         repositoryState = repositoryState,
-        contentsState = contentsState
+        contentsState = contentsState,
+        onContentClick = onRepositoryContentClick
     )
 }
 
@@ -53,7 +55,8 @@ fun RepositoryScreen(
 @Composable
 private fun RepositoryStateComponent(
     repositoryState: ScreenState<Repository>,
-    contentsState: ScreenState<List<RepositoryContent>>
+    contentsState: ScreenState<List<RepositoryContent>>,
+    onContentClick: (String) -> Unit
 ) {
     ScreenStateComponent(
         state = repositoryState,
@@ -83,7 +86,10 @@ private fun RepositoryStateComponent(
                     Divider()
                 }
 
-                repositoryContents(contentsState)
+                repositoryContents(
+                    contentsState = contentsState,
+                    onContentClick = onContentClick
+                )
 
             }
         }
@@ -122,5 +128,5 @@ fun RepositoryScreenPreview() {
                 RepositoryContent(name = "file", path = "file", type = RepositoryContentType.FILE)
             )
         )
-    )
+    ) {}
 }

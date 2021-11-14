@@ -2,6 +2,7 @@ package wottrich.github.io.repository.screen.detail.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -43,7 +44,10 @@ import wottrich.github.io.screenstate.ScreenState
  */
 
 @OptIn(ExperimentalFoundationApi::class)
-fun LazyListScope.repositoryContents(contentsState: ScreenState<List<RepositoryContent>>) {
+fun LazyListScope.repositoryContents(
+    contentsState: ScreenState<List<RepositoryContent>>,
+    onContentClick: (String) -> Unit
+) {
     stickyHeader {
         Row(
             modifier = Modifier
@@ -88,6 +92,7 @@ fun LazyListScope.repositoryContents(contentsState: ScreenState<List<RepositoryC
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clickable { onContentClick(it.path) }
                     .padding(16.dp)
             ) {
                 BuildContentIcon(
@@ -142,6 +147,6 @@ fun RepositoryContentsPreview() {
                     )
                 )
             )
-        )
+        ) {}
     }
 }

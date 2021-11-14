@@ -71,7 +71,13 @@ class RepositoryActivity : AppCompatActivity() {
                     RepositoryScreen(
                         getProfileLogin(),
                         getRepositoryName()
-                    )
+                    ) {
+                        navHostController.navigate(RepositoryFlow.RepositoryArchives.route(it))
+                    }
+                }
+                composable(RepositoryFlow.RepositoryArchives.routeWithArgument) {
+                    val path = it.arguments?.getString(PATH_ARGUMENT).orEmpty()
+                    Text(text = path)
                 }
             }
         )
@@ -84,6 +90,7 @@ class RepositoryActivity : AppCompatActivity() {
         intent.getStringExtra(KEY_REPOSITORY_NAME).orEmpty()
 
     companion object {
+        private const val PATH_ARGUMENT = "PATH_ARGUMENT"
         private const val KEY_PROFILE_LOGIN = "KEY_PROFILE_LOGIN"
         private const val KEY_REPOSITORY_NAME = "KEY_REPOSITORY_NAME"
 

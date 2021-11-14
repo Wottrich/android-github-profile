@@ -12,4 +12,9 @@ interface RepositoryDataSource {
         profileLogin: String,
         repositoryName: String
     ): Flow<Resource<List<RepositoryContent>>>
+    fun loadRepositoryContentsPath(
+        profileLogin: String,
+        repositoryName: String,
+        path: String
+    ) : Flow<Resource<List<RepositoryContent>>>
 }
