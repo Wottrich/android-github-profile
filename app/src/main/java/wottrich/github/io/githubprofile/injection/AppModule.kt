@@ -15,6 +15,7 @@ import wottrich.github.io.profile.ProfileSearchViewModel
 import wottrich.github.io.profile.ProfileViewModel
 import wottrich.github.io.profile.boundary.ProfileBoundary
 import wottrich.github.io.repository.screen.detail.RepositoryScreenViewModel
+import wottrich.github.io.repository.screen.detail.content.RepositoryContentViewModel
 
 /**
  * @author Wottrich
@@ -43,6 +44,15 @@ val viewModelModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel { ProfileViewModel(get(), get(), get(), get()) }
     viewModel { ProfileSearchViewModel(get(), get()) }
+    viewModel { (profileLogin: String, repositoryName: String, path: String) ->
+        RepositoryContentViewModel(
+            get(),
+            get(),
+            profileLogin,
+            repositoryName,
+            path
+        )
+    }
     viewModel { (profileLogin: String, repositoryName: String) ->
         RepositoryScreenViewModel(
             get(),

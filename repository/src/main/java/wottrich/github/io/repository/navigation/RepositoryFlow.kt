@@ -25,8 +25,10 @@ sealed class RepositoryFlow {
             navArgument("path") { type = NavType.StringType }
         )
     ) {
+        val argument = "path"
+
         override val routeWithArgument: String
-            get() = "$route/{path}"
+            get() = "$route/{$argument}"
 
         fun route(path: String) = "$route/$path"
     }

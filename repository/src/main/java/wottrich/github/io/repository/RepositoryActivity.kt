@@ -22,6 +22,7 @@ import github.io.wottrich.ui.values.onPrimary
 import wottrich.github.io.base.extensions.startActivity
 import wottrich.github.io.repository.navigation.RepositoryFlow
 import wottrich.github.io.repository.screen.detail.RepositoryScreen
+import wottrich.github.io.repository.screen.detail.content.RepositoryContentScreen
 
 /**
  * @author Wottrich
@@ -76,8 +77,18 @@ class RepositoryActivity : AppCompatActivity() {
                     }
                 }
                 composable(RepositoryFlow.RepositoryArchives.routeWithArgument) {
-                    val path = it.arguments?.getString(PATH_ARGUMENT).orEmpty()
-                    Text(text = path)
+                    val pathArgument = RepositoryFlow.RepositoryArchives.argument
+                    val path = it.arguments?.getString(pathArgument).orEmpty()
+                    RepositoryContentScreen(
+                        profileLogin = getProfileLogin(),
+                        repositoryName = getRepositoryName(),
+                        path = path,
+                        onContentClick = { nextPath ->
+                            navHostController.navigate(
+                                RepositoryFlow.RepositoryArchives.route(nextPath)
+                            )
+                        }
+                    )
                 }
             }
         )
@@ -90,7 +101,6 @@ class RepositoryActivity : AppCompatActivity() {
         intent.getStringExtra(KEY_REPOSITORY_NAME).orEmpty()
 
     companion object {
-        private const val PATH_ARGUMENT = "PATH_ARGUMENT"
         private const val KEY_PROFILE_LOGIN = "KEY_PROFILE_LOGIN"
         private const val KEY_REPOSITORY_NAME = "KEY_REPOSITORY_NAME"
 
