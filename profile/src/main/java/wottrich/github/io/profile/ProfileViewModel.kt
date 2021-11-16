@@ -54,6 +54,9 @@ class ProfileViewModel(
             currentGithubUser = profile.login
             _profileState.value =
                 profileState.value.copy(headerState = ScreenState.success(profile))
+            launchIO {
+                loadRepositories(profile.login)
+            }
         } else {
             _error.value = R.string.equal_login_error
         }

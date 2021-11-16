@@ -22,6 +22,7 @@ import github.io.wottrich.ui.values.onPrimary
 import wottrich.github.io.base.extensions.startActivity
 import wottrich.github.io.repository.navigation.RepositoryFlow
 import wottrich.github.io.repository.screen.detail.RepositoryScreen
+import wottrich.github.io.repository.screen.detail.content.RepositoryContentScreen
 
 /**
  * @author Wottrich
@@ -71,6 +72,23 @@ class RepositoryActivity : AppCompatActivity() {
                     RepositoryScreen(
                         getProfileLogin(),
                         getRepositoryName()
+                    ) {
+                        navHostController.navigate(
+                            RepositoryFlow.RepositoryArchives.route(it),
+                        )
+                    }
+                }
+                composable(RepositoryFlow.RepositoryArchives.routeWithArgument) {
+                    val path = RepositoryFlow.RepositoryArchives.getArgumentValue(it)
+                    RepositoryContentScreen(
+                        profileLogin = getProfileLogin(),
+                        repositoryName = getRepositoryName(),
+                        path = path,
+                        onContentClick = { nextPath ->
+                            navHostController.navigate(
+                                RepositoryFlow.RepositoryArchives.route(nextPath),
+                            )
+                        }
                     )
                 }
             }

@@ -39,4 +39,16 @@ class RepositoryDataSourceImpl(
             }
         ).build()
     }
+
+    override fun loadRepositoryContentsPath(
+        profileLogin: String,
+        repositoryName: String,
+        path: String
+    ): Flow<Resource<List<RepositoryContent>>> {
+        return NetworkBoundResource(
+            call = {
+                repositoryEndpoint.loadRepositoryContentsPath(profileLogin, repositoryName, path)
+            }
+        ).build()
+    }
 }

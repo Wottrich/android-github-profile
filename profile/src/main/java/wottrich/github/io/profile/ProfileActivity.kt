@@ -50,6 +50,7 @@ class ProfileActivity : AppCompatActivity() {
                             profileLoginQuery = textFieldValue.text,
                             onProfileSelected = {
                                 viewModel.onSavedItem(it)
+                                searchState = SearchState.InitialState
                             }
                         )
                     } else {

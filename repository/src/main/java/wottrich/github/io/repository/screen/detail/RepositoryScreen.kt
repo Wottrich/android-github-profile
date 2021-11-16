@@ -15,11 +15,7 @@ import github.io.wottrich.ui.widgets.CircularProgress
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.base.state.ScreenStateComponent
-import wottrich.github.io.repository.screen.detail.components.RepositoryInformation
-import wottrich.github.io.repository.screen.detail.components.RepositoryOwner
-import wottrich.github.io.repository.screen.detail.components.RepositoryPullRequests
-import wottrich.github.io.repository.screen.detail.components.RepositoryStats
-import wottrich.github.io.repository.screen.detail.components.repositoryContents
+import wottrich.github.io.repository.screen.detail.components.*
 import wottrich.github.io.screenstate.ScreenState
 
 /**
@@ -37,7 +33,8 @@ fun RepositoryScreen(
     repositoryName: String,
     viewModel: RepositoryScreenViewModel = getViewModel {
         parametersOf(profileLogin, repositoryName)
-    }
+    },
+    onRepositoryContentClick: (String) -> Unit
 ) {
 
     val repositoryState by viewModel.repositoryState.collectAsState()
@@ -45,7 +42,8 @@ fun RepositoryScreen(
 
     RepositoryStateComponent(
         repositoryState = repositoryState,
-        contentsState = contentsState
+        contentsState = contentsState,
+        onContentClick = onRepositoryContentClick
     )
 }
 
@@ -53,7 +51,8 @@ fun RepositoryScreen(
 @Composable
 private fun RepositoryStateComponent(
     repositoryState: ScreenState<Repository>,
-    contentsState: ScreenState<List<RepositoryContent>>
+    contentsState: ScreenState<List<RepositoryContent>>,
+    onContentClick: (String) -> Unit
 ) {
     ScreenStateComponent(
         state = repositoryState,
@@ -83,7 +82,11 @@ private fun RepositoryStateComponent(
                     Divider()
                 }
 
-                repositoryContents(contentsState)
+                repositoryContentsStickHeader(contentsState.isInitial())
+                repositoryContents(
+                    contentsState = contentsState,
+                    onContentClick = onContentClick
+                )
 
             }
         }
@@ -122,5 +125,5 @@ fun RepositoryScreenPreview() {
                 RepositoryContent(name = "file", path = "file", type = RepositoryContentType.FILE)
             )
         )
-    )
+    ) {}
 }
