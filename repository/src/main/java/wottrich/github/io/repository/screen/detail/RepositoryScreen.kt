@@ -15,11 +15,7 @@ import github.io.wottrich.ui.widgets.CircularProgress
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.base.state.ScreenStateComponent
-import wottrich.github.io.repository.screen.detail.components.RepositoryInformation
-import wottrich.github.io.repository.screen.detail.components.RepositoryOwner
-import wottrich.github.io.repository.screen.detail.components.RepositoryPullRequests
-import wottrich.github.io.repository.screen.detail.components.RepositoryStats
-import wottrich.github.io.repository.screen.detail.components.repositoryContents
+import wottrich.github.io.repository.screen.detail.components.*
 import wottrich.github.io.screenstate.ScreenState
 
 /**
@@ -86,6 +82,7 @@ private fun RepositoryStateComponent(
                     Divider()
                 }
 
+                repositoryContentsStickHeader(contentsState.isInitial())
                 repositoryContents(
                     contentsState = contentsState,
                     onContentClick = onContentClick

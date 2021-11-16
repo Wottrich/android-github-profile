@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import github.io.wottrich.ui.widgets.CircularProgress
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.repository.screen.detail.components.repositoryContents
@@ -33,6 +34,11 @@ fun RepositoryContentScreen(
         content = {
             repositoryContents(
                 contentsState = contentState,
+                onInitialContent = {
+                    if (it.loading) {
+                        CircularProgress()
+                    }
+                },
                 onContentClick = onContentClick
             )
         }

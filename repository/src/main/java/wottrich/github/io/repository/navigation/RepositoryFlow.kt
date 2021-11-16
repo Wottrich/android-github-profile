@@ -1,5 +1,6 @@
 package wottrich.github.io.repository.navigation
 
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.navArgument
 import wottrich.github.io.base.navigation.BaseNavigationModelImpl
@@ -30,7 +31,17 @@ sealed class RepositoryFlow {
         override val routeWithArgument: String
             get() = "$route/{$argument}"
 
-        fun route(path: String) = "$route/$path"
+        fun route(path: String): String {
+            val replaceSlashToVerticalLine = path.replace("/", "|")
+            return "$route/$replaceSlashToVerticalLine"
+        }
+
+        fun getArgumentValue(navBackStackEntry: NavBackStackEntry): String {
+            val path = navBackStackEntry.arguments?.getString(argument).toString()
+            return path.replace("|", "/")
+        }
+
+
     }
 
     companion object {

@@ -73,19 +73,20 @@ class RepositoryActivity : AppCompatActivity() {
                         getProfileLogin(),
                         getRepositoryName()
                     ) {
-                        navHostController.navigate(RepositoryFlow.RepositoryArchives.route(it))
+                        navHostController.navigate(
+                            RepositoryFlow.RepositoryArchives.route(it),
+                        )
                     }
                 }
                 composable(RepositoryFlow.RepositoryArchives.routeWithArgument) {
-                    val pathArgument = RepositoryFlow.RepositoryArchives.argument
-                    val path = it.arguments?.getString(pathArgument).orEmpty()
+                    val path = RepositoryFlow.RepositoryArchives.getArgumentValue(it)
                     RepositoryContentScreen(
                         profileLogin = getProfileLogin(),
                         repositoryName = getRepositoryName(),
                         path = path,
                         onContentClick = { nextPath ->
                             navHostController.navigate(
-                                RepositoryFlow.RepositoryArchives.route(nextPath)
+                                RepositoryFlow.RepositoryArchives.route(nextPath),
                             )
                         }
                     )

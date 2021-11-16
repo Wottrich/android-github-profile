@@ -3,11 +3,7 @@ package wottrich.github.io.repository.screen.detail.components
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Icon
@@ -33,6 +29,8 @@ import github.io.wottrich.ui.widgets.TextView
 import wottrich.github.io.base.state.screenStateListComponent
 import wottrich.github.io.repository.R
 import wottrich.github.io.screenstate.ScreenState
+import wottrich.github.io.screenstate.ScreenStateFailure
+import wottrich.github.io.screenstate.ScreenStateInitial
 
 /**
  * @author Wottrich
@@ -43,10 +41,10 @@ import wottrich.github.io.screenstate.ScreenState
  *
  */
 
+
 @OptIn(ExperimentalFoundationApi::class)
-fun LazyListScope.repositoryContents(
-    contentsState: ScreenState<List<RepositoryContent>>,
-    onContentClick: (String) -> Unit
+fun LazyListScope.repositoryContentsStickHeader(
+    isInitialState: Boolean
 ) {
     stickyHeader {
         Row(
@@ -75,16 +73,27 @@ fun LazyListScope.repositoryContents(
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
-            if (contentsState.isInitial()) {
+            if (isInitialState) {
                 CircularProgress()
             }
         }
     }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+fun LazyListScope.repositoryContents(
+    contentsState: ScreenState<List<RepositoryContent>>,
+    onInitialContent: @Composable ((ScreenStateInitial) -> Unit)? = null,
+    onContentClick: (String) -> Unit
+) {
     screenStateListComponent(
         state = contentsState,
-        initial = {},
+        initial = { onInitialContent?.invoke(it) },
         failure = {
-            Row(horizontalArrangement = Arrangement.Center) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
                 SubtitleRow(text = stringResource(id = R.string.repository_archives_not_loaded))
             }
         },
@@ -136,6 +145,7 @@ private fun BuildContentIcon(name: String, repositoryContentType: RepositoryCont
 @Composable
 fun RepositoryContentsPreview() {
     LazyColumn {
+        repositoryContentsStickHeader(true)
         repositoryContents(
             ScreenState.success(
                 listOf(
@@ -147,6 +157,17 @@ fun RepositoryContentsPreview() {
                     )
                 )
             )
+        ) {}
+    }
+}
+
+@Preview
+@Composable
+fun RepositoryContentsFailurePreview() {
+    LazyColumn {
+        repositoryContentsStickHeader(true)
+        repositoryContents(
+            ScreenState.failure(ScreenStateFailure(Throwable()))
         ) {}
     }
 }
