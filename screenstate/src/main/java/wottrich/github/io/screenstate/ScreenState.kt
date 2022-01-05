@@ -22,16 +22,25 @@ class ScreenState<out T> private constructor(val value: Any) {
             return value as ScreenStateFailure
         }
 
+    val cached: ScreenStateCached<T>
+        get() {
+            return value as ScreenStateCached<T>
+        }
+
     val success: T
         get() {
             return value as T
         }
 
-    fun isSuccess(): Boolean = value !is ScreenStateInitial && value !is ScreenStateFailure
+    fun isSuccess(): Boolean = !isInitial() && !isFailure() && !isCached()
 
     fun isInitial(): Boolean = value is ScreenStateInitial
 
     fun isInitialNotLoading(): Boolean = value is ScreenStateInitial && !value.loading
+
+    fun isFailure(): Boolean = value is ScreenStateFailure
+
+    fun isCached(): Boolean = value is ScreenStateCached<*>
 
     companion object {
 
@@ -44,9 +53,13 @@ class ScreenState<out T> private constructor(val value: Any) {
 
         fun <T> success(state: T) = ScreenState<T>(state as Any)
 
+        fun <T> cached(state: ScreenStateCached<T>) = ScreenState<T>(state)
+
     }
 
 }
+
+data class ScreenStateCached<out T>(val data: T)
 
 data class ScreenStateFailure(val throwable: Throwable, val refreshing: Boolean = false)
 

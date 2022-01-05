@@ -1,8 +1,13 @@
-package wottrich.github.io.githubprofile.archive
+package wottrich.github.io.base.extensions
 
-import wottrich.github.io.screenstate.ScreenState
-import wottrich.github.io.screenstate.ScreenStateFailure
 import wottrich.github.io.resource.Resource
+import wottrich.github.io.resource.Resource.Cached
+import wottrich.github.io.resource.Resource.Failure
+import wottrich.github.io.resource.Resource.Loading
+import wottrich.github.io.resource.Resource.Success
+import wottrich.github.io.screenstate.ScreenState
+import wottrich.github.io.screenstate.ScreenStateCached
+import wottrich.github.io.screenstate.ScreenStateFailure
 
 /**
  * @author Wottrich
@@ -14,14 +19,18 @@ import wottrich.github.io.resource.Resource
  */
 
 fun <T> Resource<T>.toState(): ScreenState<T> = when (this) {
-    is Resource.Failure -> ScreenState.failure<T>(
+    is Failure -> ScreenState.failure<T>(
         ScreenStateFailure(
             this.throwable
         )
     )
-    is Resource.Loading -> ScreenState.initial()
-    is Resource.Success -> {
+    is Loading -> ScreenState.initial()
+    is Success -> {
         val success = checkNotNull(this.data)
         ScreenState.success(success)
+    }
+    is Cached -> {
+        val cached = checkNotNull(this.data)
+        ScreenState.cached(ScreenStateCached<T>(cached))
     }
 }

@@ -6,8 +6,8 @@ import github.io.wottrich.datasource.models.RepositoryContent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import wottrich.github.io.base.extensions.toState
 import wottrich.github.io.base.viewmodel.BaseViewModel
-import wottrich.github.io.githubprofile.archive.toState
 import wottrich.github.io.screenstate.ScreenState
 
 /**
