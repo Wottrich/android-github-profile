@@ -36,13 +36,13 @@ val networkModules = module {
     single { PublicEndpoints.profileEndpoint }
     single { PublicEndpoints.repositoryEndpoint }
 
-    single<ProfileDataSource> { ProfileDataSourceImpl(get()) }
+    single<ProfileDataSource> { ProfileDataSourceImpl(get(), get()) }
     single<RepositoryDataSource> { RepositoryDataSourceImpl(get()) }
 }
 
 val viewModelModule = module {
     viewModel { SplashViewModel(get()) }
-    viewModel { ProfileViewModel(get(), get(), get(), get()) }
+    viewModel { ProfileViewModel(get(), get(), get()) }
     viewModel { ProfileSearchViewModel(get(), get()) }
     viewModel { (profileLogin: String, repositoryName: String, path: String) ->
         RepositoryContentViewModel(

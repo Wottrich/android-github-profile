@@ -15,6 +15,7 @@ import wottrich.github.io.resource.Resource
  */
 
 class NetworkBoundResource<T>(
+    private val getFromDatabase: (suspend () -> T?)? = null,
     private val saveCallResults: (suspend (item: T) -> Unit)? = null,
     private val call: suspend () -> Resource<T>
 ) {
@@ -22,7 +23,15 @@ class NetworkBoundResource<T>(
     fun build(): Flow<Resource<T>> {
         return flow {
             emit(Resource.loading())
+            fetchFromDatabase()
             fetchFromNetwork()
+        }
+    }
+
+    private suspend fun FlowCollector<Resource<T>>.fetchFromDatabase() {
+        val value = getFromDatabase?.invoke()
+        value?.let { databaseValue ->
+            emit(Resource.cached(databaseValue))
         }
     }
 

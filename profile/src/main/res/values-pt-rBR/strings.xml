@@ -18,4 +18,6 @@
     <string name="welcome_find_profile">Procure um perfil :)</string>
     <string name="repositories_count">%s resultados para repositórios públicos</string>
     <string name="repositories_loading_label">Carregando repositórios</string>
+    <string name="profile_screen_profile_not_found">Perfil não encontrado!</string>
+    <string name="profile_screen_profile_not_found_button_try_again">Tentar novamente</string>
 </resources>

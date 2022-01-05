@@ -1,6 +1,11 @@
 package github.io.wottrich.datasource.database
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import github.io.wottrich.datasource.models.Profile
 
 /**
@@ -17,9 +22,9 @@ interface ProfileDao {
 
     @Transaction
     @Query("SELECT * FROM profile WHERE login LIKE '%' || :profileLogin || '%'")
-    fun getAllProfilesSavedByQuery(profileLogin: String): List<Profile>
+    suspend fun getAllProfilesSavedByQuery(profileLogin: String): List<Profile>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(profile: Profile): Long?
 
     @Delete

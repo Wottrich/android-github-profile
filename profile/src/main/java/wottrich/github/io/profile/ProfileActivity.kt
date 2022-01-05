@@ -5,10 +5,12 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import github.io.wottrich.ui.GithubApplicationTheme
 import github.io.wottrich.ui.components.SearchComponent
@@ -17,8 +19,8 @@ import github.io.wottrich.ui.values.backgroundColor
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.base.extensions.showAlert
-import wottrich.github.io.githubprofile.ui.profile.screen.ProfileScreen
 import wottrich.github.io.profile.boundary.ProfileBoundary
+import wottrich.github.io.profile.screen.ProfileScreen
 import wottrich.github.io.profile.screen.search.ProfileSearchScreen
 
 @ExperimentalFoundationApi
@@ -33,7 +35,9 @@ class ProfileActivity : AppCompatActivity() {
             GithubApplicationTheme {
                 var textFieldValue by remember { mutableStateOf(TextFieldValue()) }
                 var searchState by remember { mutableStateOf(SearchState.InitialState) }
+                val scaffoldState = rememberScaffoldState()
                 Scaffold(
+                    scaffoldState = scaffoldState,
                     topBar = {
                         SearchComponent(
                             onValueChange = { textFieldValue = it },
@@ -49,12 +53,15 @@ class ProfileActivity : AppCompatActivity() {
                         ProfileSearchScreen(
                             profileLoginQuery = textFieldValue.text,
                             onProfileSelected = {
-                                viewModel.onSavedItem(it)
+                                val login = it.login
+                                viewModel.loadServices(login)
                                 searchState = SearchState.InitialState
+                                textFieldValue = getTextFieldValue(login)
                             }
                         )
                     } else {
                         ProfileScreen(
+                            scaffoldState = scaffoldState,
                             viewModel = viewModel,
                             onRepositoryClick = {
                                 boundary.launchRepositoryDetail(
@@ -62,6 +69,9 @@ class ProfileActivity : AppCompatActivity() {
                                     it.owner.login,
                                     it.name
                                 )
+                            },
+                            onTryAgain = {
+                                searchState = SearchState.Focused
                             }
                         )
                     }
@@ -86,6 +96,13 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun getTextFieldValue(text: String): TextFieldValue {
+        return TextFieldValue(
+            text = text,
+            selection = TextRange(0, text.length)
+        )
     }
 
 }

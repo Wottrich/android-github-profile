@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import wottrich.github.io.screenstate.ScreenState
+import wottrich.github.io.screenstate.ScreenStateCached
 import wottrich.github.io.screenstate.ScreenStateFailure
 import wottrich.github.io.screenstate.ScreenStateInitial
 
@@ -22,11 +23,13 @@ inline fun <reified T> ScreenStateComponent(
     state: ScreenState<T>,
     initial: @Composable (ScreenStateInitial) -> Unit,
     failure: @Composable (ScreenStateFailure) -> Unit,
+    cached: @Composable (T) -> Unit = {},
     success: @Composable (T) -> Unit
 ) {
     when (val value = state.value) {
         is ScreenStateInitial -> initial(value)
         is ScreenStateFailure -> failure(value)
+        is ScreenStateCached<*> -> cached(value.data as T)
         is T -> success(value)
     }
 }
